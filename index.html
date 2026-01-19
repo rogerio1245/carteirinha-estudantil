@@ -274,14 +274,12 @@
   ];
 
   // ============================================
-  // CONFIGURAÇÃO CORRIGIDA - CAMINHO DAS FOTOS
+  // CONFIGURAÇÃO
   // ============================================
-  // CORREÇÃO APLICADA: "Images" foi alterado para "Imagens"
   const CONFIG = {
-    caminhoImagens: "./Imagens/",        // Pasta dos modelos
-    caminhoFotos: "./Imagens/fotos/",    // Pasta das fotos (CORRIGIDO AQUI)
+    caminhoImagens: "./Imagens/",
+    caminhoFotos: "./Imagens/fotos/",
     
-    // Placeholders para fallback
     placeholders: {
       frente: "https://via.placeholder.com/800x500/4a6fa5/ffffff?text=CARTEIRINHA+ESTUDANTIL",
       verso: "https://via.placeholder.com/800x500/2c3e50/ffffff?text=VERSO+DA+CARTEIRINHA",
@@ -339,53 +337,6 @@
   }
 
   // ============================================
-  // VERIFICAÇÃO DAS IMAGENS
-  // ============================================
-  async function verificarImagensExistem() {
-    console.log('🔍 Verificando existência das imagens...');
-    
-    const pathsToCheck = [
-      { name: 'modelo-frente.png', paths: ['./Imagens/modelo-frente.png'] },
-      { name: 'modelo-verso.png', paths: ['./Imagens/modelo-verso.png'] },
-      { name: 'foto-0001.jpg', paths: ['./Imagens/fotos/0001.jpg'] },
-      { name: 'foto-0002.jpg', paths: ['./Imagens/fotos/0002.jpg'] }
-    ];
-    
-    let resultados = [];
-    
-    for (const item of pathsToCheck) {
-      for (const path of item.paths) {
-        const existe = await verificarArquivoExiste(path);
-        if (existe) {
-          resultados.push({ nome: item.name, caminho: path, existe: true });
-          break;
-        }
-      }
-      if (!resultados.find(r => r.nome === item.name)) {
-        resultados.push({ nome: item.name, caminho: item.paths[0], existe: false });
-      }
-    }
-    
-    return resultados;
-  }
-
-  function verificarArquivoExiste(url) {
-    return new Promise((resolve) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('HEAD', url, true);
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-          resolve(xhr.status === 200);
-        }
-      };
-      xhr.onerror = () => resolve(false);
-      xhr.timeout = 5000;
-      xhr.ontimeout = () => resolve(false);
-      xhr.send();
-    });
-  }
-
-  // ============================================
   // FUNÇÃO PRINCIPAL - CARREGAR IMAGEM
   // ============================================
   function carregarImagemComDetalhes(url, tipo) {
@@ -418,7 +369,6 @@
         });
       };
       
-      // Força recarregamento evitando cache
       const timestamp = new Date().getTime();
       const urlUnica = `${url}${url.includes('?') ? '&' : '?'}_=${timestamp}`;
       img.src = urlUnica;
@@ -426,7 +376,7 @@
   }
 
   // ============================================
-  // DESENHO DA CARTEIRINHA
+  // DESENHO DA CARTEIRINHA - COORDENADAS AJUSTADAS
   // ============================================
   function desenharFrenteBasica(ctx, aluno, fundo = null, foto = null) {
     const largura = ctx.canvas.width;
@@ -435,13 +385,13 @@
     // Limpa tudo
     ctx.clearRect(0, 0, largura, altura);
     
-    // Desenha fundo ou cria um
+    // Desenha fundo
     if (fundo && fundo.sucesso) {
       ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
       debugFrente.innerHTML = `✅ Fundo: ${fundo.largura}x${fundo.altura}`;
       debugFrente.style.display = 'block';
     } else {
-      // Fundo personalizado
+      // Fallback se não houver imagem de fundo
       const grad = ctx.createLinearGradient(0, 0, largura, 0);
       grad.addColorStop(0, '#1a237e');
       grad.addColorStop(0.5, '#283593');
@@ -459,19 +409,11 @@
       debugFrente.style.display = 'block';
     }
     
-    // Área da foto
-    const fotoX = 50;
-    const fotoY = 120;
-    const fotoW = 200;
-    const fotoH = 240;
-    
-    // Moldura da foto
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.fillRect(fotoX, fotoY, fotoW, fotoH);
-    
-    ctx.strokeStyle = '#1a237e';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(fotoX, fotoY, fotoW, fotoH);
+    // ÁREA DA FOTO - COORDENADAS AJUSTADAS PARA O MODELO
+    const fotoX = 125;  // Posição X da foto no modelo
+    const fotoY = 195;  // Posição Y da foto no modelo
+    const fotoW = 160;  // Largura da área da foto
+    const fotoH = 180;  // Altura da área da foto
     
     // Foto do aluno ou placeholder
     if (foto && foto.sucesso) {
@@ -483,6 +425,7 @@
         const offsetX = fotoX + (fotoW - scaledW) / 2;
         const offsetY = fotoY + (fotoH - scaledH) / 2;
         
+        // Desenha a foto diretamente (sem moldura extra)
         ctx.drawImage(foto.imagem, offsetX, offsetY, scaledW, scaledH);
       } catch (e) {
         console.error('Erro ao desenhar foto:', e);
@@ -492,43 +435,33 @@
       desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, aluno.matricula);
     }
     
-    // Dados do aluno
-    ctx.fillStyle = '#000';
-    ctx.font = 'bold 26px Arial';
-    ctx.fillText(aluno.nome, 280, 140);
+    // DADOS DO ALUNO - COORDENADAS AJUSTADAS PARA OS CAMPOS DO MODELO
+    ctx.fillStyle = '#000'; // Cor preta para boa legibilidade
+    ctx.textAlign = 'left';
     
-    ctx.font = '20px Arial';
-    ctx.fillText(`Instituição: ${aluno.instituicao}`, 280, 190);
-    ctx.fillText(`Curso: ${aluno.curso}`, 280, 230);
-    ctx.fillText(`Cidade: ${aluno.cidade}`, 280, 270);
-    ctx.fillText(`Turno: ${aluno.turno}`, 280, 310);
-    ctx.fillText(`Validade: ${aluno.validade}`, 280, 350);
+    // Nome do aluno (campo superior direito)
+    ctx.font = 'bold 28px Arial';
+    ctx.fillText(aluno.nome.toUpperCase(), 350, 130);
     
-    // Matrícula
+    // Demais dados (alinhados verticalmente)
+    ctx.font = '24px Arial';
+    ctx.fillText(aluno.instituicao, 450, 190);  // Instituição
+    ctx.fillText(aluno.curso, 450, 245);        // Curso
+    ctx.fillText(aluno.cidade, 450, 300);       // Cidade
+    ctx.fillText(aluno.turno, 450, 357);        // Turno
+    ctx.fillText(aluno.validade, 450, 420);     // Validade
+    
+    // MATRÍCULA VERTICAL (lado esquerdo)
     ctx.save();
-    ctx.translate(30, 250);
+    ctx.translate(82, 320);
     ctx.rotate(-Math.PI / 2);
-    ctx.font = 'bold 22px Arial';
-    ctx.fillStyle = '#1a237e';
-    ctx.fillText(`MATRÍCULA: ${aluno.matricula}`, 0, 0);
+    ctx.font = '24px Arial';
+    ctx.fillStyle = '#4a6fa5';
+    ctx.fillText(aluno.matricula, 0, 0);
     ctx.restore();
     
-    // QR Code simulado
-    ctx.fillStyle = '#333';
-    ctx.fillRect(600, 120, 150, 150);
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 16px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('QR CODE', 675, 195);
-    ctx.fillText('DIGITAL', 675, 220);
-    ctx.textAlign = 'left';
-    
-    // Rodapé
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-    ctx.font = '14px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText(`Gerado em: ${new Date().toLocaleDateString()}`, largura/2, altura - 20);
-    ctx.textAlign = 'left';
+    // REMOVIDO: QR Code simulado (já existe no modelo)
+    // REMOVIDO: Rodapé com data (já existe no modelo)
   }
 
   function desenharVersoBasico(ctx, fundo = null) {
@@ -542,7 +475,7 @@
       debugVerso.innerHTML = `✅ Fundo: ${fundo.largura}x${fundo.altura}`;
       debugVerso.style.display = 'block';
     } else {
-      // Fundo personalizado para verso
+      // Fallback para verso
       const grad = ctx.createLinearGradient(0, 0, 0, altura);
       grad.addColorStop(0, '#37474f');
       grad.addColorStop(1, '#263238');
@@ -558,52 +491,24 @@
       debugVerso.style.display = 'block';
     }
     
-    // Informações
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.font = '18px Arial';
-    ctx.textAlign = 'left';
-    
-    const infos = [
-      '✓ Documento oficial válido nacionalmente',
-      '✓ Em caso de perda, comunicar à instituição',
-      '✓ Uso pessoal e intransferível',
-      '✓ Apresentar junto com documento com foto',
-      '✓ Não dobrar, molhar ou expor ao calor excessivo'
-    ];
-    
-    infos.forEach((info, index) => {
-      ctx.fillText(info, 100, 150 + (index * 40));
-    });
-    
-    // Código de barras simulado
-    ctx.fillStyle = '#000';
-    for (let i = 0; i < 50; i++) {
-      const alturaBarra = 20 + Math.random() * 30;
-      const larguraBarra = 5;
-      ctx.fillRect(100 + (i * 10), 400, larguraBarra, alturaBarra);
-    }
-    
-    ctx.font = '16px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('ID: ' + Math.random().toString(36).substr(2, 10).toUpperCase(), largura/2, 480);
+    // REMOVIDO: Textos do verso (já existem no modelo)
+    // O modelo de verso já contém todas as informações necessárias
   }
 
   function desenharPlaceholderFoto(ctx, x, y, w, h, matricula) {
-    // Fundo
+    // Placeholder simples para quando não há foto
     const grad = ctx.createRadialGradient(x + w/2, y + h/2, 0, x + w/2, y + h/2, w/2);
     grad.addColorStop(0, '#5c6bc0');
     grad.addColorStop(1, '#3949ab');
     ctx.fillStyle = grad;
     ctx.fillRect(x, y, w, h);
     
-    // Ícone de usuário
     ctx.fillStyle = 'white';
     ctx.font = 'bold 60px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('👤', x + w/2, y + h/2 - 20);
     
-    // Matrícula
     ctx.font = '20px Arial';
     ctx.fillText(matricula, x + w/2, y + h/2 + 40);
     ctx.textAlign = 'left';
@@ -627,10 +532,8 @@
     mostrarStatus('Processando... Aguarde.', 'info');
     
     try {
-      // Atualiza formatação
       cpfInput.value = formatarCPF(cpf);
       
-      // Gera hash e busca aluno
       const hash = sha256(cpf);
       const aluno = alunos.find(a => a.hash === hash);
       
@@ -641,18 +544,13 @@
       
       mostrarStatus(`Carregando dados de: ${aluno.nome}`, 'info');
       
-      // Primeiro verifica se as imagens existem
-      const verificacao = await verificarImagensExistem();
-      console.log('Resultado da verificação:', verificacao);
-      
-      // Tenta carregar as imagens - CORREÇÃO APLICADA AQUI TAMBÉM
       const [frenteResult, versoResult, fotoResult] = await Promise.all([
         carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-frente.png', 'frente'),
         carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso.png', 'verso'),
         carregarImagemComDetalhes(CONFIG.caminhoFotos + aluno.matricula + '.jpg', 'foto')
       ]);
       
-      // Mostra informações detalhadas
+      // Informações de debug
       let infoMsg = '';
       infoMsg += frenteResult.sucesso ? '✅ Modelo frente carregado\n' : '❌ Modelo frente não encontrado\n';
       infoMsg += versoResult.sucesso ? '✅ Modelo verso carregado\n' : '❌ Modelo verso não encontrado\n';
@@ -660,7 +558,7 @@
       
       mostrarInfoImagens(infoMsg, frenteResult.sucesso || versoResult.sucesso || fotoResult.sucesso);
       
-      // Desenha as carteirinhas
+      // Desenha as carteirinhas com coordenadas ajustadas
       desenharFrenteBasica(ctxFrente, aluno, frenteResult, fotoResult);
       desenharVersoBasico(ctxVerso, versoResult);
       
@@ -678,16 +576,34 @@
   async function testarImagens() {
     mostrarStatus('Testando acesso às imagens...', 'info');
     
-    const resultados = await verificarImagensExistem();
+    // Função simplificada de teste
+    function testarURL(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve({url, status: 'OK'});
+        img.onerror = () => resolve({url, status: 'FALHA'});
+        img.src = url;
+      });
+    }
+    
+    const urlsParaTestar = [
+      CONFIG.caminhoImagens + 'modelo-frente.png',
+      CONFIG.caminhoImagens + 'modelo-verso.png',
+      CONFIG.caminhoFotos + '0001.jpg',
+      CONFIG.caminhoFotos + '0002.jpg'
+    ];
+    
+    const resultados = await Promise.all(urlsParaTestar.map(testarURL));
     
     let mensagem = '📊 Resultado do teste:\n\n';
     let todasExistem = true;
     
-    resultados.forEach(item => {
-      if (item.existe) {
-        mensagem += `✅ ${item.nome}: ENCONTRADO\n   Caminho: ${item.caminho}\n\n`;
+    resultados.forEach(resultado => {
+      const nomeArquivo = resultado.url.split('/').pop();
+      if (resultado.status === 'OK') {
+        mensagem += `✅ ${nomeArquivo}: ENCONTRADO\n`;
       } else {
-        mensagem += `❌ ${item.nome}: NÃO ENCONTRADO\n   Tentado: ${item.caminho}\n\n`;
+        mensagem += `❌ ${nomeArquivo}: NÃO ENCONTRADO\n`;
         todasExistem = false;
       }
     });
@@ -712,32 +628,11 @@
     console.clear();
     console.group('=== DEBUG AVANÇADO ===');
     console.log('URL da página:', window.location.href);
-    console.log('User Agent:', navigator.userAgent);
-    console.log('Canvas suportado:', !!canvasFrente.getContext);
+    console.log('Configuração:', CONFIG);
     console.log('Alunos cadastrados:', alunos.length);
-    console.log('Dimensões canvas:', {
-      frente: `${canvasFrente.width}x${canvasFrente.height}`,
-      verso: `${canvasVerso.width}x${canvasVerso.height}`
-    });
-    
-    // Testa URLs diretamente
-    const testUrls = [
-      CONFIG.caminhoImagens + 'modelo-frente.png',
-      CONFIG.caminhoImagens + 'modelo-verso.png',
-      CONFIG.caminhoFotos + '0001.jpg',
-      CONFIG.caminhoFotos + '0002.jpg'
-    ];
-    
-    testUrls.forEach(url => {
-      const img = new Image();
-      img.onload = () => console.log(`✅ ${url} - OK (${img.width}x${img.height})`);
-      img.onerror = () => console.log(`❌ ${url} - FALHA`);
-      img.src = url + '?debug=' + Date.now();
-    });
-    
-    console.groupEnd();
     
     mostrarStatus('Debug executado. Verifique o console (F12).', 'info');
+    console.groupEnd();
   }
 
   // ============================================
@@ -745,10 +640,7 @@
   // ============================================
   document.addEventListener('DOMContentLoaded', function() {
     console.log('🎓 Sistema de Carteirinha iniciado');
-    console.log('📍 URL:', window.location.href);
-    console.log('🔧 Configuração:', CONFIG); // Log da configuração corrigida
     
-    // Configura input
     const cpfInput = document.getElementById('cpf');
     cpfInput.addEventListener('input', function() {
       this.value = formatarCPF(this.value);
@@ -760,7 +652,6 @@
       }
     });
     
-    // Testa automaticamente ao carregar
     setTimeout(() => {
       mostrarStatus('Sistema pronto. Digite um CPF para gerar sua carteirinha.', 'info');
     }, 500);
