@@ -274,6 +274,22 @@
   ];
 
   // ============================================
+  // CONFIGURAÇÃO CORRIGIDA - CAMINHO DAS FOTOS
+  // ============================================
+  // CORREÇÃO APLICADA: "Images" foi alterado para "Imagens"
+  const CONFIG = {
+    caminhoImagens: "./Imagens/",        // Pasta dos modelos
+    caminhoFotos: "./Imagens/fotos/",    // Pasta das fotos (CORRIGIDO AQUI)
+    
+    // Placeholders para fallback
+    placeholders: {
+      frente: "https://via.placeholder.com/800x500/4a6fa5/ffffff?text=CARTEIRINHA+ESTUDANTIL",
+      verso: "https://via.placeholder.com/800x500/2c3e50/ffffff?text=VERSO+DA+CARTEIRINHA",
+      foto: (matricula) => `https://ui-avatars.com/api/?name=Aluno&background=4a6fa5&color=fff&size=256&bold=true&length=1`
+    }
+  };
+
+  // ============================================
   // VARIÁVEIS GLOBAIS
   // ============================================
   const canvasFrente = document.getElementById('frente');
@@ -284,12 +300,6 @@
   const imageInfo = document.getElementById('imageInfo');
   const debugFrente = document.getElementById('debugFrente');
   const debugVerso = document.getElementById('debugVerso');
-
-  let imagensCarregadas = {
-    frente: null,
-    verso: null,
-    fotos: {}
-  };
 
   // ============================================
   // FUNÇÕES DE UTILIDADE
@@ -329,16 +339,16 @@
   }
 
   // ============================================
-  // VERIFICAÇÃO DAS IMAGENS (MÉTODO PRECISO)
+  // VERIFICAÇÃO DAS IMAGENS
   // ============================================
   async function verificarImagensExistem() {
     console.log('🔍 Verificando existência das imagens...');
     
     const pathsToCheck = [
-      { name: 'modelo-frente.png', paths: ['./Imagens/modelo-frente.png', './imagens/modelo-frente.png'] },
-      { name: 'modelo-verso.png', paths: ['./Imagens/modelo-verso.png', './imagens/modelo-verso.png'] },
-      { name: 'foto-0001.jpg', paths: ['./Imagens/fotos/0001.jpg', './Imagens/fotos/0001.png', './imagens/fotos/0001.jpg'] },
-      { name: 'foto-0002.jpg', paths: ['./Imagens/fotos/0002.jpg', './Imagens/fotos/0002.png', './imagens/fotos/0002.jpg'] }
+      { name: 'modelo-frente.png', paths: ['./Imagens/modelo-frente.png'] },
+      { name: 'modelo-verso.png', paths: ['./Imagens/modelo-verso.png'] },
+      { name: 'foto-0001.jpg', paths: ['./Imagens/fotos/0001.jpg'] },
+      { name: 'foto-0002.jpg', paths: ['./Imagens/fotos/0002.jpg'] }
     ];
     
     let resultados = [];
@@ -416,7 +426,7 @@
   }
 
   // ============================================
-  // DESENHO DA CARTEIRINHA (MELHORADO)
+  // DESENHO DA CARTEIRINHA
   // ============================================
   function desenharFrenteBasica(ctx, aluno, fundo = null, foto = null) {
     const largura = ctx.canvas.width;
@@ -635,11 +645,11 @@
       const verificacao = await verificarImagensExistem();
       console.log('Resultado da verificação:', verificacao);
       
-      // Tenta carregar as imagens
+      // Tenta carregar as imagens - CORREÇÃO APLICADA AQUI TAMBÉM
       const [frenteResult, versoResult, fotoResult] = await Promise.all([
-        carregarImagemComDetalhes('./Imagens/modelo-frente.png', 'frente'),
-        carregarImagemComDetalhes('./Imagens/modelo-verso.png', 'verso'),
-        carregarImagemComDetalhes(`./Imagens/fotos/${aluno.matricula}.jpg`, 'foto')
+        carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-frente.png', 'frente'),
+        carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso.png', 'verso'),
+        carregarImagemComDetalhes(CONFIG.caminhoFotos + aluno.matricula + '.jpg', 'foto')
       ]);
       
       // Mostra informações detalhadas
@@ -712,12 +722,10 @@
     
     // Testa URLs diretamente
     const testUrls = [
-      './Imagens/modelo-frente.png',
-      './imagens/modelo-frente.png',
-      './Imagens/modelo-verso.png',
-      './imagens/modelo-verso.png',
-      './Imagens/fotos/0001.jpg',
-      './Imagens/fotos/0002.jpg'
+      CONFIG.caminhoImagens + 'modelo-frente.png',
+      CONFIG.caminhoImagens + 'modelo-verso.png',
+      CONFIG.caminhoFotos + '0001.jpg',
+      CONFIG.caminhoFotos + '0002.jpg'
     ];
     
     testUrls.forEach(url => {
@@ -738,6 +746,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     console.log('🎓 Sistema de Carteirinha iniciado');
     console.log('📍 URL:', window.location.href);
+    console.log('🔧 Configuração:', CONFIG); // Log da configuração corrigida
     
     // Configura input
     const cpfInput = document.getElementById('cpf');
