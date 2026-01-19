@@ -95,60 +95,100 @@ function verificar() {
 }
 
 /* ==========================
-   FRENTE
+   FUNÇÃO AUXILIAR PARA TEXTOS
 ========================== */
-function desenharFrente(aluno) {
+function desenharTextos(aluno) {
+  ctxFrente.fillStyle = "#000";
 
-  const fundo = new Image();
-  fundo.src = "imagens/modelo-frente.png";
+  ctxFrente.font = "bold 28px Arial";
+  ctxFrente.fillText(aluno.nome, 350, 130);
 
-  fundo.onload = () => {
+  ctxFrente.font = "24px Arial";
+  ctxFrente.fillText(aluno.instituicao, 450, 190);
+  ctxFrente.fillText(aluno.curso, 450, 245);
+  ctxFrente.fillText(aluno.cidade, 450, 300);
+  ctxFrente.fillText(aluno.turno, 450, 357);
+  ctxFrente.fillText(aluno.validade, 450, 420);
 
-    // FUNDO
-    ctxFrente.drawImage(fundo, 0, 0, canvasFrente.width, canvasFrente.height);
-
-    // FOTO
-    const foto = new Image();
-    foto.src = "imagens/fotos/" + aluno.matricula + ".jpg";
-
-    foto.onload = () => {
-      ctxFrente.drawImage(foto, 125, 195, 160, 180);
-    };
-
-    // TEXTOS
-    ctxFrente.fillStyle = "#000";
-
-    ctxFrente.font = "bold 28px Arial";
-    ctxFrente.fillText(aluno.nome, 350, 130);
-
-    ctxFrente.font = "24px Arial";
-    ctxFrente.fillText(aluno.instituicao, 450, 190);
-    ctxFrente.fillText(aluno.curso, 450, 245);
-    ctxFrente.fillText(aluno.cidade, 450, 300);
-    ctxFrente.fillText(aluno.turno, 450, 357);
-    ctxFrente.fillText(aluno.validade, 450, 420);
-
-    // MATRÍCULA VERTICAL
-    ctxFrente.save();
-    ctxFrente.translate(82, 320);
-    ctxFrente.rotate(-Math.PI / 2);
-    ctxFrente.font = "24px Arial";
-    ctxFrente.fillText(aluno.matricula, 0, 0);
-    ctxFrente.restore();
-  };
+  // MATRÍCULA VERTICAL
+  ctxFrente.save();
+  ctxFrente.translate(82, 320);
+  ctxFrente.rotate(-Math.PI / 2);
+  ctxFrente.font = "24px Arial";
+  ctxFrente.fillText(aluno.matricula, 0, 0);
+  ctxFrente.restore();
 }
 
 /* ==========================
-   VERSO
+   FRENTE - MODIFICADA
+========================== */
+function desenharFrente(aluno) {
+  const fundo = new Image();
+  const foto = new Image();
+  
+  // Primeiro carrega o fundo
+  fundo.onload = () => {
+    ctxFrente.drawImage(fundo, 0, 0, canvasFrente.width, canvasFrente.height);
+    
+    // Depois carrega a foto
+    foto.onload = () => {
+      ctxFrente.drawImage(foto, 125, 195, 160, 180);
+      
+      // Agora desenha os textos
+      desenharTextos(aluno);
+    };
+    
+    // Se a foto não carregar
+    foto.onerror = () => {
+      console.error("Erro ao carregar foto do aluno:", aluno.matricula);
+      ctxFrente.fillStyle = "#ccc";
+      ctxFrente.fillRect(125, 195, 160, 180);
+      ctxFrente.fillStyle = "#666";
+      ctxFrente.font = "16px Arial";
+      ctxFrente.fillText("Sem foto", 165, 285);
+      
+      // Continua desenhando os textos mesmo sem foto
+      desenharTextos(aluno);
+    };
+    
+    foto.src = "imagens/fotos/" + aluno.matricula + ".jpg";
+  };
+  
+  // Se o fundo não carregar
+  fundo.onerror = () => {
+    console.error("Erro ao carregar modelo-frente.png");
+    ctxFrente.fillStyle = "#eee";
+    ctxFrente.fillRect(0, 0, canvasFrente.width, canvasFrente.height);
+    ctxFrente.fillStyle = "red";
+    ctxFrente.font = "20px Arial";
+    ctxFrente.fillText("Erro: modelo-frente.png não encontrado", 150, 250);
+    ctxFrente.fillText("Verifique se a pasta 'imagens/' existe", 150, 280);
+  };
+  
+  fundo.src = "imagens/modelo-frente.png";
+}
+
+/* ==========================
+   VERSO - MODIFICADA
 ========================== */
 function desenharVerso() {
-
   const fundo = new Image();
-  fundo.src = "imagens/modelo-verso.png";
-
+  
   fundo.onload = () => {
     ctxVerso.drawImage(fundo, 0, 0, canvasVerso.width, canvasVerso.height);
   };
+  
+  fundo.onerror = () => {
+    console.error("Erro ao carregar modelo-verso.png");
+    ctxVerso.fillStyle = "#eee";
+    ctxVerso.fillRect(0, 0, canvasVerso.width, canvasVerso.height);
+    ctxVerso.fillStyle = "red";
+    ctxVerso.font = "20px Arial";
+    ctxVerso.fillText("Erro: modelo-verso.png não encontrado", 150, 250);
+    ctxVerso.fillText("Verifique se a pasta 'imagens/' existe", 150, 280);
+  };
+  
+  fundo.src = "imagens/modelo-verso.png";
 }
 </script>
 
