@@ -65,6 +65,14 @@ const canvasVerso = document.getElementById("verso");
 const ctxVerso = canvasVerso.getContext("2d");
 
 /* ==========================
+   LIMPAR
+========================== */
+function limpar() {
+  ctxFrente.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
+  ctxVerso.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
+}
+
+/* ==========================
    FUNÇÃO PRINCIPAL
 ========================== */
 function verificar() {
@@ -78,7 +86,7 @@ function verificar() {
   if (!aluno) {
     ctxFrente.font = "20px Arial";
     ctxFrente.fillStyle = "red";
-    ctxFrente.fillText("Aluno não encontrado", 300, 250);
+    ctxFrente.fillText("Aluno não encontrado", 280, 250);
     return;
   }
 
@@ -87,22 +95,14 @@ function verificar() {
 }
 
 /* ==========================
-   LIMPAR
-========================== */
-function limpar() {
-  ctxFrente.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
-  ctxVerso.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
-}
-
-/* ==========================
-   FRENTE (SEU CÓDIGO)
+   FRENTE
 ========================== */
 function desenharFrente(aluno) {
 
   const fundo = new Image();
   fundo.src = "imagens/modelo-frente.png";
 
-  fundo.onload = function () {
+  fundo.onload = () => {
 
     // FUNDO
     ctxFrente.drawImage(fundo, 0, 0, canvasFrente.width, canvasFrente.height);
@@ -111,7 +111,7 @@ function desenharFrente(aluno) {
     const foto = new Image();
     foto.src = "imagens/fotos/" + aluno.matricula + ".jpg";
 
-    foto.onload = function () {
+    foto.onload = () => {
       ctxFrente.drawImage(foto, 125, 195, 160, 180);
     };
 
@@ -122,18 +122,18 @@ function desenharFrente(aluno) {
     ctxFrente.fillText(aluno.nome, 350, 130);
 
     ctxFrente.font = "24px Arial";
-    ctxFrente.fillText("   " + aluno.instituicao, 450, 190);
-    ctxFrente.fillText("   " + aluno.curso, 450, 245);
-    ctxFrente.fillText("   " + aluno.cidade, 450, 300);
-    ctxFrente.fillText("   " + aluno.turno, 450, 357);
-    ctxFrente.fillText("   " + aluno.validade, 450, 420);
+    ctxFrente.fillText(aluno.instituicao, 450, 190);
+    ctxFrente.fillText(aluno.curso, 450, 245);
+    ctxFrente.fillText(aluno.cidade, 450, 300);
+    ctxFrente.fillText(aluno.turno, 450, 357);
+    ctxFrente.fillText(aluno.validade, 450, 420);
 
     // MATRÍCULA VERTICAL
     ctxFrente.save();
     ctxFrente.translate(82, 320);
     ctxFrente.rotate(-Math.PI / 2);
     ctxFrente.font = "24px Arial";
-    ctxFrente.fillText("   " + aluno.matricula, 0, 0);
+    ctxFrente.fillText(aluno.matricula, 0, 0);
     ctxFrente.restore();
   };
 }
@@ -146,7 +146,7 @@ function desenharVerso() {
   const fundo = new Image();
   fundo.src = "imagens/modelo-verso.png";
 
-  fundo.onload = function () {
+  fundo.onload = () => {
     ctxVerso.drawImage(fundo, 0, 0, canvasVerso.width, canvasVerso.height);
   };
 }
