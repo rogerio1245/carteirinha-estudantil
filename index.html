@@ -33,6 +33,17 @@
       background: #ddd;
       border-radius: 10px;
     }
+    
+    .debug-info {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 20px auto;
+      max-width: 800px;
+      text-align: left;
+      font-size: 14px;
+      display: none;
+    }
   </style>
 </head>
 
@@ -43,6 +54,9 @@
 <input type="text" id="cpf" placeholder="Digite seu CPF">
 <br>
 <button onclick="verificar()">Acessar</button>
+<button onclick="mostrarDebug()" style="background: #f0f0f0;">Debug</button>
+
+<div id="debugInfo" class="debug-info"></div>
 
 <!-- FRENTE -->
 <canvas id="frente" width="800" height="500"></canvas>
@@ -56,6 +70,14 @@
 
 <script>
 /* ==========================
+   CONFIGURAÇÕES
+========================== */
+const CONFIG = {
+  caminhoImagens: "imagens/",
+  caminhoFotos: "imagens/fotos/"
+};
+
+/* ==========================
    CANVAS
 ========================== */
 const canvasFrente = document.getElementById("frente");
@@ -63,6 +85,38 @@ const ctxFrente = canvasFrente.getContext("2d");
 
 const canvasVerso = document.getElementById("verso");
 const ctxVerso = canvasVerso.getContext("2d");
+
+/* ==========================
+   FUNÇÕES DE DEBUG
+========================== */
+function mostrarDebug() {
+  const debugDiv = document.getElementById("debugInfo");
+  debugDiv.style.display = debugDiv.style.display === "none" ? "block" : "none";
+  
+  let debugHTML = "<h3>Informações de Debug</h3>";
+  debugHTML += "<p><strong>Configurações:</strong></p>";
+  debugHTML += "<ul>";
+  debugHTML += `<li>Caminho imagens: ${CONFIG.caminhoImagens}</li>`;
+  debugHTML += `<li>Caminho fotos: ${CONFIG.caminhoFotos}</li>`;
+  debugHTML += "</ul>";
+  
+  debugHTML += "<p><strong>Teste de URLs:</strong></p>";
+  debugHTML += "<ul>";
+  debugHTML += `<li>Frente: ${CONFIG.caminhoImagens}modelo-frente.png</li>`;
+  debugHTML += `<li>Verso: ${CONFIG.caminhoImagens}modelo-verso.png</li>`;
+  debugHTML += `<li>Foto 0001: ${CONFIG.caminhoFotos}0001.jpg</li>`;
+  debugHTML += `<li>Foto 0002: ${CONFIG.caminhoFotos}0002.jpg</li>`;
+  debugHTML += "</ul>";
+  
+  debugHTML += "<p><strong>Alunos cadastrados:</strong></p>";
+  debugHTML += "<ul>";
+  alunos.forEach((aluno, index) => {
+    debugHTML += `<li>${aluno.nome} - Matrícula: ${aluno.matricula}</li>`;
+  });
+  debugHTML += "</ul>";
+  
+  debugDiv.innerHTML = debugHTML;
+}
 
 /* ==========================
    LIMPAR
@@ -77,8 +131,13 @@ function limpar() {
 ========================== */
 function verificar() {
   const cpf = document.getElementById("cpf").value.replace(/\D/g, '');
+  
+  if (!cpf) {
+    alert("Por favor, digite um CPF!");
+    return;
+  }
+  
   const hash = sha256(cpf);
-
   const aluno = alunos.find(a => a.hash === hash);
 
   limpar();
@@ -87,6 +146,9 @@ function verificar() {
     ctxFrente.font = "20px Arial";
     ctxFrente.fillStyle = "red";
     ctxFrente.fillText("Aluno não encontrado", 280, 250);
+    ctxFrente.font = "16px Arial";
+    ctxFrente.fillText(`CPF digitado: ${cpf}`, 280, 280);
+    ctxFrente.fillText(`Hash gerado: ${hash.substring(0, 20)}...`, 280, 310);
     return;
   }
 
@@ -126,12 +188,21 @@ function desenharFrente(aluno) {
   const fundo = new Image();
   const foto = new Image();
   
+  // URL completa para debug
+  const urlFundo = CONFIG.caminhoImagens + "modelo-frente.png";
+  const urlFoto = CONFIG.caminhoFotos + aluno.matricula + ".jpg";
+  
+  console.log("Carregando imagem de fundo:", urlFundo);
+  console.log("Carregando foto:", urlFoto);
+  
   // Primeiro carrega o fundo
   fundo.onload = () => {
+    console.log("Fundo carregado com sucesso!");
     ctxFrente.drawImage(fundo, 0, 0, canvasFrente.width, canvasFrente.height);
     
     // Depois carrega a foto
     foto.onload = () => {
+      console.log("Foto carregada com sucesso!");
       ctxFrente.drawImage(foto, 125, 195, 160, 180);
       
       // Agora desenha os textos
@@ -140,32 +211,46 @@ function desenharFrente(aluno) {
     
     // Se a foto não carregar
     foto.onerror = () => {
-      console.error("Erro ao carregar foto do aluno:", aluno.matricula);
+      console.error("Erro ao carregar foto:", urlFoto);
       ctxFrente.fillStyle = "#ccc";
       ctxFrente.fillRect(125, 195, 160, 180);
       ctxFrente.fillStyle = "#666";
       ctxFrente.font = "16px Arial";
       ctxFrente.fillText("Sem foto", 165, 285);
+      ctxFrente.fillText(aluno.matricula, 165, 310);
       
       // Continua desenhando os textos mesmo sem foto
       desenharTextos(aluno);
     };
     
-    foto.src = "imagens/fotos/" + aluno.matricula + ".jpg";
+    foto.src = urlFoto;
   };
   
   // Se o fundo não carregar
   fundo.onerror = () => {
-    console.error("Erro ao carregar modelo-frente.png");
+    console.error("Erro ao carregar fundo:", urlFundo);
     ctxFrente.fillStyle = "#eee";
     ctxFrente.fillRect(0, 0, canvasFrente.width, canvasFrente.height);
-    ctxFrente.fillStyle = "red";
+    ctxFrente.fillStyle = "#333";
     ctxFrente.font = "20px Arial";
-    ctxFrente.fillText("Erro: modelo-frente.png não encontrado", 150, 250);
-    ctxFrente.fillText("Verifique se a pasta 'imagens/' existe", 150, 280);
+    ctxFrente.fillText("CARTEIRINHA ESTUDANTIL", 250, 100);
+    
+    ctxFrente.fillStyle = "red";
+    ctxFrente.font = "16px Arial";
+    ctxFrente.fillText("ATENÇÃO: Imagens não encontradas", 250, 150);
+    ctxFrente.fillText(`Verifique se existe: ${urlFundo}`, 250, 180);
+    
+    // Desenha os dados mesmo sem fundo
+    ctxFrente.fillStyle = "#000";
+    ctxFrente.fillRect(120, 190, 170, 190); // Moldura da foto
+    ctxFrente.fillStyle = "#ccc";
+    ctxFrente.fillRect(125, 195, 160, 180); // Área da foto
+    
+    // Desenha os textos
+    desenharTextos(aluno);
   };
   
-  fundo.src = "imagens/modelo-frente.png";
+  fundo.src = urlFundo;
 }
 
 /* ==========================
@@ -173,23 +258,33 @@ function desenharFrente(aluno) {
 ========================== */
 function desenharVerso() {
   const fundo = new Image();
+  const urlFundo = CONFIG.caminhoImagens + "modelo-verso.png";
+  
+  console.log("Carregando verso:", urlFundo);
   
   fundo.onload = () => {
+    console.log("Verso carregado com sucesso!");
     ctxVerso.drawImage(fundo, 0, 0, canvasVerso.width, canvasVerso.height);
   };
   
   fundo.onerror = () => {
-    console.error("Erro ao carregar modelo-verso.png");
+    console.error("Erro ao carregar verso:", urlFundo);
     ctxVerso.fillStyle = "#eee";
     ctxVerso.fillRect(0, 0, canvasVerso.width, canvasVerso.height);
-    ctxVerso.fillStyle = "red";
-    ctxVerso.font = "20px Arial";
-    ctxVerso.fillText("Erro: modelo-verso.png não encontrado", 150, 250);
-    ctxVerso.fillText("Verifique se a pasta 'imagens/' existe", 150, 280);
+    ctxVerso.fillStyle = "#333";
+    ctxVerso.font = "24px Arial";
+    ctxVerso.fillText("VERSO DA CARTEIRINHA", 250, 150);
+    ctxVerso.fillText("Modelo não encontrado", 250, 200);
+    ctxVerso.fillText(urlFundo, 100, 250);
   };
   
-  fundo.src = "imagens/modelo-verso.png";
+  fundo.src = urlFundo;
 }
+
+// Inicialização
+console.log("Sistema de Carteirinha carregado!");
+console.log("Para testar, use os CPFs que gerem os hashes correspondentes");
+console.log("Ou clique no botão 'Debug' para mais informações");
 </script>
 
 </body>
