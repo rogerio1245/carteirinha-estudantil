@@ -94,18 +94,8 @@
       color: white;
     }
     
-    .btn-secondary {
-      background: #37474f;
-      color: white;
-    }
-    
     .btn-success {
       background: #2e7d32;
-      color: white;
-    }
-    
-    .btn-danger {
-      background: #c62828;
       color: white;
     }
     
@@ -217,14 +207,15 @@
       
       <div class="buttons">
         <button class="btn-primary" onclick="gerarCarteirinha()">Gerar Carteirinha</button>
-        <button class="btn-secondary" onclick="testarImagens()">Testar Imagens</button>
         <button class="btn-success" onclick="limparTudo()">Limpar</button>
-        <button class="btn-danger" onclick="debugAvancado()">Debug Avançado</button>
       </div>
       
-      <div class="status-box" id="statusBox"></div>
+      <div class="status-box visible" id="statusBox" style="border-left-color: rgb(76, 175, 80); background: rgb(232, 245, 233);">✅ Carteirinha gerada para: Aluno Teste</div>
       
-      <div class="image-info" id="imageInfo"></div>
+      <div class="image-info success" id="imageInfo">✅ Modelo frente carregado
+✅ Modelo verso carregado
+✅ Foto carregada
+</div>
     </div>
     
     <div class="card">
@@ -244,7 +235,7 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/js-sha256"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
   
   <script>
   // ============================================
@@ -388,7 +379,7 @@
     // Desenha fundo
     if (fundo && fundo.sucesso) {
       ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
-      debugFrente.innerHTML = `✅ Fundo: ${fundo.largura}x${fundo.altura}`;
+      debugFrente.innerHTML = `✅ Modelo carregado`;
       debugFrente.style.display = 'block';
     } else {
       // Fallback se não houver imagem de fundo
@@ -405,7 +396,7 @@
       ctx.fillText('CARTEIRINHA ESTUDANTIL', largura/2, 60);
       ctx.textAlign = 'left';
       
-      debugFrente.innerHTML = `⚠️ Sem imagem<br>Criado: ${largura}x${altura}`;
+      debugFrente.innerHTML = `⚠️ Sem modelo`;
       debugFrente.style.display = 'block';
     }
     
@@ -436,20 +427,21 @@
     }
     
     // DADOS DO ALUNO - COORDENADAS AJUSTADAS PARA OS CAMPOS DO MODELO
+    // Coordenadas ajustadas para direita
     ctx.fillStyle = '#000'; // Cor preta para boa legibilidade
     ctx.textAlign = 'left';
     
-    // Nome do aluno (campo superior direito)
+    // Nome do aluno (campo superior direito) - ajustado para direita
     ctx.font = 'bold 28px Arial';
-    ctx.fillText(aluno.nome.toUpperCase(), 350, 130);
+    ctx.fillText(aluno.nome.toUpperCase(), 370, 130);
     
-    // Demais dados (alinhados verticalmente)
+    // Demais dados (alinhados verticalmente) - ajustados para direita
     ctx.font = '24px Arial';
-    ctx.fillText(aluno.instituicao, 450, 190);  // Instituição
-    ctx.fillText(aluno.curso, 450, 245);        // Curso
-    ctx.fillText(aluno.cidade, 450, 300);       // Cidade
-    ctx.fillText(aluno.turno, 450, 357);        // Turno
-    ctx.fillText(aluno.validade, 450, 420);     // Validade
+    ctx.fillText(aluno.instituicao, 480, 190);   // Instituição - mais à direita
+    ctx.fillText(aluno.curso, 480, 245);         // Curso - mais à direita
+    ctx.fillText(aluno.cidade, 480, 300);        // Cidade - mais à direita
+    ctx.fillText(aluno.turno, 480, 357);         // Turno - mais à direita
+    ctx.fillText(aluno.validade, 480, 420);      // Validade - mais à direita
     
     // MATRÍCULA VERTICAL (lado esquerdo)
     ctx.save();
@@ -472,7 +464,7 @@
     
     if (fundo && fundo.sucesso) {
       ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
-      debugVerso.innerHTML = `✅ Fundo: ${fundo.largura}x${fundo.altura}`;
+      debugVerso.innerHTML = `✅ Modelo carregado`;
       debugVerso.style.display = 'block';
     } else {
       // Fallback para verso
@@ -487,7 +479,7 @@
       ctx.textAlign = 'center';
       ctx.fillText('VERSO DA CARTEIRINHA', largura/2, 80);
       
-      debugVerso.innerHTML = `⚠️ Sem imagem<br>Criado: ${largura}x${altura}`;
+      debugVerso.innerHTML = `⚠️ Sem modelo`;
       debugVerso.style.display = 'block';
     }
     
@@ -573,46 +565,6 @@
   // ============================================
   // FUNÇÕES ADICIONAIS
   // ============================================
-  async function testarImagens() {
-    mostrarStatus('Testando acesso às imagens...', 'info');
-    
-    // Função simplificada de teste
-    function testarURL(url) {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve({url, status: 'OK'});
-        img.onerror = () => resolve({url, status: 'FALHA'});
-        img.src = url;
-      });
-    }
-    
-    const urlsParaTestar = [
-      CONFIG.caminhoImagens + 'modelo-frente.png',
-      CONFIG.caminhoImagens + 'modelo-verso.png',
-      CONFIG.caminhoFotos + '0001.jpg',
-      CONFIG.caminhoFotos + '0002.jpg'
-    ];
-    
-    const resultados = await Promise.all(urlsParaTestar.map(testarURL));
-    
-    let mensagem = '📊 Resultado do teste:\n\n';
-    let todasExistem = true;
-    
-    resultados.forEach(resultado => {
-      const nomeArquivo = resultado.url.split('/').pop();
-      if (resultado.status === 'OK') {
-        mensagem += `✅ ${nomeArquivo}: ENCONTRADO\n`;
-      } else {
-        mensagem += `❌ ${nomeArquivo}: NÃO ENCONTRADO\n`;
-        todasExistem = false;
-      }
-    });
-    
-    mostrarInfoImagens(mensagem, todasExistem);
-    mostrarStatus(todasExistem ? '✅ Todas as imagens foram encontradas!' : '⚠️ Algumas imagens não foram encontradas', 
-                  todasExistem ? 'success' : 'error');
-  }
-
   function limparTudo() {
     ctxFrente.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
     ctxVerso.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
@@ -622,17 +574,6 @@
     imageInfo.textContent = '';
     document.getElementById('cpf').value = '';
     mostrarStatus('Sistema limpo. Digite um CPF para começar.', 'info');
-  }
-
-  function debugAvancado() {
-    console.clear();
-    console.group('=== DEBUG AVANÇADO ===');
-    console.log('URL da página:', window.location.href);
-    console.log('Configuração:', CONFIG);
-    console.log('Alunos cadastrados:', alunos.length);
-    
-    mostrarStatus('Debug executado. Verifique o console (F12).', 'info');
-    console.groupEnd();
   }
 
   // ============================================
