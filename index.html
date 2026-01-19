@@ -93,25 +93,20 @@ const alunos = [
     matricula: "0002",
     cidade: "Anadia",
     turno: "Matutino",
-    validade: "12/12/2026"
+    validez: "12/12/2026"
   }
 ];
 
 /* ==========================
-   CONFIGURAÇÃO PARA GITHUB PAGES
+   CONFIGURAÇÃO CORRETA PARA SEU REPOSITÓRIO
 ========================== */
-// Se o seu repositório é username.github.io/repo-name, use:
-const BASE_URL = window.location.pathname.includes('/') 
-  ? window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1)
-  : './';
-
+// CORRIJA AQUI: Use "Imagens" com I maiúsculo
 const CONFIG = {
-  caminhoImagens: BASE_URL + "imagens/",
-  caminhoFotos: BASE_URL + "imagens/fotos/"
+  caminhoImagens: "./Imagens/",  // Note o I maiúsculo
+  caminhoFotos: "./Imagens/fotos/"  // Note o I maiúsculo
 };
 
-console.log("Base URL:", BASE_URL);
-console.log("Caminho imagens:", CONFIG.caminhoImagens);
+console.log("Configuração atual:", CONFIG);
 
 /* ==========================
    CANVAS
@@ -150,9 +145,14 @@ function verificar() {
     ctxFrente.font = "20px Arial";
     ctxFrente.fillStyle = "red";
     ctxFrente.fillText("Aluno não encontrado", 280, 250);
+    ctxFrente.font = "14px Arial";
+    ctxFrente.fillText(`Hash: ${hash.substring(0, 30)}...`, 200, 300);
     return;
   }
 
+  console.log("Aluno encontrado:", aluno);
+  console.log("Tentando carregar imagens de:", CONFIG.caminhoImagens);
+  
   desenharFrente(aluno);
   desenharVerso();
 }
@@ -171,7 +171,7 @@ function desenharTextos(aluno) {
   ctxFrente.fillText(aluno.curso, 450, 245);
   ctxFrente.fillText(aluno.cidade, 450, 300);
   ctxFrente.fillText(aluno.turno, 450, 357);
-  ctxFrente.fillText(aluno.validade, 450, 420);
+  ctxFrente.fillText(aluno.validade || aluno.validez, 450, 420);
 
   // MATRÍCULA VERTICAL
   ctxFrente.save();
@@ -183,68 +183,53 @@ function desenharTextos(aluno) {
 }
 
 /* ==========================
-   FUNÇÃO PARA CARREGAR IMAGEM COM FALLBACK
+   FRENTE - VERSÃO SIMPLIFICADA
 ========================== */
-function carregarImagem(url, fallbackUrl = null) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = () => {
-      if (fallbackUrl) {
-        const fallbackImg = new Image();
-        fallbackImg.onload = () => resolve(fallbackImg);
-        fallbackImg.onerror = () => reject(`Não foi possível carregar ${url} nem fallback`);
-        fallbackImg.src = fallbackUrl;
-      } else {
-        reject(`Não foi possível carregar ${url}`);
-      }
-    };
-    img.src = url;
-  });
-}
-
-/* ==========================
-   FRENTE - MODIFICADA
-========================== */
-async function desenharFrente(aluno) {
-  try {
-    // Tenta carregar o fundo
-    const urlFundo = CONFIG.caminhoImagens + "modelo-frente.png";
-    const urlFoto = CONFIG.caminhoFotos + aluno.matricula + ".jpg";
-    
-    // Fallback para GitHub Pages - imagem placeholder
-    const fallbackFundo = "https://via.placeholder.com/800x500/4a6fa5/ffffff?text=CARTEIRINHA+ESTUDANTIL";
-    const fallbackFoto = `https://i.pravatar.cc/300?img=${parseInt(aluno.matricula)}`;
-    
-    // Carrega fundo (com fallback)
-    const fundo = await carregarImagem(urlFundo, fallbackFundo);
+function desenharFrente(aluno) {
+  const fundo = new Image();
+  const foto = new Image();
+  
+  // URLs CORRETAS com I maiúsculo
+  const urlFundo = CONFIG.caminhoImagens + "modelo-frente.png";
+  const urlFoto = CONFIG.caminhoFotos + aluno.matricula + ".jpg";
+  
+  console.log("Carregando fundo:", urlFundo);
+  console.log("Carregando foto:", urlFoto);
+  
+  fundo.onload = function() {
+    console.log("✅ Fundo carregado com sucesso!");
     ctxFrente.drawImage(fundo, 0, 0, canvasFrente.width, canvasFrente.height);
     
-    // Carrega foto (com fallback)
-    try {
-      const foto = await carregarImagem(urlFoto, fallbackFoto);
+    foto.onload = function() {
+      console.log("✅ Foto carregada com sucesso!");
       ctxFrente.drawImage(foto, 125, 195, 160, 180);
-    } catch (fotoError) {
-      console.warn("Usando fallback para foto:", fotoError);
+      desenharTextos(aluno);
+    };
+    
+    foto.onerror = function() {
+      console.error("❌ Erro ao carregar foto:", urlFoto);
       ctxFrente.fillStyle = "#ccc";
       ctxFrente.fillRect(125, 195, 160, 180);
       ctxFrente.fillStyle = "#666";
       ctxFrente.font = "16px Arial";
-      ctxFrente.fillText("Foto", 185, 285);
-    }
+      ctxFrente.fillText("Foto", 185, 280);
+      ctxFrente.fillText(aluno.matricula, 175, 310);
+      desenharTextos(aluno);
+    };
     
-    // Desenha textos
-    desenharTextos(aluno);
+    foto.src = urlFoto;
+  };
+  
+  fundo.onerror = function() {
+    console.error("❌ Erro ao carregar fundo:", urlFundo);
     
-  } catch (error) {
-    console.error("Erro ao desenhar frente:", error);
-    // Desenha uma versão básica mesmo sem imagens
+    // Desenha um fundo simples
     ctxFrente.fillStyle = "#4a6fa5";
     ctxFrente.fillRect(0, 0, canvasFrente.width, canvasFrente.height);
     
     ctxFrente.fillStyle = "#fff";
-    ctxFrente.font = "bold 32px Arial";
-    ctxFrente.fillText("CARTEIRINHA ESTUDANTIL", 180, 80);
+    ctxFrente.font = "bold 30px Arial";
+    ctxFrente.fillText("CARTEIRINHA ESTUDANTIL", 180, 100);
     
     // Área da foto
     ctxFrente.fillStyle = "#fff";
@@ -252,25 +237,43 @@ async function desenharFrente(aluno) {
     ctxFrente.fillStyle = "#ccc";
     ctxFrente.fillRect(125, 145, 160, 190);
     
-    // Desenha dados básicos
+    // Carrega foto mesmo sem fundo
+    foto.onload = function() {
+      ctxFrente.drawImage(foto, 125, 145, 160, 190);
+    };
+    
+    foto.onerror = function() {
+      ctxFrente.fillStyle = "#999";
+      ctxFrente.fillRect(125, 145, 160, 190);
+      ctxFrente.fillStyle = "#666";
+      ctxFrente.font = "16px Arial";
+      ctxFrente.fillText("FOTO", 180, 240);
+    };
+    
+    foto.src = urlFoto;
+    
     desenharTextos(aluno);
-  }
+  };
+  
+  fundo.src = urlFundo;
 }
 
 /* ==========================
-   VERSO - MODIFICADA
+   VERSO
 ========================== */
-async function desenharVerso() {
-  try {
-    const urlFundo = CONFIG.caminhoImagens + "modelo-verso.png";
-    const fallbackFundo = "https://via.placeholder.com/800x500/2c3e50/ffffff?text=VERSO+DA+CARTEIRINHA";
-    
-    const fundo = await carregarImagem(urlFundo, fallbackFundo);
+function desenharVerso() {
+  const fundo = new Image();
+  const urlFundo = CONFIG.caminhoImagens + "modelo-verso.png";
+  
+  console.log("Carregando verso:", urlFundo);
+  
+  fundo.onload = function() {
+    console.log("✅ Verso carregado com sucesso!");
     ctxVerso.drawImage(fundo, 0, 0, canvasVerso.width, canvasVerso.height);
-    
-  } catch (error) {
-    console.error("Erro ao desenhar verso:", error);
-    // Desenha um verso básico
+  };
+  
+  fundo.onerror = function() {
+    console.error("❌ Erro ao carregar verso:", urlFundo);
     ctxVerso.fillStyle = "#2c3e50";
     ctxVerso.fillRect(0, 0, canvasVerso.width, canvasVerso.height);
     
@@ -279,15 +282,31 @@ async function desenharVerso() {
     ctxVerso.fillText("VERSO DA CARTEIRINHA", 220, 150);
     
     ctxVerso.font = "18px Arial";
-    ctxVerso.fillText("Instituição: " + (alunos[0]?.instituicao || "Educacional"), 100, 220);
+    ctxVerso.fillText("Instituição: Educacional", 100, 220);
     ctxVerso.fillText("Validade: 12/12/2026", 100, 260);
-    ctxVerso.fillText("Documento válido em todo território nacional", 100, 300);
-  }
+    ctxVerso.fillText("Documento oficial", 100, 300);
+  };
+  
+  fundo.src = urlFundo;
 }
 
-// Inicialização
-console.log("Sistema carregado para GitHub Pages!");
-console.log("URL Base:", BASE_URL);
+// Teste automático das URLs
+console.log("=== TESTE DE URLs ===");
+console.log("1. Frente:", CONFIG.caminhoImagens + "modelo-frente.png");
+console.log("2. Verso:", CONFIG.caminhoImagens + "modelo-verso.png");
+console.log("3. Foto 0001:", CONFIG.caminhoFotos + "0001.jpg");
+console.log("4. Foto 0002:", CONFIG.caminhoFotos + "0002.jpg");
+
+// Teste rápido de carregamento
+const testImage = new Image();
+testImage.onload = function() {
+  console.log("✅ Teste: A pasta Imagens/ existe e é acessível");
+};
+testImage.onerror = function() {
+  console.error("❌ Teste: Não foi possível acessar Imagens/");
+  console.log("Verifique se o nome da pasta está correto: 'Imagens' com I maiúsculo");
+};
+testImage.src = CONFIG.caminhoImagens + "modelo-frente.png";
 </script>
 
 </body>
