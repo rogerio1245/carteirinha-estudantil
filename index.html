@@ -16,190 +16,184 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
       padding: 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #f0f2f5;
       min-height: 100vh;
     }
     
     .container {
       max-width: 850px;
       margin: 0 auto;
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
     
-    h2 {
-      color: #333;
+    header {
+      background: linear-gradient(135deg, #1a237e, #283593);
+      color: white;
+      padding: 25px;
+      border-radius: 15px 15px 0 0;
       margin-bottom: 20px;
-      font-size: 2.2rem;
-      background: linear-gradient(90deg, #4a6fa5, #2c3e50);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
     
-    .input-group {
-      margin: 25px 0;
-      position: relative;
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    
+    .input-section {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
     }
     
     input {
-      padding: 15px 20px;
-      font-size: 18px;
       width: 100%;
       max-width: 400px;
-      border: 2px solid #e0e0e0;
-      border-radius: 50px;
-      transition: all 0.3s;
-      background: #f8f9fa;
-    }
-    
-    input:focus {
-      outline: none;
-      border-color: #4a6fa5;
-      box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
-      background: white;
+      padding: 15px 20px;
+      font-size: 18px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      margin: 10px 0;
+      text-align: center;
+      font-family: 'Courier New', monospace;
     }
     
     .buttons {
       display: flex;
-      gap: 15px;
+      gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
-      margin: 25px 0;
+      margin: 20px 0;
     }
     
     button {
-      padding: 14px 30px;
+      padding: 12px 25px;
       font-size: 16px;
       font-weight: 600;
-      cursor: pointer;
       border: none;
-      border-radius: 50px;
+      border-radius: 8px;
+      cursor: pointer;
       transition: all 0.3s;
-      min-width: 150px;
+      min-width: 140px;
     }
     
     .btn-primary {
-      background: linear-gradient(90deg, #4a6fa5, #3a5a8a);
+      background: #1a237e;
       color: white;
     }
     
     .btn-secondary {
-      background: #6c757d;
+      background: #37474f;
       color: white;
     }
     
     .btn-success {
-      background: #28a745;
+      background: #2e7d32;
+      color: white;
+    }
+    
+    .btn-danger {
+      background: #c62828;
       color: white;
     }
     
     button:hover {
+      opacity: 0.9;
       transform: translateY(-2px);
-      box-shadow: 0 7px 14px rgba(0,0,0,0.1);
     }
     
-    button:active {
-      transform: translateY(0);
+    .status-box {
+      background: #e3f2fd;
+      border-left: 4px solid #1a237e;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      text-align: left;
+      font-size: 14px;
+      display: none;
     }
     
-    .cards-container {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-      margin-top: 30px;
+    .status-box.visible {
+      display: block;
+    }
+    
+    .canvas-container {
+      position: relative;
+      margin: 20px 0;
     }
     
     canvas {
       width: 100%;
       height: auto;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
       background: white;
-      border: 1px solid #e0e0e0;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
     }
     
-    .info-box {
-      background: #e8f4fd;
-      border-left: 4px solid #4a6fa5;
-      padding: 20px;
-      margin: 25px 0;
-      border-radius: 10px;
+    .debug-overlay {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      display: none;
+      z-index: 100;
+    }
+    
+    .image-info {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-size: 14px;
       text-align: left;
     }
     
-    .info-box h3 {
-      color: #2c3e50;
-      margin-bottom: 10px;
-      font-size: 1.3rem;
+    .image-info.success {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
     }
     
-    .info-box ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    
-    .info-box li {
-      padding: 8px 0;
-      color: #555;
-      font-size: 1rem;
-    }
-    
-    .info-box code {
-      background: #2c3e50;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-family: 'Courier New', monospace;
-    }
-    
-    .loading {
-      display: none;
-      margin: 20px;
-    }
-    
-    .loading.active {
-      display: block;
-    }
-    
-    .spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #4a6fa5;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .image-info.error {
+      background: #ffebee;
+      border-left: 4px solid #f44336;
     }
     
     @media (max-width: 768px) {
       .container {
+        padding: 10px;
+      }
+      
+      header {
+        padding: 20px 15px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      .card {
         padding: 20px;
-        margin: 10px;
-      }
-      
-      h2 {
-        font-size: 1.8rem;
-      }
-      
-      .buttons {
-        flex-direction: column;
-        align-items: center;
       }
       
       button {
         width: 100%;
         max-width: 300px;
-      }
-      
-      input {
-        max-width: 100%;
       }
     }
   </style>
@@ -207,47 +201,55 @@
 
 <body>
   <div class="container">
-    <h2>🎓 Carteirinha Estudantil Digital</h2>
+    <header>
+      <h1>🎓 Carteirinha Estudantil</h1>
+      <p class="subtitle">Sistema Digital de Identificação Estudantil</p>
+    </header>
     
-    <div class="info-box">
-      <h3>Instruções de Uso:</h3>
-      <ul>
-        <li>Digite seu CPF no campo abaixo (apenas números)</li>
-        <li>Clique em "Gerar Carteirinha" para visualizar</li>
-        <li>Para testar, use: <code>12345678909</code> ou <code>98765432100</code></li>
-        <li>Use "Capturar Tela" para salvar sua carteirinha</li>
-      </ul>
+    <div class="card">
+      <div class="input-section">
+        <h3>Digite seu CPF para acessar:</h3>
+        <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14">
+        <p style="margin-top: 10px; color: #666; font-size: 14px;">
+          CPFs de teste: <strong>123.456.789-09</strong> ou <strong>987.654.321-00</strong>
+        </p>
+      </div>
+      
+      <div class="buttons">
+        <button class="btn-primary" onclick="gerarCarteirinha()">Gerar Carteirinha</button>
+        <button class="btn-secondary" onclick="testarImagens()">Testar Imagens</button>
+        <button class="btn-success" onclick="limparTudo()">Limpar</button>
+        <button class="btn-danger" onclick="debugAvancado()">Debug Avançado</button>
+      </div>
+      
+      <div class="status-box" id="statusBox"></div>
+      
+      <div class="image-info" id="imageInfo"></div>
     </div>
     
-    <div class="input-group">
-      <input type="text" id="cpf" placeholder="Digite seu CPF (apenas números)" maxlength="14" 
-             oninput="formatarCPF(this)" autocomplete="off">
+    <div class="card">
+      <h3>Frente da Carteirinha</h3>
+      <div class="canvas-container">
+        <div class="debug-overlay" id="debugFrente"></div>
+        <canvas id="frente" width="800" height="500"></canvas>
+      </div>
     </div>
     
-    <div class="buttons">
-      <button class="btn-primary" onclick="gerarCarteirinha()">Gerar Carteirinha</button>
-      <button class="btn-secondary" onclick="capturarTela()">📸 Capturar Tela</button>
-      <button class="btn-success" onclick="testarSistema()">🔧 Testar Sistema</button>
-    </div>
-    
-    <div class="loading" id="loading">
-      <div class="spinner"></div>
-      <p style="margin-top: 10px;">Gerando carteirinha...</p>
-    </div>
-    
-    <div class="cards-container">
-      <canvas id="frente" width="800" height="500"></canvas>
-      <canvas id="verso" width="800" height="500"></canvas>
+    <div class="card">
+      <h3>Verso da Carteirinha</h3>
+      <div class="canvas-container">
+        <div class="debug-overlay" id="debugVerso"></div>
+        <canvas id="verso" width="800" height="500"></canvas>
+      </div>
     </div>
   </div>
 
-  <!-- Bibliotecas -->
   <script src="https://cdn.jsdelivr.net/npm/js-sha256"></script>
-
+  
   <script>
-  /* ==========================
-     CONFIGURAÇÃO E DADOS
-  ========================== */
+  // ============================================
+  // CONFIGURAÇÃO E DADOS
+  // ============================================
   const alunos = [
     {
       hash: "a8476735b37a541a38402a2e7037c79e2d217fe9780e5e34347156ef61eff42b",
@@ -271,44 +273,30 @@
     }
   ];
 
-  // Configuração de caminhos com fallbacks
-  const CONFIG = {
-    // Primeiro tenta o caminho correto
-    imagens: {
-      frente: "./Imagens/modelo-frente.png",
-      verso: "./Imagens/modelo-verso.png"
-    },
-    // Depois tenta alternativos
-    alternativos: {
-      frente: "./imagens/modelo-frente.png",
-      verso: "./imagens/modelo-verso.png"
-    },
-    fotos: "./Imagens/fotos/",
-    // Placeholders para fallback
-    placeholders: {
-      frente: "https://via.placeholder.com/800x500/4a6fa5/ffffff?text=CARTEIRINHA+ESTUDANTIL",
-      verso: "https://via.placeholder.com/800x500/2c3e50/ffffff?text=VERSO+DA+CARTEIRINHA",
-      foto: (matricula) => `https://ui-avatars.com/api/?name=Aluno&background=4a6fa5&color=fff&size=256&bold=true&length=1`
-    }
-  };
-
-  /* ==========================
-     INICIALIZAÇÃO
-  ========================== */
+  // ============================================
+  // VARIÁVEIS GLOBAIS
+  // ============================================
   const canvasFrente = document.getElementById('frente');
   const ctxFrente = canvasFrente.getContext('2d');
   const canvasVerso = document.getElementById('verso');
   const ctxVerso = canvasVerso.getContext('2d');
-  const loadingElement = document.getElementById('loading');
+  const statusBox = document.getElementById('statusBox');
+  const imageInfo = document.getElementById('imageInfo');
+  const debugFrente = document.getElementById('debugFrente');
+  const debugVerso = document.getElementById('debugVerso');
 
-  /* ==========================
-     FUNÇÕES UTILITÁRIAS
-  ========================== */
-  function formatarCPF(input) {
-    let cpf = input.value.replace(/\D/g, '');
-    
+  let imagensCarregadas = {
+    frente: null,
+    verso: null,
+    fotos: {}
+  };
+
+  // ============================================
+  // FUNÇÕES DE UTILIDADE
+  // ============================================
+  function formatarCPF(cpf) {
+    cpf = cpf.replace(/\D/g, '');
     if (cpf.length > 11) cpf = cpf.substring(0, 11);
-    
     if (cpf.length > 9) {
       cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     } else if (cpf.length > 6) {
@@ -316,284 +304,457 @@
     } else if (cpf.length > 3) {
       cpf = cpf.replace(/(\d{3})(\d{1,3})/, "$1.$2");
     }
+    return cpf;
+  }
+
+  function mostrarStatus(mensagem, tipo = 'info') {
+    statusBox.textContent = mensagem;
+    statusBox.className = 'status-box visible';
     
-    input.value = cpf;
-    return cpf.replace(/\D/g, '');
+    if (tipo === 'error') {
+      statusBox.style.borderLeftColor = '#f44336';
+      statusBox.style.background = '#ffebee';
+    } else if (tipo === 'success') {
+      statusBox.style.borderLeftColor = '#4caf50';
+      statusBox.style.background = '#e8f5e9';
+    } else {
+      statusBox.style.borderLeftColor = '#1a237e';
+      statusBox.style.background = '#e3f2fd';
+    }
   }
 
-  function mostrarLoading(show) {
-    loadingElement.style.display = show ? 'block' : 'none';
-    loadingElement.classList.toggle('active', show);
+  function mostrarInfoImagens(mensagem, sucesso) {
+    imageInfo.textContent = mensagem;
+    imageInfo.className = sucesso ? 'image-info success' : 'image-info error';
   }
 
-  /* ==========================
-     FUNÇÃO PARA CARREGAR IMAGEM ROBUSTA
-  ========================== */
-  async function carregarImagemRobusta(urls, tipo = 'imagem') {
-    // Tenta cada URL na lista até conseguir
-    for (let i = 0; i < urls.length; i++) {
-      try {
-        const img = await carregarImagem(urls[i]);
-        console.log(`✅ ${tipo} carregada: ${urls[i]}`);
-        return { sucesso: true, imagem: img, url: urls[i] };
-      } catch (error) {
-        console.log(`❌ Falha ${tipo} (tentativa ${i + 1}): ${urls[i]}`);
+  // ============================================
+  // VERIFICAÇÃO DAS IMAGENS (MÉTODO PRECISO)
+  // ============================================
+  async function verificarImagensExistem() {
+    console.log('🔍 Verificando existência das imagens...');
+    
+    const pathsToCheck = [
+      { name: 'modelo-frente.png', paths: ['./Imagens/modelo-frente.png', './imagens/modelo-frente.png'] },
+      { name: 'modelo-verso.png', paths: ['./Imagens/modelo-verso.png', './imagens/modelo-verso.png'] },
+      { name: 'foto-0001.jpg', paths: ['./Imagens/fotos/0001.jpg', './Imagens/fotos/0001.png', './imagens/fotos/0001.jpg'] },
+      { name: 'foto-0002.jpg', paths: ['./Imagens/fotos/0002.jpg', './Imagens/fotos/0002.png', './imagens/fotos/0002.jpg'] }
+    ];
+    
+    let resultados = [];
+    
+    for (const item of pathsToCheck) {
+      for (const path of item.paths) {
+        const existe = await verificarArquivoExiste(path);
+        if (existe) {
+          resultados.push({ nome: item.name, caminho: path, existe: true });
+          break;
+        }
+      }
+      if (!resultados.find(r => r.nome === item.name)) {
+        resultados.push({ nome: item.name, caminho: item.paths[0], existe: false });
       }
     }
     
-    // Se nenhuma funcionou, usa placeholder
-    console.log(`⚠️ Usando placeholder para ${tipo}`);
-    const placeholder = tipo === 'foto' 
-      ? CONFIG.placeholders.foto('0')
-      : CONFIG.placeholders[tipo];
-    
-    const img = await carregarImagem(placeholder);
-    return { sucesso: false, imagem: img, url: placeholder };
+    return resultados;
   }
 
-  function carregarImagem(url) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      
-      img.onload = () => resolve(img);
-      img.onerror = () => reject(new Error(`Falha ao carregar: ${url}`));
-      
-      // Adiciona cache busting
-      const cacheBuster = `?t=${Date.now()}`;
-      img.src = url + (url.includes('?') ? '&' : '?') + cacheBuster;
-      
-      // Timeout de segurança
-      setTimeout(() => {
-        if (!img.complete) {
-          reject(new Error('Timeout ao carregar imagem'));
+  function verificarArquivoExiste(url) {
+    return new Promise((resolve) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('HEAD', url, true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          resolve(xhr.status === 200);
         }
-      }, 10000);
+      };
+      xhr.onerror = () => resolve(false);
+      xhr.timeout = 5000;
+      xhr.ontimeout = () => resolve(false);
+      xhr.send();
     });
   }
 
-  /* ==========================
-     GERAR CARTEIRINHA PRINCIPAL
-  ========================== */
-  async function gerarCarteirinha() {
-    const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
-    
-    if (!cpf || cpf.length !== 11) {
-      alert('Por favor, digite um CPF válido (11 números)');
-      document.getElementById('cpf').focus();
-      return;
-    }
-    
-    mostrarLoading(true);
-    
-    try {
-      const hash = sha256(cpf);
-      const aluno = alunos.find(a => a.hash === hash);
+  // ============================================
+  // FUNÇÃO PRINCIPAL - CARREGAR IMAGEM
+  // ============================================
+  function carregarImagemComDetalhes(url, tipo) {
+    return new Promise((resolve) => {
+      console.log(`🔄 Tentando carregar: ${url}`);
       
-      if (!aluno) {
-        alert('Aluno não encontrado. Verifique o CPF digitado.');
-        mostrarLoading(false);
-        return;
-      }
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
       
-      // Carrega todas as imagens em paralelo
-      const [frenteResult, versoResult, fotoResult] = await Promise.all([
-        carregarImagemRobusta([CONFIG.imagens.frente, CONFIG.alternativos.frente], 'frente'),
-        carregarImagemRobusta([CONFIG.imagens.verso, CONFIG.alternativos.verso], 'verso'),
-        carregarImagemRobusta([
-          `${CONFIG.fotos}${aluno.matricula}.jpg`,
-          `${CONFIG.fotos}${aluno.matricula}.png`,
-          `${CONFIG.fotos}${aluno.matricula}.jpeg`,
-          CONFIG.placeholders.foto(aluno.matricula)
-        ], 'foto')
-      ]);
+      img.onload = function() {
+        console.log(`✅ Imagem carregada: ${url} (${img.width}x${img.height})`);
+        resolve({
+          sucesso: true,
+          imagem: img,
+          url: url,
+          largura: img.width,
+          altura: img.height,
+          tipo: tipo
+        });
+      };
       
-      // Desenha a frente
-      desenharFrente(ctxFrente, aluno, frenteResult.imagem, fotoResult.imagem);
+      img.onerror = function(e) {
+        console.error(`❌ Falha ao carregar: ${url}`, e);
+        resolve({
+          sucesso: false,
+          imagem: null,
+          url: url,
+          erro: e,
+          tipo: tipo
+        });
+      };
       
-      // Desenha o verso
-      desenharVerso(ctxVerso, versoResult.imagem, aluno);
-      
-      console.log('✅ Carteirinha gerada com sucesso para:', aluno.nome);
-      
-    } catch (error) {
-      console.error('❌ Erro ao gerar carteirinha:', error);
-      alert('Erro ao gerar carteirinha. Por favor, tente novamente.');
-    } finally {
-      mostrarLoading(false);
-    }
+      // Força recarregamento evitando cache
+      const timestamp = new Date().getTime();
+      const urlUnica = `${url}${url.includes('?') ? '&' : '?'}_=${timestamp}`;
+      img.src = urlUnica;
+    });
   }
 
-  /* ==========================
-     FUNÇÕES DE DESENHO
-  ========================== */
-  function desenharFrente(ctx, aluno, fundo, foto) {
-    // Limpa o canvas
-    ctx.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
+  // ============================================
+  // DESENHO DA CARTEIRINHA (MELHORADO)
+  // ============================================
+  function desenharFrenteBasica(ctx, aluno, fundo = null, foto = null) {
+    const largura = ctx.canvas.width;
+    const altura = ctx.canvas.height;
     
-    // Desenha o fundo
-    ctx.drawImage(fundo, 0, 0, canvasFrente.width, canvasFrente.height);
+    // Limpa tudo
+    ctx.clearRect(0, 0, largura, altura);
     
-    // Desenha a foto do aluno
-    const fotoX = 125, fotoY = 195, fotoLargura = 160, fotoAltura = 180;
+    // Desenha fundo ou cria um
+    if (fundo && fundo.sucesso) {
+      ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
+      debugFrente.innerHTML = `✅ Fundo: ${fundo.largura}x${fundo.altura}`;
+      debugFrente.style.display = 'block';
+    } else {
+      // Fundo personalizado
+      const grad = ctx.createLinearGradient(0, 0, largura, 0);
+      grad.addColorStop(0, '#1a237e');
+      grad.addColorStop(0.5, '#283593');
+      grad.addColorStop(1, '#3949ab');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, largura, altura);
+      
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 32px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('CARTEIRINHA ESTUDANTIL', largura/2, 60);
+      ctx.textAlign = 'left';
+      
+      debugFrente.innerHTML = `⚠️ Sem imagem<br>Criado: ${largura}x${altura}`;
+      debugFrente.style.display = 'block';
+    }
+    
+    // Área da foto
+    const fotoX = 50;
+    const fotoY = 120;
+    const fotoW = 200;
+    const fotoH = 240;
     
     // Moldura da foto
-    ctx.fillStyle = '#4a6fa5';
-    ctx.fillRect(fotoX - 5, fotoY - 5, fotoLargura + 10, fotoAltura + 10);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.fillRect(fotoX, fotoY, fotoW, fotoH);
     
-    // Área da foto com clipping
+    ctx.strokeStyle = '#1a237e';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(fotoX, fotoY, fotoW, fotoH);
+    
+    // Foto do aluno ou placeholder
+    if (foto && foto.sucesso) {
+      try {
+        // Calcula proporções para manter aspect ratio
+        const scale = Math.min(fotoW / foto.imagem.width, fotoH / foto.imagem.height);
+        const scaledW = foto.imagem.width * scale;
+        const scaledH = foto.imagem.height * scale;
+        const offsetX = fotoX + (fotoW - scaledW) / 2;
+        const offsetY = fotoY + (fotoH - scaledH) / 2;
+        
+        ctx.drawImage(foto.imagem, offsetX, offsetY, scaledW, scaledH);
+      } catch (e) {
+        console.error('Erro ao desenhar foto:', e);
+        desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, aluno.matricula);
+      }
+    } else {
+      desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, aluno.matricula);
+    }
+    
+    // Dados do aluno
+    ctx.fillStyle = '#000';
+    ctx.font = 'bold 26px Arial';
+    ctx.fillText(aluno.nome, 280, 140);
+    
+    ctx.font = '20px Arial';
+    ctx.fillText(`Instituição: ${aluno.instituicao}`, 280, 190);
+    ctx.fillText(`Curso: ${aluno.curso}`, 280, 230);
+    ctx.fillText(`Cidade: ${aluno.cidade}`, 280, 270);
+    ctx.fillText(`Turno: ${aluno.turno}`, 280, 310);
+    ctx.fillText(`Validade: ${aluno.validade}`, 280, 350);
+    
+    // Matrícula
     ctx.save();
-    ctx.beginPath();
-    ctx.rect(fotoX, fotoY, fotoLargura, fotoAltura);
-    ctx.clip();
-    ctx.drawImage(foto, fotoX, fotoY, fotoLargura, fotoAltura);
-    ctx.restore();
-    
-    // Desenha os dados do aluno
-    ctx.fillStyle = '#000000';
-    ctx.textBaseline = 'middle';
-    
-    // Nome
-    ctx.font = 'bold 28px Arial';
-    ctx.fillText(aluno.nome.toUpperCase(), 350, 130);
-    
-    // Dados
-    ctx.font = '24px Arial';
-    ctx.fillText(`Instituição: ${aluno.instituicao}`, 450, 190);
-    ctx.fillText(`Curso: ${aluno.curso}`, 450, 245);
-    ctx.fillText(`Cidade: ${aluno.cidade}`, 450, 300);
-    ctx.fillText(`Turno: ${aluno.turno}`, 450, 357);
-    ctx.fillText(`Validade: ${aluno.validade}`, 450, 420);
-    
-    // Matrícula vertical
-    ctx.save();
-    ctx.translate(82, 320);
+    ctx.translate(30, 250);
     ctx.rotate(-Math.PI / 2);
-    ctx.font = 'bold 24px Arial';
-    ctx.fillStyle = '#4a6fa5';
-    ctx.fillText(`MAT: ${aluno.matricula}`, 0, 0);
+    ctx.font = 'bold 22px Arial';
+    ctx.fillStyle = '#1a237e';
+    ctx.fillText(`MATRÍCULA: ${aluno.matricula}`, 0, 0);
     ctx.restore();
     
     // QR Code simulado
     ctx.fillStyle = '#333';
-    ctx.fillRect(650, 180, 120, 120);
+    ctx.fillRect(600, 120, 150, 150);
     ctx.fillStyle = '#fff';
-    ctx.font = 'bold 14px Arial';
+    ctx.font = 'bold 16px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText('QR CODE', 710, 255);
-    ctx.fillText('DIGITAL', 710, 275);
+    ctx.fillText('QR CODE', 675, 195);
+    ctx.fillText('DIGITAL', 675, 220);
+    ctx.textAlign = 'left';
+    
+    // Rodapé
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.font = '14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(`Gerado em: ${new Date().toLocaleDateString()}`, largura/2, altura - 20);
     ctx.textAlign = 'left';
   }
 
-  function desenharVerso(ctx, fundo, aluno) {
-    ctx.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
-    ctx.drawImage(fundo, 0, 0, canvasVerso.width, canvasVerso.height);
+  function desenharVersoBasico(ctx, fundo = null) {
+    const largura = ctx.canvas.width;
+    const altura = ctx.canvas.height;
     
-    // Informações adicionais
-    ctx.fillStyle = '#000000';
-    ctx.font = 'bold 20px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('DOCUMENTO OFICIAL', 400, 150);
+    ctx.clearRect(0, 0, largura, altura);
+    
+    if (fundo && fundo.sucesso) {
+      ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
+      debugVerso.innerHTML = `✅ Fundo: ${fundo.largura}x${fundo.altura}`;
+      debugVerso.style.display = 'block';
+    } else {
+      // Fundo personalizado para verso
+      const grad = ctx.createLinearGradient(0, 0, 0, altura);
+      grad.addColorStop(0, '#37474f');
+      grad.addColorStop(1, '#263238');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, largura, altura);
+      
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 28px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('VERSO DA CARTEIRINHA', largura/2, 80);
+      
+      debugVerso.innerHTML = `⚠️ Sem imagem<br>Criado: ${largura}x${altura}`;
+      debugVerso.style.display = 'block';
+    }
+    
+    // Informações
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.font = '18px Arial';
+    ctx.textAlign = 'left';
+    
+    const infos = [
+      '✓ Documento oficial válido nacionalmente',
+      '✓ Em caso de perda, comunicar à instituição',
+      '✓ Uso pessoal e intransferível',
+      '✓ Apresentar junto com documento com foto',
+      '✓ Não dobrar, molhar ou expor ao calor excessivo'
+    ];
+    
+    infos.forEach((info, index) => {
+      ctx.fillText(info, 100, 150 + (index * 40));
+    });
+    
+    // Código de barras simulado
+    ctx.fillStyle = '#000';
+    for (let i = 0; i < 50; i++) {
+      const alturaBarra = 20 + Math.random() * 30;
+      const larguraBarra = 5;
+      ctx.fillRect(100 + (i * 10), 400, larguraBarra, alturaBarra);
+    }
     
     ctx.font = '16px Arial';
-    ctx.textAlign = 'left';
-    ctx.fillText('• Válido em todo território nacional', 100, 200);
-    ctx.fillText('• Em caso de perda, avisar à instituição', 100, 240);
-    ctx.fillText('• Documento pessoal e intransferível', 100, 280);
-    ctx.fillText('• Não amassar, molhar ou rasgar', 100, 320);
-    
     ctx.textAlign = 'center';
-    ctx.font = '14px Arial';
-    ctx.fillText(`Carteirinha digital - ${aluno.instituicao}`, 400, 420);
-    ctx.fillText('Sistema gerado automaticamente', 400, 450);
+    ctx.fillText('ID: ' + Math.random().toString(36).substr(2, 10).toUpperCase(), largura/2, 480);
   }
 
-  /* ==========================
-     FUNÇÕES ADICIONAIS
-  ========================== */
-  function capturarTela() {
-    try {
-      // Cria um canvas combinado
-      const canvasCombinado = document.createElement('canvas');
-      canvasCombinado.width = 800;
-      canvasCombinado.height = 1050; // Frente + Verso + espaçamento
-      const ctxCombo = canvasCombinado.getContext('2d');
-      
-      // Fundo branco
-      ctxCombo.fillStyle = '#ffffff';
-      ctxCombo.fillRect(0, 0, canvasCombinado.width, canvasCombinado.height);
-      
-      // Copia frente
-      ctxCombo.drawImage(canvasFrente, 0, 25);
-      
-      // Copia verso
-      ctxCombo.drawImage(canvasVerso, 0, 550);
-      
-      // Gera link de download
-      const link = document.createElement('a');
-      link.download = `carteirinha-${Date.now()}.png`;
-      link.href = canvasCombinado.toDataURL('image/png', 1.0);
-      link.click();
-      
-      alert('Carteirinha baixada com sucesso!');
-    } catch (error) {
-      console.error('Erro ao capturar tela:', error);
-      alert('Erro ao baixar carteirinha.');
+  function desenharPlaceholderFoto(ctx, x, y, w, h, matricula) {
+    // Fundo
+    const grad = ctx.createRadialGradient(x + w/2, y + h/2, 0, x + w/2, y + h/2, w/2);
+    grad.addColorStop(0, '#5c6bc0');
+    grad.addColorStop(1, '#3949ab');
+    ctx.fillStyle = grad;
+    ctx.fillRect(x, y, w, h);
+    
+    // Ícone de usuário
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 60px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('👤', x + w/2, y + h/2 - 20);
+    
+    // Matrícula
+    ctx.font = '20px Arial';
+    ctx.fillText(matricula, x + w/2, y + h/2 + 40);
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+  }
+
+  // ============================================
+  // FUNÇÃO PRINCIPAL - GERAR CARTEIRINHA
+  // ============================================
+  async function gerarCarteirinha() {
+    const cpfInput = document.getElementById('cpf');
+    let cpf = cpfInput.value.replace(/\D/g, '');
+    
+    if (cpf.length !== 11) {
+      mostrarStatus('Por favor, digite um CPF válido (11 números)', 'error');
+      cpfInput.value = formatarCPF(cpf);
+      cpfInput.focus();
+      return;
     }
-  }
-
-  async function testarSistema() {
-    mostrarLoading(true);
+    
+    mostrarStatus('Processando... Aguarde.', 'info');
     
     try {
-      console.log('=== INICIANDO TESTE DO SISTEMA ===');
+      // Atualiza formatação
+      cpfInput.value = formatarCPF(cpf);
       
-      // Testa CPFs conhecidos
-      const cpfsTeste = ['12345678909', '98765432100'];
-      let sucessos = 0;
+      // Gera hash e busca aluno
+      const hash = sha256(cpf);
+      const aluno = alunos.find(a => a.hash === hash);
       
-      for (const cpf of cpfsTeste) {
-        const hash = sha256(cpf);
-        const aluno = alunos.find(a => a.hash === hash);
-        
-        if (aluno) {
-          console.log(`✅ Aluno encontrado: ${aluno.nome}`);
-          sucessos++;
-        }
+      if (!aluno) {
+        mostrarStatus('Aluno não encontrado. Verifique o CPF.', 'error');
+        return;
       }
       
-      // Testa imagens
-      console.log('Testando carregamento de imagens...');
-      const testeFrente = await carregarImagemRobusta([CONFIG.imagens.frente], 'teste');
-      console.log(testeFrente.sucesso ? '✅ Imagens acessíveis' : '⚠️ Usando placeholders');
+      mostrarStatus(`Carregando dados de: ${aluno.nome}`, 'info');
       
-      alert(`Teste completo!\n${sucessos}/${cpfsTeste.length} alunos encontrados\nSistema ${testeFrente.sucesso ? 'OK' : 'com fallback'}`);
+      // Primeiro verifica se as imagens existem
+      const verificacao = await verificarImagensExistem();
+      console.log('Resultado da verificação:', verificacao);
+      
+      // Tenta carregar as imagens
+      const [frenteResult, versoResult, fotoResult] = await Promise.all([
+        carregarImagemComDetalhes('./Imagens/modelo-frente.png', 'frente'),
+        carregarImagemComDetalhes('./Imagens/modelo-verso.png', 'verso'),
+        carregarImagemComDetalhes(`./Imagens/fotos/${aluno.matricula}.jpg`, 'foto')
+      ]);
+      
+      // Mostra informações detalhadas
+      let infoMsg = '';
+      infoMsg += frenteResult.sucesso ? '✅ Modelo frente carregado\n' : '❌ Modelo frente não encontrado\n';
+      infoMsg += versoResult.sucesso ? '✅ Modelo verso carregado\n' : '❌ Modelo verso não encontrado\n';
+      infoMsg += fotoResult.sucesso ? '✅ Foto carregada\n' : '❌ Foto não encontrado\n';
+      
+      mostrarInfoImagens(infoMsg, frenteResult.sucesso || versoResult.sucesso || fotoResult.sucesso);
+      
+      // Desenha as carteirinhas
+      desenharFrenteBasica(ctxFrente, aluno, frenteResult, fotoResult);
+      desenharVersoBasico(ctxVerso, versoResult);
+      
+      mostrarStatus(`✅ Carteirinha gerada para: ${aluno.nome}`, 'success');
       
     } catch (error) {
-      console.error('Erro no teste:', error);
-      alert('Erro durante o teste do sistema.');
-    } finally {
-      mostrarLoading(false);
+      console.error('Erro crítico:', error);
+      mostrarStatus('Erro ao processar. Tente novamente.', 'error');
     }
   }
 
-  /* ==========================
-     INICIALIZAÇÃO AUTOMÁTICA
-  ========================== */
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('=== SISTEMA DE CARTEIRINHA INICIADO ===');
-    console.log('Versão: 2.0 - GitHub Pages Otimizada');
+  // ============================================
+  // FUNÇÕES ADICIONAIS
+  // ============================================
+  async function testarImagens() {
+    mostrarStatus('Testando acesso às imagens...', 'info');
+    
+    const resultados = await verificarImagensExistem();
+    
+    let mensagem = '📊 Resultado do teste:\n\n';
+    let todasExistem = true;
+    
+    resultados.forEach(item => {
+      if (item.existe) {
+        mensagem += `✅ ${item.nome}: ENCONTRADO\n   Caminho: ${item.caminho}\n\n`;
+      } else {
+        mensagem += `❌ ${item.nome}: NÃO ENCONTRADO\n   Tentado: ${item.caminho}\n\n`;
+        todasExistem = false;
+      }
+    });
+    
+    mostrarInfoImagens(mensagem, todasExistem);
+    mostrarStatus(todasExistem ? '✅ Todas as imagens foram encontradas!' : '⚠️ Algumas imagens não foram encontradas', 
+                  todasExistem ? 'success' : 'error');
+  }
+
+  function limparTudo() {
+    ctxFrente.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
+    ctxVerso.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
+    debugFrente.style.display = 'none';
+    debugVerso.style.display = 'none';
+    statusBox.classList.remove('visible');
+    imageInfo.textContent = '';
+    document.getElementById('cpf').value = '';
+    mostrarStatus('Sistema limpo. Digite um CPF para começar.', 'info');
+  }
+
+  function debugAvancado() {
+    console.clear();
+    console.group('=== DEBUG AVANÇADO ===');
+    console.log('URL da página:', window.location.href);
+    console.log('User Agent:', navigator.userAgent);
+    console.log('Canvas suportado:', !!canvasFrente.getContext);
     console.log('Alunos cadastrados:', alunos.length);
+    console.log('Dimensões canvas:', {
+      frente: `${canvasFrente.width}x${canvasFrente.height}`,
+      verso: `${canvasVerso.width}x${canvasVerso.height}`
+    });
     
-    // Foca no input
-    document.getElementById('cpf').focus();
+    // Testa URLs diretamente
+    const testUrls = [
+      './Imagens/modelo-frente.png',
+      './imagens/modelo-frente.png',
+      './Imagens/modelo-verso.png',
+      './imagens/modelo-verso.png',
+      './Imagens/fotos/0001.jpg',
+      './Imagens/fotos/0002.jpg'
+    ];
     
-    // Event listener para Enter
-    document.getElementById('cpf').addEventListener('keypress', (e) => {
+    testUrls.forEach(url => {
+      const img = new Image();
+      img.onload = () => console.log(`✅ ${url} - OK (${img.width}x${img.height})`);
+      img.onerror = () => console.log(`❌ ${url} - FALHA`);
+      img.src = url + '?debug=' + Date.now();
+    });
+    
+    console.groupEnd();
+    
+    mostrarStatus('Debug executado. Verifique o console (F12).', 'info');
+  }
+
+  // ============================================
+  // INICIALIZAÇÃO
+  // ============================================
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎓 Sistema de Carteirinha iniciado');
+    console.log('📍 URL:', window.location.href);
+    
+    // Configura input
+    const cpfInput = document.getElementById('cpf');
+    cpfInput.addEventListener('input', function() {
+      this.value = formatarCPF(this.value);
+    });
+    
+    cpfInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         gerarCarteirinha();
       }
     });
+    
+    // Testa automaticamente ao carregar
+    setTimeout(() => {
+      mostrarStatus('Sistema pronto. Digite um CPF para gerar sua carteirinha.', 'info');
+    }, 500);
   });
   </script>
 </body>
