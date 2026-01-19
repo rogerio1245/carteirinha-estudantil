@@ -16,13 +16,22 @@
       padding: 10px;
       font-size: 16px;
       width: 220px;
+      margin: 10px;
     }
 
     button {
       padding: 10px 20px;
       font-size: 16px;
-      margin-top: 10px;
+      margin: 10px;
       cursor: pointer;
+      background: #4a6fa5;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #3a5a8a;
     }
 
     canvas {
@@ -30,8 +39,10 @@
       max-width: 800px;
       margin: 20px auto;
       display: block;
-      background: #ddd;
+      background: white;
+      border: 1px solid #ddd;
       border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     
     .info {
@@ -42,6 +53,17 @@
       max-width: 800px;
       border-radius: 5px;
       color: #856404;
+    }
+    
+    .debug {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      padding: 15px;
+      margin: 20px auto;
+      max-width: 800px;
+      border-radius: 5px;
+      text-align: left;
+      display: none;
     }
   </style>
 </head>
@@ -60,6 +82,10 @@
 <input type="text" id="cpf" placeholder="Digite seu CPF">
 <br>
 <button onclick="verificar()">Acessar</button>
+<button onclick="testarImagens()">Testar Imagens</button>
+<button onclick="mostrarDebug()">Debug</button>
+
+<div id="debugInfo" class="debug"></div>
 
 <!-- FRENTE -->
 <canvas id="frente" width="800" height="500"></canvas>
@@ -72,7 +98,7 @@
 
 <script>
 /* ==========================
-   DADOS DOS ALUNOS (EMBEDDED)
+   DADOS DOS ALUNOS
 ========================== */
 const alunos = [
   {
@@ -93,20 +119,29 @@ const alunos = [
     matricula: "0002",
     cidade: "Anadia",
     turno: "Matutino",
-    validez: "12/12/2026"
+    validade: "12/12/2026"
   }
 ];
 
 /* ==========================
-   CONFIGURAÇÃO CORRETA PARA SEU REPOSITÓRIO
+   CONFIGURAÇÃO
 ========================== */
-// CORRIJA AQUI: Use "Imagens" com I maiúsculo
+// Detecta se está no GitHub Pages ou local
+const isGitHubPages = window.location.hostname.includes('github.io');
+const repoName = window.location.pathname.split('/')[1] || '';
+const basePath = isGitHubPages ? `/${repoName}/` : './';
+
 const CONFIG = {
-  caminhoImagens: "./Imagens/",  // Note o I maiúsculo
-  caminhoFotos: "./Imagens/fotos/"  // Note o I maiúsculo
+  caminhoImagens: basePath + "Imagens/",
+  caminhoFotos: basePath + "Imagens/fotos/",
+  usePlaceholders: false // Mude para true se quiser usar imagens de placeholder
 };
 
-console.log("Configuração atual:", CONFIG);
+console.log("Configuração detectada:");
+console.log("GitHub Pages:", isGitHubPages);
+console.log("Repositório:", repoName);
+console.log("Caminho base:", basePath);
+console.log("Caminho imagens:", CONFIG.caminhoImagens);
 
 /* ==========================
    CANVAS
@@ -118,21 +153,72 @@ const canvasVerso = document.getElementById("verso");
 const ctxVerso = canvasVerso.getContext("2d");
 
 /* ==========================
-   LIMPAR
+   DEBUG
+========================== */
+function mostrarDebug() {
+  const debugDiv = document.getElementById("debugInfo");
+  debugDiv.style.display = debugDiv.style.display === "none" ? "block" : "none";
+  
+  let html = "<h3>Informações de Debug</h3>";
+  html += `<p><strong>URL atual:</strong> ${window.location.href}</p>`;
+  html += `<p><strong>Hostname:</strong> ${window.location.hostname}</p>`;
+  html += `<p><strong>Caminho:</strong> ${window.location.pathname}</p>`;
+  html += `<p><strong>GitHub Pages:</strong> ${isGitHubPages}</p>`;
+  html += `<p><strong>Caminho base:</strong> ${basePath}</p>`;
+  html += `<p><strong>Imagens:</strong> ${CONFIG.caminhoImagens}</p>`;
+  html += `<p><strong>Fotos:</strong> ${CONFIG.caminhoFotos}</p>`;
+  
+  debugDiv.innerHTML = html;
+}
+
+function testarImagens() {
+  console.log("=== TESTANDO IMAGENS ===");
+  
+  const urls = [
+    CONFIG.caminhoImagens + "modelo-frente.png",
+    CONFIG.caminhoImagens + "modelo-verso.png",
+    CONFIG.caminhoFotos + "0001.jpg",
+    CONFIG.caminhoFotos + "0002.jpg"
+  ];
+  
+  urls.forEach((url, index) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // Importante para CORS
+    img.onload = () => {
+      console.log(`✅ ${url} - CARREGADA (${img.width}x${img.height})`);
+      // Testa desenhar no canvas
+      if (index === 0) {
+        ctxFrente.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
+        ctxFrente.drawImage(img, 0, 0, 200, 150);
+        ctxFrente.fillText("Teste OK", 50, 180);
+      }
+    };
+    img.onerror = (e) => {
+      console.error(`❌ ${url} - ERRO:`, e);
+      console.log("Possíveis causas:");
+      console.log("1. Caminho incorreto");
+      console.log("2. Imagem não existe");
+      console.log("3. Problema de CORS");
+    };
+    img.src = url;
+  });
+}
+
+/* ==========================
+   FUNÇÕES PRINCIPAIS
 ========================== */
 function limpar() {
   ctxFrente.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
   ctxVerso.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
 }
 
-/* ==========================
-   FUNÇÃO PRINCIPAL
-========================== */
-function verificar() {
-  const cpf = document.getElementById("cpf").value.replace(/\D/g, '');
+async function verificar() {
+  const cpfInput = document.getElementById("cpf");
+  const cpf = cpfInput.value.replace(/\D/g, '');
   
   if (!cpf) {
     alert("Por favor, digite um CPF!");
+    cpfInput.focus();
     return;
   }
   
@@ -145,168 +231,179 @@ function verificar() {
     ctxFrente.font = "20px Arial";
     ctxFrente.fillStyle = "red";
     ctxFrente.fillText("Aluno não encontrado", 280, 250);
-    ctxFrente.font = "14px Arial";
-    ctxFrente.fillText(`Hash: ${hash.substring(0, 30)}...`, 200, 300);
     return;
   }
 
-  console.log("Aluno encontrado:", aluno);
-  console.log("Tentando carregar imagens de:", CONFIG.caminhoImagens);
-  
-  desenharFrente(aluno);
-  desenharVerso();
+  await desenharFrente(aluno);
+  await desenharVerso();
 }
 
 /* ==========================
-   FUNÇÃO AUXILIAR PARA TEXTOS
+   FUNÇÃO PARA CARREGAR IMAGEM
 ========================== */
-function desenharTextos(aluno) {
-  ctxFrente.fillStyle = "#000";
-
-  ctxFrente.font = "bold 28px Arial";
-  ctxFrente.fillText(aluno.nome, 350, 130);
-
-  ctxFrente.font = "24px Arial";
-  ctxFrente.fillText(aluno.instituicao, 450, 190);
-  ctxFrente.fillText(aluno.curso, 450, 245);
-  ctxFrente.fillText(aluno.cidade, 450, 300);
-  ctxFrente.fillText(aluno.turno, 450, 357);
-  ctxFrente.fillText(aluno.validade || aluno.validez, 450, 420);
-
-  // MATRÍCULA VERTICAL
-  ctxFrente.save();
-  ctxFrente.translate(82, 320);
-  ctxFrente.rotate(-Math.PI / 2);
-  ctxFrente.font = "24px Arial";
-  ctxFrente.fillText(aluno.matricula, 0, 0);
-  ctxFrente.restore();
+function carregarImagem(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // IMPORTANTE para CORS no GitHub Pages
+    
+    img.onload = () => {
+      console.log(`Imagem carregada: ${url}`);
+      resolve(img);
+    };
+    
+    img.onerror = (err) => {
+      console.error(`Erro ao carregar imagem ${url}:`, err);
+      reject(err);
+    };
+    
+    // Adiciona timestamp para evitar cache
+    const timestamp = new Date().getTime();
+    const urlComTimestamp = url + (url.includes('?') ? '&' : '?') + '_=' + timestamp;
+    img.src = urlComTimestamp;
+  });
 }
 
 /* ==========================
-   FRENTE - VERSÃO SIMPLIFICADA
+   DESENHAR FRENTE
 ========================== */
-function desenharFrente(aluno) {
-  const fundo = new Image();
-  const foto = new Image();
-  
-  // URLs CORRETAS com I maiúsculo
-  const urlFundo = CONFIG.caminhoImagens + "modelo-frente.png";
-  const urlFoto = CONFIG.caminhoFotos + aluno.matricula + ".jpg";
-  
-  console.log("Carregando fundo:", urlFundo);
-  console.log("Carregando foto:", urlFoto);
-  
-  fundo.onload = function() {
-    console.log("✅ Fundo carregado com sucesso!");
-    ctxFrente.drawImage(fundo, 0, 0, canvasFrente.width, canvasFrente.height);
-    
-    foto.onload = function() {
-      console.log("✅ Foto carregada com sucesso!");
-      ctxFrente.drawImage(foto, 125, 195, 160, 180);
-      desenharTextos(aluno);
-    };
-    
-    foto.onerror = function() {
-      console.error("❌ Erro ao carregar foto:", urlFoto);
-      ctxFrente.fillStyle = "#ccc";
-      ctxFrente.fillRect(125, 195, 160, 180);
-      ctxFrente.fillStyle = "#666";
-      ctxFrente.font = "16px Arial";
-      ctxFrente.fillText("Foto", 185, 280);
-      ctxFrente.fillText(aluno.matricula, 175, 310);
-      desenharTextos(aluno);
-    };
-    
-    foto.src = urlFoto;
-  };
-  
-  fundo.onerror = function() {
-    console.error("❌ Erro ao carregar fundo:", urlFundo);
-    
-    // Desenha um fundo simples
-    ctxFrente.fillStyle = "#4a6fa5";
+async function desenharFrente(aluno) {
+  try {
+    // Cria um fundo básico primeiro
+    ctxFrente.fillStyle = "#ffffff";
     ctxFrente.fillRect(0, 0, canvasFrente.width, canvasFrente.height);
     
-    ctxFrente.fillStyle = "#fff";
-    ctxFrente.font = "bold 30px Arial";
-    ctxFrente.fillText("CARTEIRINHA ESTUDANTIL", 180, 100);
+    ctxFrente.fillStyle = "#4a6fa5";
+    ctxFrente.fillRect(0, 0, canvasFrente.width, 100);
     
-    // Área da foto
-    ctxFrente.fillStyle = "#fff";
-    ctxFrente.fillRect(120, 140, 170, 200);
-    ctxFrente.fillStyle = "#ccc";
-    ctxFrente.fillRect(125, 145, 160, 190);
+    ctxFrente.fillStyle = "#ffffff";
+    ctxFrente.font = "bold 32px Arial";
+    ctxFrente.fillText("CARTEIRINHA ESTUDANTIL", 180, 60);
     
-    // Carrega foto mesmo sem fundo
-    foto.onload = function() {
-      ctxFrente.drawImage(foto, 125, 145, 160, 190);
-    };
+    // Tenta carregar o modelo
+    try {
+      const fundo = await carregarImagem(CONFIG.caminhoImagens + "modelo-frente.png");
+      ctxFrente.drawImage(fundo, 0, 0, canvasFrente.width, canvasFrente.height);
+      console.log("Modelo frente carregado com sucesso");
+    } catch (err) {
+      console.log("Usando layout básico para frente");
+      // Continua com layout básico
+    }
     
-    foto.onerror = function() {
-      ctxFrente.fillStyle = "#999";
-      ctxFrente.fillRect(125, 145, 160, 190);
-      ctxFrente.fillStyle = "#666";
+    // Tenta carregar a foto
+    try {
+      const fotoUrl = CONFIG.caminhoFotos + aluno.matricula + ".jpg";
+      const foto = await carregarImagem(fotoUrl);
+      
+      // Desenha moldura da foto
+      ctxFrente.fillStyle = "#4a6fa5";
+      ctxFrente.fillRect(120, 140, 170, 210);
+      
+      // Desenha a foto
+      ctxFrente.save();
+      ctxFrente.beginPath();
+      ctxFrente.rect(125, 145, 160, 200);
+      ctxFrente.clip();
+      ctxFrente.drawImage(foto, 125, 145, 160, 200);
+      ctxFrente.restore();
+      
+      console.log("Foto do aluno carregada com sucesso");
+    } catch (err) {
+      console.log("Desenhando placeholder para foto");
+      ctxFrente.fillStyle = "#4a6fa5";
+      ctxFrente.fillRect(120, 140, 170, 210);
+      ctxFrente.fillStyle = "#cccccc";
+      ctxFrente.fillRect(125, 145, 160, 200);
+      ctxFrente.fillStyle = "#666666";
       ctxFrente.font = "16px Arial";
-      ctxFrente.fillText("FOTO", 180, 240);
-    };
+      ctxFrente.textAlign = "center";
+      ctxFrente.fillText("FOTO", 205, 235);
+      ctxFrente.fillText(aluno.matricula, 205, 255);
+      ctxFrente.textAlign = "left";
+    }
     
-    foto.src = urlFoto;
+    // Desenha os dados do aluno
+    ctxFrente.fillStyle = "#000000";
+    ctxFrente.font = "bold 28px Arial";
+    ctxFrente.fillText(aluno.nome, 320, 150);
     
-    desenharTextos(aluno);
-  };
-  
-  fundo.src = urlFundo;
+    ctxFrente.font = "22px Arial";
+    ctxFrente.fillText("Instituição: " + aluno.instituicao, 320, 200);
+    ctxFrente.fillText("Curso: " + aluno.curso, 320, 240);
+    ctxFrente.fillText("Cidade: " + aluno.cidade, 320, 280);
+    ctxFrente.fillText("Turno: " + aluno.turno, 320, 320);
+    ctxFrente.fillText("Validade: " + aluno.validade, 320, 360);
+    
+    // Matrícula vertical
+    ctxFrente.save();
+    ctxFrente.translate(80, 300);
+    ctxFrente.rotate(-Math.PI / 2);
+    ctxFrente.font = "bold 24px Arial";
+    ctxFrente.fillStyle = "#4a6fa5";
+    ctxFrente.fillText("MAT: " + aluno.matricula, 0, 0);
+    ctxFrente.restore();
+    
+  } catch (error) {
+    console.error("Erro ao desenhar frente:", error);
+    ctxFrente.fillStyle = "red";
+    ctxFrente.font = "20px Arial";
+    ctxFrente.fillText("Erro ao renderizar carteirinha", 250, 250);
+  }
 }
 
 /* ==========================
-   VERSO
+   DESENHAR VERSO
 ========================== */
-function desenharVerso() {
-  const fundo = new Image();
-  const urlFundo = CONFIG.caminhoImagens + "modelo-verso.png";
-  
-  console.log("Carregando verso:", urlFundo);
-  
-  fundo.onload = function() {
-    console.log("✅ Verso carregado com sucesso!");
-    ctxVerso.drawImage(fundo, 0, 0, canvasVerso.width, canvasVerso.height);
-  };
-  
-  fundo.onerror = function() {
-    console.error("❌ Erro ao carregar verso:", urlFundo);
-    ctxVerso.fillStyle = "#2c3e50";
+async function desenharVerso() {
+  try {
+    // Fundo básico
+    ctxVerso.fillStyle = "#ffffff";
     ctxVerso.fillRect(0, 0, canvasVerso.width, canvasVerso.height);
     
-    ctxVerso.fillStyle = "#fff";
-    ctxVerso.font = "bold 28px Arial";
-    ctxVerso.fillText("VERSO DA CARTEIRINHA", 220, 150);
+    ctxVerso.fillStyle = "#2c3e50";
+    ctxVerso.fillRect(0, 0, canvasVerso.width, 100);
     
-    ctxVerso.font = "18px Arial";
-    ctxVerso.fillText("Instituição: Educacional", 100, 220);
-    ctxVerso.fillText("Validade: 12/12/2026", 100, 260);
-    ctxVerso.fillText("Documento oficial", 100, 300);
-  };
-  
-  fundo.src = urlFundo;
+    ctxVerso.fillStyle = "#ffffff";
+    ctxVerso.font = "bold 32px Arial";
+    ctxVerso.fillText("VERSO", 350, 60);
+    
+    // Tenta carregar o modelo do verso
+    try {
+      const fundoVerso = await carregarImagem(CONFIG.caminhoImagens + "modelo-verso.png");
+      ctxVerso.drawImage(fundoVerso, 0, 0, canvasVerso.width, canvasVerso.height);
+      console.log("Modelo verso carregado com sucesso");
+    } catch (err) {
+      console.log("Usando layout básico para verso");
+      // Informações no verso
+      ctxVerso.fillStyle = "#000000";
+      ctxVerso.font = "18px Arial";
+      ctxVerso.fillText("DOCUMENTO VÁLIDO EM TODO TERRITÓRIO NACIONAL", 150, 180);
+      ctxVerso.fillText("Esta carteira é de uso pessoal e intransferível", 150, 220);
+      ctxVerso.fillText("Em caso de perda, comunicar à instituição imediatamente", 150, 260);
+      ctxVerso.fillText("Validade: 12/12/2026", 150, 300);
+      ctxVerso.fillText("Código de segurança: " + Math.random().toString(36).substr(2, 10).toUpperCase(), 150, 340);
+    }
+    
+  } catch (error) {
+    console.error("Erro ao desenhar verso:", error);
+  }
 }
 
-// Teste automático das URLs
-console.log("=== TESTE DE URLs ===");
-console.log("1. Frente:", CONFIG.caminhoImagens + "modelo-frente.png");
-console.log("2. Verso:", CONFIG.caminhoImagens + "modelo-verso.png");
-console.log("3. Foto 0001:", CONFIG.caminhoFotos + "0001.jpg");
-console.log("4. Foto 0002:", CONFIG.caminhoFotos + "0002.jpg");
+// Inicialização
+console.log("=== SISTEMA INICIADO ===");
+console.log("Configuração:", CONFIG);
+console.log("Alunos cadastrados:", alunos.length);
 
-// Teste rápido de carregamento
-const testImage = new Image();
-testImage.onload = function() {
-  console.log("✅ Teste: A pasta Imagens/ existe e é acessível");
-};
-testImage.onerror = function() {
-  console.error("❌ Teste: Não foi possível acessar Imagens/");
-  console.log("Verifique se o nome da pasta está correto: 'Imagens' com I maiúsculo");
-};
-testImage.src = CONFIG.caminhoImagens + "modelo-frente.png";
+// Testa automaticamente os caminhos ao carregar
+window.addEventListener('load', () => {
+  console.log("Página carregada, testando configurações...");
+  
+  // Testa um caminho para ver se acessa
+  const testImg = new Image();
+  testImg.crossOrigin = "anonymous";
+  testImg.onload = () => console.log("✅ Acesso à pasta Imagens funcionando");
+  testImg.onerror = () => console.log("⚠️  Pasta Imagens não acessível diretamente");
+  testImg.src = CONFIG.caminhoImagens + "modelo-frente.png";
+});
 </script>
 
 </body>
