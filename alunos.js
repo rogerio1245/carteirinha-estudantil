@@ -9,7 +9,7 @@ const alunos = [
     turno: "Noturno",
     validade: "12/12/2026"
   },
-{
+  {
     hash: "4914e1b9960e6236dfaacbad1b30c7996074fe980c6d9ea49bb87f65a6fb14ef",
     nome: "Estelionatária Souza",
     instituicao: "Ifal",
