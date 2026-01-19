@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Carteirinha Estudantil</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 220px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      display: block;
+      background: #ddd;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Carteirinha Estudantil</h2>
+
+<input type="text" id="cpf" placeholder="Digite seu CPF">
+<br>
+<button onclick="verificar()">Acessar</button>
+
+<!-- FRENTE -->
+<canvas id="frente" width="800" height="500"></canvas>
+
+<!-- VERSO -->
+<canvas id="verso" width="800" height="500"></canvas>
+
+<!-- Bibliotecas -->
+<script src="https://cdn.jsdelivr.net/npm/js-sha256"></script>
+<script src="alunos.js"></script>
+
+<script>
+/* ==========================
+   CANVAS
+========================== */
+const canvasFrente = document.getElementById("frente");
+const ctxFrente = canvasFrente.getContext("2d");
+
+const canvasVerso = document.getElementById("verso");
+const ctxVerso = canvasVerso.getContext("2d");
+
+/* ==========================
+   FUNÇÃO PRINCIPAL
+========================== */
+function verificar() {
+  const cpf = document.getElementById("cpf").value.replace(/\D/g, '');
+  const hash = sha256(cpf);
+
+  const aluno = alunos.find(a => a.hash === hash);
+
+  limpar();
+
+  if (!aluno) {
+    ctxFrente.font = "20px Arial";
+    ctxFrente.fillStyle = "red";
+    ctxFrente.fillText("Aluno não encontrado", 300, 250);
+    return;
+  }
+
+  desenharFrente(aluno);
+  desenharVerso();
+}
+
+/* ==========================
+   LIMPAR
+========================== */
+function limpar() {
+  ctxFrente.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
+  ctxVerso.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
+}
+
+/* ==========================
+   FRENTE (SEU CÓDIGO)
+========================== */
+function desenharFrente(aluno) {
+
+  const fundo = new Image();
+  fundo.src = "imagens/modelo-frente.png";
+
+  fundo.onload = function () {
+
+    // FUNDO
+    ctxFrente.drawImage(fundo, 0, 0, canvasFrente.width, canvasFrente.height);
+
+    // FOTO
+    const foto = new Image();
+    foto.src = "imagens/fotos/" + aluno.matricula + ".jpg";
+
+    foto.onload = function () {
+      ctxFrente.drawImage(foto, 125, 195, 160, 180);
+    };
+
+    // TEXTOS
+    ctxFrente.fillStyle = "#000";
+
+    ctxFrente.font = "bold 28px Arial";
+    ctxFrente.fillText(aluno.nome, 350, 130);
+
+    ctxFrente.font = "24px Arial";
+    ctxFrente.fillText("   " + aluno.instituicao, 450, 190);
+    ctxFrente.fillText("   " + aluno.curso, 450, 245);
+    ctxFrente.fillText("   " + aluno.cidade, 450, 300);
+    ctxFrente.fillText("   " + aluno.turno, 450, 357);
+    ctxFrente.fillText("   " + aluno.validade, 450, 420);
+
+    // MATRÍCULA VERTICAL
+    ctxFrente.save();
+    ctxFrente.translate(82, 320);
+    ctxFrente.rotate(-Math.PI / 2);
+    ctxFrente.font = "24px Arial";
+    ctxFrente.fillText("   " + aluno.matricula, 0, 0);
+    ctxFrente.restore();
+  };
+}
+
+/* ==========================
+   VERSO
+========================== */
+function desenharVerso() {
+
+  const fundo = new Image();
+  fundo.src = "imagens/modelo-verso.png";
+
+  fundo.onload = function () {
+    ctxVerso.drawImage(fundo, 0, 0, canvasVerso.width, canvasVerso.height);
+  };
+}
+</script>
+
+</body>
+</html>
