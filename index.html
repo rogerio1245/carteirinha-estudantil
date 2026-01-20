@@ -180,6 +180,10 @@
       }
     }
   </style>
+  
+  <!-- jsPDF library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body>
@@ -201,7 +205,7 @@
       <div class="buttons">
         <button class="btn-primary" onclick="gerarCarteirinha()">Gerar Carteirinha</button>
         <button class="btn-success" onclick="limparTudo()">Limpar</button>
-        <button class="btn-download" onclick="salvarCarteirinha()" id="btnSalvar">Salvar Carteirinha</button>
+        <button class="btn-download" onclick="salvarCarteirinhaPDF()" id="btnSalvar">Salvar Carteirinha (PDF)</button>
       </div>
       
       <div class="status-box visible" id="statusBox" style="border-left-color: rgb(76, 175, 80); background: rgb(232, 245, 233);">✅ Carteirinha gerada para: Aluno Teste</div>
@@ -282,6 +286,16 @@
   const btnSalvar = document.getElementById('btnSalvar');
   
   let alunoAtual = null;
+
+  // ============================================
+  // DIMENSÕES PARA PDF (tamanho real para impressão)
+  // ============================================
+  const DIMENSOES_PDF = {
+    // Dimensões aproximadas de uma carteirinha (8.56cm x 5.398cm em PDF)
+    largura: 203, // pontos (aproximadamente 8.56cm)
+    altura: 128,  // pontos (aproximadamente 5.398cm)
+    margem: 20    // margem entre as carteirinhas
+  };
 
   // ============================================
   // FUNÇÕES DE UTILIDADE
@@ -484,52 +498,71 @@
   }
 
   // ============================================
-  // FUNÇÃO PARA SALVAR CARTEIRINHA COMPLETA
+  // FUNÇÃO PARA SALVAR CARTEIRINHA EM PDF
   // ============================================
-  function salvarCarteirinha() {
+  async function salvarCarteirinhaPDF() {
     if (!alunoAtual) {
       mostrarStatus('Gere uma carteirinha primeiro!', 'error');
       return;
     }
     
     try {
-      // Criar um canvas temporário para juntar frente e verso
-      const canvasTemp = document.createElement('canvas');
-      const ctxTemp = canvasTemp.getContext('2d');
+      mostrarStatus('Gerando PDF... Aguarde.', 'info');
       
-      // Tamanho: frente + verso (uma embaixo da outra)
-      const espaco = 20; // espaço entre as carteirinhas
-      canvasTemp.width = Math.max(canvasFrente.width, canvasVerso.width);
-      canvasTemp.height = canvasFrente.height + canvasVerso.height + espaco;
+      // Criar um novo documento PDF
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
       
-      // Fundo branco
-      ctxTemp.fillStyle = 'white';
-      ctxTemp.fillRect(0, 0, canvasTemp.width, canvasTemp.height);
+      // Dimensões da página A4
+      const pageWidth = 210; // mm
+      const pageHeight = 297; // mm
       
-      // Desenhar frente
-      ctxTemp.drawImage(canvasFrente, 0, 0);
+      // Dimensões da carteirinha no PDF (tamanho real: ~8.56cm x 5.398cm)
+      const cardWidth = 85.6; // mm
+      const cardHeight = 53.98; // mm
       
-      // Desenhar verso embaixo
-      ctxTemp.drawImage(canvasVerso, 0, canvasFrente.height + espaco);
+      // Calcular posição para centralizar na página
+      const xPos = (pageWidth - cardWidth) / 2;
+      const yPosFrente = 50; // Posição da frente
+      const yPosVerso = yPosFrente + cardHeight + 20; // Posição do verso (com espaço)
       
-      // Adicionar texto informativo
-      ctxTemp.fillStyle = '#666';
-      ctxTemp.font = '14px Arial';
-      ctxTemp.textAlign = 'center';
-      ctxTemp.fillText(`Carteirinha de ${alunoAtual.nome} - Matrícula: ${alunoAtual.matricula}`, 
-                      canvasTemp.width/2, canvasTemp.height - 10);
+      // Converter canvas para imagens base64
+      const frenteDataURL = canvasFrente.toDataURL('image/png');
+      const versoDataURL = canvasVerso.toDataURL('image/png');
       
-      // Criar link para download
-      const link = document.createElement('a');
-      link.download = `carteirinha_${alunoAtual.matricula}_${alunoAtual.nome.replace(/\s+/g, '_')}.png`;
-      link.href = canvasTemp.toDataURL('image/png');
-      link.click();
+      // Adicionar frente da carteirinha
+      pdf.addImage(frenteDataURL, 'PNG', xPos, yPosFrente, cardWidth, cardHeight);
       
-      mostrarStatus('Carteirinha salva com sucesso!', 'success');
+      // Adicionar texto informativo abaixo da frente
+      pdf.setFontSize(10);
+      pdf.setTextColor(100, 100, 100);
+      pdf.text(`Frente - ${alunoAtual.nome} (Matrícula: ${alunoAtual.matricula})`, 
+               pageWidth/2, yPosFrente + cardHeight + 10, { align: 'center' });
+      
+      // Adicionar verso da carteirinha
+      pdf.addImage(versoDataURL, 'PNG', xPos, yPosVerso, cardWidth, cardHeight);
+      
+      // Adicionar texto informativo abaixo do verso
+      pdf.text(`Verso`, pageWidth/2, yPosVerso + cardHeight + 10, { align: 'center' });
+      
+      // Adicionar rodapé com informações
+      pdf.setFontSize(8);
+      pdf.text(`Gerado em: ${new Date().toLocaleDateString('pt-BR')} - Sistema de Carteirinha Estudantil`, 
+               pageWidth/2, pageHeight - 10, { align: 'center' });
+      
+      // Salvar o PDF
+      const nomeArquivo = `carteirinha_${alunoAtual.matricula}_${alunoAtual.nome.replace(/\s+/g, '_')}.pdf`;
+      pdf.save(nomeArquivo);
+      
+      mostrarStatus('PDF gerado com sucesso!', 'success');
       
     } catch (error) {
-      console.error('Erro ao salvar carteirinha:', error);
-      mostrarStatus('Erro ao salvar a carteirinha', 'error');
+      console.error('Erro ao gerar PDF:', error);
+      mostrarStatus('Erro ao gerar o PDF. Tente novamente.', 'error');
     }
   }
 
