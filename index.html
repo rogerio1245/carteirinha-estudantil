@@ -188,7 +188,7 @@
 <body>
   <div class="container">
     <header>
-      <h1>🎓 Carteirinha Estudantil 2026</h1>
+      <h1>🎓 Carteirinha Estudantil</h1>
       <p class="subtitle">Sistema Digital de Identificação Estudantil</p>
     </header>
     
@@ -236,7 +236,27 @@
   // ============================================
   // CONFIGURAÇÃO E DADOS
   // ============================================
- 
+  const alunos = [
+    {
+      hash: "a8476735b37a541a38402a2e7037c79e2d217fe9780e5e34347156ef61eff42b",
+      nome: "Aluno Teste",
+      instituicao: "Estácio",
+      curso: "Ensino Médio",
+      matricula: "0001",
+      cidade: "Anadia",
+      turno: "Noturno",
+      validade: "12/12/2026"
+    },
+    {
+      hash: "4914e1b9960e6236dfaacbad1b30c7996074fe980c6d9ea49bb87f65a6fb14ef",
+      nome: "Estelionatária Souza",
+      instituicao: "Ifal",
+      curso: "Letras",
+      matricula: "0002",
+      cidade: "Anadia",
+      turno: "Matutino",
+      validade: "12/12/2026"
+    }
   ];
 
   // ============================================
@@ -307,9 +327,7 @@
       statusBox.style.background = '#e3f2fd';
     }
   }
-<script src="alunos.js?v=1.3"></script>
 
-<script>
   function mostrarInfoImagens(mensagem, sucesso) {
     imageInfo.textContent = mensagem;
     imageInfo.className = sucesso ? 'image-info success' : 'image-info error';
@@ -414,8 +432,8 @@
     ctx.textAlign = 'left';
     
     // Nome do aluno (campo superior direito) - AJUSTADO
-    ctx.font = 'bold 18px Arial';
-    ctx.fillText(aluno.nome.toUpperCase(), 330, 130);
+    ctx.font = 'bold 28px Arial';
+    ctx.fillText(aluno.nome.toUpperCase(), 370, 130);
     
     // Demais dados (alinhados verticalmente) - AJUSTADOS
     ctx.font = '24px Arial';
@@ -657,14 +675,6 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
 
 
 
