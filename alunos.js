@@ -11,7 +11,7 @@ const alunos = [
   },
   {
     hash: "4914e1b9960e6236dfaacbad1b30c7996074fe980c6d9ea49bb87f65a6fb14ef",
-    nome: "Estelionatária Souza",
+    nome: "BARBARA GABRIELLY CERQUEIRA DOS SANTOS",
     instituicao: "Ifal",
     curso: "Letras",
     matricula: "0002",
@@ -20,4 +20,5 @@ const alunos = [
     validade: "12/12/2026"
   }
 ];
+
 
