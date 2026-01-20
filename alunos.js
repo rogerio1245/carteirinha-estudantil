@@ -1,12 +1,12 @@
 const alunos = [
   {
     hash: "a8476735b37a541a38402a2e7037c79e2d217fe9780e5e34347156ef61eff42b",
-    nome: "Aluno Teste",
+    nome: "BARBARA GABRIELLY CERQUEIRA DOS SANTOS",
     instituicao: "Estácio",
-    curso: "Ensino Médio",
+    curso: "TEC. EM ENFERMAGEM E LETRAS PORTUGUÊS",
     matricula: "0001",
-    cidade: "Anadia",
-    turno: "Noturno",
+    cidade: "SÃO MIGUEL DOS CAMPOS",
+    turno: "VESPERTINO/NOTURNO",
     validade: "12/12/2026"
   },
   {
@@ -20,3 +20,4 @@ const alunos = [
     validade: "12/12/2026"
   }
 ];
+
