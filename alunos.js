@@ -26,13 +26,14 @@ const alunos = [
     nome: "ISABEL RIBEIRO E SILVA",
     instituicao: "UNIMA AFYA",
     curso: "PSICOLOGA",
-    matricula: "0002",
+    matricula: "0003",
     cidade: "MACEIÓ",
     turno: "NOTURNO",
     validade: "12/12/2026"
  
   },
 ];
+
 
 
 
