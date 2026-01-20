@@ -102,22 +102,12 @@
     .btn-download {
       background: #ff9800;
       color: white;
+      display: none;
     }
     
     button:hover {
       opacity: 0.9;
       transform: translateY(-2px);
-    }
-    
-    .download-section {
-      display: none;
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 2px dashed #ddd;
-    }
-    
-    .download-section.visible {
-      display: block;
     }
     
     .status-box {
@@ -138,16 +128,14 @@
     .canvas-container {
       position: relative;
       margin: 20px 0;
-      display: inline-block;
     }
     
     canvas {
+      width: 100%;
+      height: auto;
       border: 2px solid #e0e0e0;
       border-radius: 10px;
       background: white;
-      /* Dimensões aproximadas da CNG digital */
-      width: 397px;
-      height: 248px;
     }
     
     .image-info {
@@ -167,25 +155,6 @@
     .image-info.error {
       background: #ffebee;
       border-left: 4px solid #f44336;
-    }
-    
-    .carteirinhas-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    
-    .carteirinha-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .carteirinha-item h4 {
-      margin-bottom: 10px;
-      color: #333;
     }
     
     @media (max-width: 768px) {
@@ -208,17 +177,6 @@
       button {
         width: 100%;
         max-width: 300px;
-      }
-      
-      .carteirinhas-container {
-        flex-direction: column;
-      }
-      
-      canvas {
-        width: 100%;
-        max-width: 397px;
-        height: auto;
-        aspect-ratio: 397/248;
       }
     }
   </style>
@@ -243,6 +201,7 @@
       <div class="buttons">
         <button class="btn-primary" onclick="gerarCarteirinha()">Gerar Carteirinha</button>
         <button class="btn-success" onclick="limparTudo()">Limpar</button>
+        <button class="btn-download" onclick="salvarCarteirinha()" id="btnSalvar">Salvar Carteirinha</button>
       </div>
       
       <div class="status-box visible" id="statusBox" style="border-left-color: rgb(76, 175, 80); background: rgb(232, 245, 233);">✅ Carteirinha gerada para: Aluno Teste</div>
@@ -251,30 +210,19 @@
 ✅ Modelo verso carregado
 ✅ Foto carregada
 </div>
-      
-      <div class="download-section" id="downloadSection">
-        <h3>📥 Baixar Carteirinha</h3>
-        <div class="buttons">
-          <button class="btn-download" onclick="salvarFrente()">Salvar Frente</button>
-          <button class="btn-download" onclick="salvarVerso()">Salvar Verso</button>
-          <button class="btn-download" onclick="salvarAmbas()">Salvar Ambas</button>
-        </div>
+    </div>
+    
+    <div class="card">
+      <h3>Frente da Carteirinha</h3>
+      <div class="canvas-container">
+        <canvas id="frente" width="800" height="500"></canvas>
       </div>
     </div>
     
-    <div class="carteirinhas-container" id="carteirinhasContainer">
-      <div class="carteirinha-item">
-        <h4>Frente da Carteirinha</h4>
-        <div class="canvas-container">
-          <canvas id="frente" width="397" height="248"></canvas>
-        </div>
-      </div>
-      
-      <div class="carteirinha-item">
-        <h4>Verso da Carteirinha</h4>
-        <div class="canvas-container">
-          <canvas id="verso" width="397" height="248"></canvas>
-        </div>
+    <div class="card">
+      <h3>Verso da Carteirinha</h3>
+      <div class="canvas-container">
+        <canvas id="verso" width="800" height="500"></canvas>
       </div>
     </div>
   </div>
@@ -316,8 +264,8 @@
     caminhoFotos: "./Imagens/fotos/",
     
     placeholders: {
-      frente: "https://via.placeholder.com/397x248/4a6fa5/ffffff?text=CARTEIRINHA+ESTUDANTIL",
-      verso: "https://via.placeholder.com/397x248/2c3e50/ffffff?text=VERSO+DA+CARTEIRINHA",
+      frente: "https://via.placeholder.com/800x500/4a6fa5/ffffff?text=CARTEIRINHA+ESTUDANTIL",
+      verso: "https://via.placeholder.com/800x500/2c3e50/ffffff?text=VERSO+DA+CARTEIRINHA",
       foto: (matricula) => `https://ui-avatars.com/api/?name=Aluno&background=4a6fa5&color=fff&size=256&bold=true&length=1`
     }
   };
@@ -331,8 +279,7 @@
   const ctxVerso = canvasVerso.getContext('2d');
   const statusBox = document.getElementById('statusBox');
   const imageInfo = document.getElementById('imageInfo');
-  const downloadSection = document.getElementById('downloadSection');
-  const carteirinhasContainer = document.getElementById('carteirinhasContainer');
+  const btnSalvar = document.getElementById('btnSalvar');
   
   let alunoAtual = null;
 
@@ -413,11 +360,11 @@
   }
 
   // ============================================
-  // DESENHO DA CARTEIRINHA - DIMENSÕES CNG
+  // DESENHO DA CARTEIRINHA - COORDENADAS ORIGINAIS
   // ============================================
   function desenharFrenteBasica(ctx, aluno, fundo = null, foto = null) {
-    const largura = ctx.canvas.width;  // 397
-    const altura = ctx.canvas.height;  // 248
+    const largura = ctx.canvas.width;
+    const altura = ctx.canvas.height;
     
     // Limpa tudo
     ctx.clearRect(0, 0, largura, altura);
@@ -435,17 +382,17 @@
       ctx.fillRect(0, 0, largura, altura);
       
       ctx.fillStyle = 'white';
-      ctx.font = 'bold 18px Arial';
+      ctx.font = 'bold 32px Arial';
       ctx.textAlign = 'center';
-      ctx.fillText('CARTEIRINHA ESTUDANTIL', largura/2, 30);
+      ctx.fillText('CARTEIRINHA ESTUDANTIL', largura/2, 60);
       ctx.textAlign = 'left';
     }
     
-    // ÁREA DA FOTO - COORDENADAS AJUSTADAS PARA O MODELO CNG
-    const fotoX = 25;   // Posição X da foto no modelo CNG
-    const fotoY = 80;   // Posição Y da foto no modelo CNG
-    const fotoW = 70;   // Largura da área da foto
-    const fotoH = 80;   // Altura da área da foto
+    // ÁREA DA FOTO - COORDENADAS ORIGINAIS
+    const fotoX = 125;  // Posição X da foto no modelo
+    const fotoY = 195;  // Posição Y da foto no modelo
+    const fotoW = 160;  // Largura da área da foto
+    const fotoH = 180;  // Altura da área da foto
     
     // Foto do aluno ou placeholder
     if (foto && foto.sucesso) {
@@ -467,26 +414,30 @@
       desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, aluno.matricula);
     }
     
-    // DADOS DO ALUNO - COORDENADAS AJUSTADAS PARA CNG
-    ctx.fillStyle = '#000';
+    // DADOS DO ALUNO - COORDENADAS ORIGINAIS (ajustadas para direita)
+    ctx.fillStyle = '#000'; // Cor preta para boa legibilidade
     ctx.textAlign = 'left';
     
-    // Nome do aluno (ajustado para CNG)
-    ctx.font = 'bold 14px Arial';
-    ctx.fillText(aluno.nome.toUpperCase(), 110, 70);
+    // Nome do aluno (campo superior direito) - AJUSTADO
+    ctx.font = 'bold 28px Arial';
+    ctx.fillText(aluno.nome.toUpperCase(), 370, 130);
     
-    // Demais dados (ajustados para CNG)
-    ctx.font = '12px Arial';
-    ctx.fillText(`Instituição: ${aluno.instituicao}`, 110, 95);
-    ctx.fillText(`Curso: ${aluno.curso}`, 110, 115);
-    ctx.fillText(`Cidade: ${aluno.cidade}`, 110, 135);
-    ctx.fillText(`Turno: ${aluno.turno}`, 110, 155);
-    ctx.fillText(`Validade: ${aluno.validade}`, 110, 175);
+    // Demais dados (alinhados verticalmente) - AJUSTADOS
+    ctx.font = '24px Arial';
+    ctx.fillText(aluno.instituicao, 470, 190);   // Instituição
+    ctx.fillText(aluno.curso, 470, 245);         // Curso
+    ctx.fillText(aluno.cidade, 470, 300);        // Cidade
+    ctx.fillText(aluno.turno, 470, 357);         // Turno
+    ctx.fillText(aluno.validade, 470, 420);      // Validade
     
-    // Matrícula no canto inferior
-    ctx.font = '10px Arial';
+    // MATRÍCULA VERTICAL (lado esquerdo)
+    ctx.save();
+    ctx.translate(82, 320);
+    ctx.rotate(-Math.PI / 2);
+    ctx.font = '24px Arial';
     ctx.fillStyle = '#4a6fa5';
-    ctx.fillText(`Matrícula: ${aluno.matricula}`, 25, 220);
+    ctx.fillText(aluno.matricula, 0, 0);
+    ctx.restore();
   }
 
   function desenharVersoBasico(ctx, fundo = null) {
@@ -506,9 +457,9 @@
       ctx.fillRect(0, 0, largura, altura);
       
       ctx.fillStyle = 'white';
-      ctx.font = 'bold 16px Arial';
+      ctx.font = 'bold 28px Arial';
       ctx.textAlign = 'center';
-      ctx.fillText('VERSO DA CARTEIRINHA', largura/2, 40);
+      ctx.fillText('VERSO DA CARTEIRINHA', largura/2, 80);
     }
   }
 
@@ -521,55 +472,65 @@
     ctx.fillRect(x, y, w, h);
     
     ctx.fillStyle = 'white';
-    ctx.font = 'bold 24px Arial';
+    ctx.font = 'bold 60px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('👤', x + w/2, y + h/2 - 10);
+    ctx.fillText('👤', x + w/2, y + h/2 - 20);
     
-    ctx.font = '8px Arial';
-    ctx.fillText(matricula, x + w/2, y + h/2 + 20);
+    ctx.font = '20px Arial';
+    ctx.fillText(matricula, x + w/2, y + h/2 + 40);
     ctx.textAlign = 'left';
     ctx.textBaseline = 'alphabetic';
   }
 
   // ============================================
-  // FUNÇÕES PARA SALVAR CARTEIRINHA
+  // FUNÇÃO PARA SALVAR CARTEIRINHA COMPLETA
   // ============================================
-  function salvarCanvas(canvas, nomeArquivo) {
-    const link = document.createElement('a');
-    link.download = nomeArquivo;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  }
-
-  function salvarFrente() {
+  function salvarCarteirinha() {
     if (!alunoAtual) {
       mostrarStatus('Gere uma carteirinha primeiro!', 'error');
       return;
     }
-    salvarCanvas(canvasFrente, `carteirinha_frente_${alunoAtual.matricula}.png`);
-    mostrarStatus('Frente da carteirinha salva!', 'success');
-  }
-
-  function salvarVerso() {
-    if (!alunoAtual) {
-      mostrarStatus('Gere uma carteirinha primeiro!', 'error');
-      return;
+    
+    try {
+      // Criar um canvas temporário para juntar frente e verso
+      const canvasTemp = document.createElement('canvas');
+      const ctxTemp = canvasTemp.getContext('2d');
+      
+      // Tamanho: frente + verso (uma embaixo da outra)
+      const espaco = 20; // espaço entre as carteirinhas
+      canvasTemp.width = Math.max(canvasFrente.width, canvasVerso.width);
+      canvasTemp.height = canvasFrente.height + canvasVerso.height + espaco;
+      
+      // Fundo branco
+      ctxTemp.fillStyle = 'white';
+      ctxTemp.fillRect(0, 0, canvasTemp.width, canvasTemp.height);
+      
+      // Desenhar frente
+      ctxTemp.drawImage(canvasFrente, 0, 0);
+      
+      // Desenhar verso embaixo
+      ctxTemp.drawImage(canvasVerso, 0, canvasFrente.height + espaco);
+      
+      // Adicionar texto informativo
+      ctxTemp.fillStyle = '#666';
+      ctxTemp.font = '14px Arial';
+      ctxTemp.textAlign = 'center';
+      ctxTemp.fillText(`Carteirinha de ${alunoAtual.nome} - Matrícula: ${alunoAtual.matricula}`, 
+                      canvasTemp.width/2, canvasTemp.height - 10);
+      
+      // Criar link para download
+      const link = document.createElement('a');
+      link.download = `carteirinha_${alunoAtual.matricula}_${alunoAtual.nome.replace(/\s+/g, '_')}.png`;
+      link.href = canvasTemp.toDataURL('image/png');
+      link.click();
+      
+      mostrarStatus('Carteirinha salva com sucesso!', 'success');
+      
+    } catch (error) {
+      console.error('Erro ao salvar carteirinha:', error);
+      mostrarStatus('Erro ao salvar a carteirinha', 'error');
     }
-    salvarCanvas(canvasVerso, `carteirinha_verso_${alunoAtual.matricula}.png`);
-    mostrarStatus('Verso da carteirinha salvo!', 'success');
-  }
-
-  function salvarAmbas() {
-    if (!alunoAtual) {
-      mostrarStatus('Gere uma carteirinha primeiro!', 'error');
-      return;
-    }
-    salvarCanvas(canvasFrente, `carteirinha_frente_${alunoAtual.matricula}.png`);
-    setTimeout(() => {
-      salvarCanvas(canvasVerso, `carteirinha_verso_${alunoAtual.matricula}.png`);
-      mostrarStatus('Ambas as faces salvas!', 'success');
-    }, 100);
   }
 
   // ============================================
@@ -615,13 +576,12 @@
       
       mostrarInfoImagens(infoMsg, frenteResult.sucesso || versoResult.sucesso || fotoResult.sucesso);
       
-      // Desenha as carteirinhas
+      // Desenha as carteirinhas com coordenadas ajustadas
       desenharFrenteBasica(ctxFrente, alunoAtual, frenteResult, fotoResult);
       desenharVersoBasico(ctxVerso, versoResult);
       
-      // Mostra a seção de download
-      downloadSection.classList.add('visible');
-      carteirinhasContainer.style.display = 'flex';
+      // Mostra botão de salvar
+      btnSalvar.style.display = 'inline-block';
       
       mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome}`, 'success');
       
@@ -639,8 +599,7 @@
     ctxVerso.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
     statusBox.classList.remove('visible');
     imageInfo.textContent = '';
-    downloadSection.classList.remove('visible');
-    carteirinhasContainer.style.display = 'none';
+    btnSalvar.style.display = 'none';
     document.getElementById('cpf').value = '';
     alunoAtual = null;
     mostrarStatus('Sistema limpo. Digite um CPF para começar.', 'info');
@@ -662,9 +621,6 @@
         gerarCarteirinha();
       }
     });
-    
-    // Esconde a seção de carteirinhas inicialmente
-    carteirinhasContainer.style.display = 'none';
     
     setTimeout(() => {
       mostrarStatus('Sistema pronto. Digite um CPF para gerar sua carteirinha.', 'info');
