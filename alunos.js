@@ -3,7 +3,7 @@ const alunos = [
     hash: "a8476735b37a541a38402a2e7037c79e2d217fe9780e5e34347156ef61eff42b",
     nome: "BARBARA GABRIELLY CERQUEIRA DOS SANTOS",
     instituicao: "Estácio",
-    curso: "TEC. EM ENFERMAGEM E LETRAS PORTUGUÊS",
+    curso: "QUÍMICA TECNOLÓGICA E INDUSTRIAL",
     matricula: "0001",
     cidade: "SÃO MIGUEL DOS CAMPOS",
     turno: "VESPERTINO/NOTURNO",
@@ -20,5 +20,6 @@ const alunos = [
     validade: "12/12/2026"
   }
 ];
+
 
 
