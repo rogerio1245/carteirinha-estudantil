@@ -110,6 +110,12 @@
       transform: translateY(-2px);
     }
     
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
     .status-box {
       background: #e3f2fd;
       border-left: 4px solid #1a237e;
@@ -202,7 +208,7 @@
       </div>
       
       <div class="buttons">
-        <button class="btn-primary" onclick="gerarCarteirinha()">Gerar Carteirinha</button>
+        <button class="btn-primary" onclick="gerarCarteirinha()" id="btnGerar">Gerar Carteirinha</button>
         <button class="btn-success" onclick="limparTudo()">Limpar</button>
         <button class="btn-download" onclick="salvarCarteirinhaPDF()" id="btnSalvar">Salvar Carteirinha (PDF)</button>
       </div>
@@ -259,6 +265,7 @@
   const statusBox = document.getElementById('statusBox');
   const imageInfo = document.getElementById('imageInfo');
   const btnSalvar = document.getElementById('btnSalvar');
+  const btnGerar = document.getElementById('btnGerar');
   
   let alunoAtual = null;
 
@@ -310,17 +317,19 @@
   }
 
   // ============================================
-  // FUNÇÃO PRINCIPAL - CARREGAR IMAGEM
+  // FUNÇÃO PRINCIPAL - CARREGAR IMAGEM (OTIMIZADA)
   // ============================================
   function carregarImagemComDetalhes(url, tipo) {
     return new Promise((resolve) => {
-      console.log(`🔄 Tentando carregar: ${url}`);
+      // Console.log removido para melhor performance
+      // console.log(`🔄 Tentando carregar: ${url}`);
       
       const img = new Image();
       img.crossOrigin = 'anonymous';
       
       img.onload = function() {
-        console.log(`✅ Imagem carregada: ${url} (${img.width}x${img.height})`);
+        // Console.log removido para melhor performance
+        // console.log(`✅ Imagem carregada: ${url} (${img.width}x${img.height})`);
         resolve({
           sucesso: true,
           imagem: img,
@@ -332,7 +341,8 @@
       };
       
       img.onerror = function(e) {
-        console.error(`❌ Falha ao carregar: ${url}`, e);
+        // Console.error removido para melhor performance
+        // console.error(`❌ Falha ao carregar: ${url}`, e);
         resolve({
           sucesso: false,
           imagem: null,
@@ -556,7 +566,7 @@
   }
 
   // ============================================
-  // FUNÇÃO PRINCIPAL - GERAR CARTEIRINHA
+  // FUNÇÃO PRINCIPAL - GERAR CARTEIRINHA (OTIMIZADA)
   // ============================================
   async function gerarCarteirinha() {
     const cpfInput = document.getElementById('cpf');
@@ -569,7 +579,12 @@
       return;
     }
     
-    mostrarStatus('Processando... Aguarde.', 'info');
+    // Desativar botão enquanto processa (feedback visual)
+    const originalText = btnGerar.textContent;
+    btnGerar.textContent = 'Processando...';
+    btnGerar.disabled = true;
+    
+    mostrarStatus('Carregando imagens e dados... Aguarde.', 'info');
     
     try {
       cpfInput.value = formatarCPF(cpf);
@@ -579,26 +594,21 @@
       
       if (!alunoAtual) {
         mostrarStatus('Aluno não encontrado. Verifique o CPF.', 'error');
+        btnGerar.textContent = originalText;
+        btnGerar.disabled = false;
         return;
       }
       
       mostrarStatus(`Carregando dados de: ${alunoAtual.nome}`, 'info');
       
+      // Carregar imagens em paralelo
       const [frenteResult, versoResult, fotoResult] = await Promise.all([
         carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-frente.png', 'frente'),
         carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso.png', 'verso'),
         carregarImagemComDetalhes(CONFIG.caminhoFotos + alunoAtual.matricula + '.JPG', 'foto')
       ]);
       
-      // Informações de debug
-     // let infoMsg = '';
-     // infoMsg += frenteResult.sucesso ? '✅ Modelo frente carregado\n' : '❌ Modelo frente não encontrado\n';
-      //infoMsg += versoResult.sucesso ? '✅ Modelo verso carregado\n' : '❌ Modelo verso não encontrado\n';
-      //infoMsg += fotoResult.sucesso ? '✅ Foto carregada\n' : '❌ Foto não encontrado\n';
-      
-     // mostrarInfoImagens(infoMsg, frenteResult.sucesso || versoResult.sucesso || fotoResult.sucesso);
-      
-      // Desenha as carteirinhas com coordenadas ajustadas
+      // Desenha as carteirinhas
       desenharFrenteBasica(ctxFrente, alunoAtual, frenteResult, fotoResult);
       desenharVersoBasico(ctxVerso, versoResult);
       
@@ -610,6 +620,10 @@
     } catch (error) {
       console.error('Erro crítico:', error);
       mostrarStatus('Erro ao processar. Tente novamente.', 'error');
+    } finally {
+      // Reativar o botão independente do resultado
+      btnGerar.textContent = originalText;
+      btnGerar.disabled = false;
     }
   }
 
@@ -624,6 +638,11 @@
     btnSalvar.style.display = 'none';
     document.getElementById('cpf').value = '';
     alunoAtual = null;
+    
+    // Garantir que o botão de gerar esteja ativo
+    btnGerar.disabled = false;
+    btnGerar.textContent = 'Gerar Carteirinha';
+    
     mostrarStatus('Sistema limpo. Digite um CPF para começar.', 'info');
   }
 
@@ -651,11 +670,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
