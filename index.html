@@ -588,7 +588,7 @@
       const [frenteResult, versoResult, fotoResult] = await Promise.all([
         carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-frente.png', 'frente'),
         carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso.png', 'verso'),
-        carregarImagemComDetalhes(CONFIG.caminhoFotos + alunoAtual.matricula + '.jpg', 'foto')
+        carregarImagemComDetalhes(CONFIG.caminhoFotos + alunoAtual.matricula + '.JPG', 'foto')
       ]);
       
       // Informações de debug
@@ -652,6 +652,7 @@
   </script>
 </body>
 </html>
+
 
 
 
