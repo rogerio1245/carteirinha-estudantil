@@ -591,12 +591,12 @@
       ]);
       
       // Informações de debug
-      let infoMsg = '';
-      infoMsg += frenteResult.sucesso ? '✅ Modelo frente carregado\n' : '❌ Modelo frente não encontrado\n';
-      infoMsg += versoResult.sucesso ? '✅ Modelo verso carregado\n' : '❌ Modelo verso não encontrado\n';
-      infoMsg += fotoResult.sucesso ? '✅ Foto carregada\n' : '❌ Foto não encontrado\n';
+     // let infoMsg = '';
+     // infoMsg += frenteResult.sucesso ? '✅ Modelo frente carregado\n' : '❌ Modelo frente não encontrado\n';
+      //infoMsg += versoResult.sucesso ? '✅ Modelo verso carregado\n' : '❌ Modelo verso não encontrado\n';
+      //infoMsg += fotoResult.sucesso ? '✅ Foto carregada\n' : '❌ Foto não encontrado\n';
       
-      mostrarInfoImagens(infoMsg, frenteResult.sucesso || versoResult.sucesso || fotoResult.sucesso);
+     // mostrarInfoImagens(infoMsg, frenteResult.sucesso || versoResult.sucesso || fotoResult.sucesso);
       
       // Desenha as carteirinhas com coordenadas ajustadas
       desenharFrenteBasica(ctxFrente, alunoAtual, frenteResult, fotoResult);
@@ -651,6 +651,7 @@
   </script>
 </body>
 </html>
+
 
 
 
