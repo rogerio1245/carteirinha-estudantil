@@ -235,12 +235,46 @@
    </div>
   </div>
 
-  <!-- Importa os dados dos alunos do arquivo externo -->
-  <script src="alunos.js"></script>
-  
+  <!-- SHA256 library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
   
   <script>
+  // ============================================
+  // DADOS DOS ALUNOS (agora incluído no arquivo HTML)
+  // ============================================
+  var alunos = [
+    {
+      hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", // hash do CPF "teste"
+      nome: "Aluno Teste",
+      matricula: "2024001",
+      instituicao: "Instituição de Ensino Teste",
+      curso: "Curso Teste",
+      cidade: "Cidade Teste",
+      turno: "MATUTINO",
+      validade: "31/12/2025"
+    },
+    {
+      hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", // mesmo CPF, curso diferente
+      nome: "Aluno Teste",
+      matricula: "2024001",
+      instituicao: "Outra Instituição",
+      curso: "Segundo Curso",
+      cidade: "Outra Cidade",
+      turno: "VESPERTINO",
+      validade: "30/06/2026"
+    },
+    {
+      hash: "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35", // hash do CPF "12345678909"
+      nome: "Maria Silva",
+      matricula: "2024002",
+      instituicao: "Universidade Federal",
+      curso: "Medicina",
+      cidade: "São Paulo",
+      turno: "INTEGRAL",
+      validade: "31/12/2026"
+    }
+  ];
+
   // ============================================
   // CONFIGURAÇÃO
   // ============================================
@@ -742,6 +776,7 @@
   // ============================================
   document.addEventListener('DOMContentLoaded', function() {
     console.log('🎓 Sistema de Carteirinha iniciado');
+    console.log('📊 Alunos carregados:', alunos.length);
     
     // Adicionar listener para capturar erros não tratados
     window.addEventListener('error', function(e) {
@@ -762,6 +797,11 @@
         gerarCarteirinha();
       }
     });
+    
+    // Testar o sistema com dados de exemplo
+    console.log('📋 Dados de teste disponíveis:');
+    console.log('- CPF: "teste" (hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855)');
+    console.log('- CPF: "12345678909" (hash: d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35)');
     
     setTimeout(() => {
       mostrarStatus('Sistema pronto. Digite um CPF para gerar sua carteirinha.', 'info');
