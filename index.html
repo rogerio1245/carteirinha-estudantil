@@ -1,767 +1,2733 @@
+
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Relatórios Escolares</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Menu de Navegação */
+        .navigation {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            color: #495057;
+            border: 2px solid transparent;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .nav-btn:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn.active {
+            background: #2196F3;
+            color: white;
+            border-color: #0b7dda;
+        }
+        
+        /* Cabeçalho */
+        .school-header {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+        
+        .school-header h1 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .school-header h2 {
+            color: #e74c3c;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .school-header h3 {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .school-header .date {
+            color: #95a5a6;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        
+        /* Controles Comuns */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .file-upload {
+            position: relative;
+            display: inline-block;
+        }
+        
+        #fileInput {
+            display: none;
+        }
+        
+        .file-label {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .file-label:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+        
+        button {
+            padding: 12px 25px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+        
+        button:hover {
+            background: #0b7dda;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+        }
+        
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Botão de salvar com menu dropdown */
+        .save-btn {
+            background: #4CAF50;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            position: relative;
+        }
+        
+        .save-btn:hover {
+            background: #45a049;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+        
+        .save-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            min-width: 180px;
+            z-index: 1000;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .save-dropdown.show {
+            display: block;
+        }
+        
+        .save-option {
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .save-option:last-child {
+            border-bottom: none;
+        }
+        
+        .save-option:hover {
+            background: #f5f5f5;
+            color: #2196F3;
+        }
+        
+        .save-option.pdf {
+            color: #e74c3c;
+        }
+        
+        .save-option.excel {
+            color: #2e7d32;
+        }
+        
+        .save-option.png {
+            color: #2196F3;
+        }
+        
+        .save-option.html {
+            color: #f57c00;
+        }
+        
+        /* Mensagens */
+        .status-message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-left: 5px solid #4CAF50;
+        }
+        
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+            border-left: 5px solid #f44336;
+        }
+        
+        .loading {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border-left: 5px solid #2196F3;
+        }
+        
+        /* Controles de Filtro (Relatório 1) */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            align-items: center;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: #9c27b0;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+        }
+        
+        .filter-btn:hover {
+            background: #7b1fa2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(156, 39, 176, 0.4);
+        }
+        
+        .filter-btn.active {
+            background: #6a1b9a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(106, 27, 154, 0.5);
+        }
+        
+        .current-filter {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        /* Controles de Filtro (Relatório 2, 3 e 4) */
+        .filters-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .filter-label {
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .subject-selector, .class-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .subject-btn, .class-btn {
+            padding: 8px 15px;
+            background: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+        
+        .subject-btn.active, .class-btn.active {
+            background: #3498db;
+        }
+        
+        .subject-btn:hover, .class-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Estilos para o Relatório 1 */
+        .summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        
+        .summary-card {
+            flex: 1;
+            min-width: 200px;
+            background: linear-gradient(135deg, #2196F3, #21CBF3);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+        
+        .summary-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .summary-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: #2196F3;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 25px;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 25px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f1f8ff;
+        }
+        
+        .math-score {
+            color: #e91e63;
+            font-weight: 600;
+        }
+        
+        .portuguese-score {
+            color: #9c27b0;
+            font-weight: 600;
+        }
+        
+        .average-score {
+            color: #2196F3;
+            font-weight: 700;
+        }
+        
+        .score-excellent {
+            color: #4CAF50;
+        }
+        
+        .score-good {
+            color: #FF9800;
+        }
+        
+        .score-poor {
+            color: #F44336;
+        }
+        
+        .not-realized {
+            color: #95a5a6;
+            font-style: italic;
+        }
+        
+        /* Estilos para o Relatório 2 */
+        .student-report {
+            margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .student-header {
+            background: #34495e;
+            color: white;
+            padding: 20px;
+        }
+        
+        .student-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+        
+        .student-header p {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .question-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .question-table th {
+            background: #2c3e50;
+            padding: 12px;
+            font-size: 0.9rem;
+            text-align: left;
+            color: white;
+        }
+        
+        .question-table td {
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .correct {
+            background-color: #e8f5e9;
+        }
+        
+        .incorrect {
+            background-color: #ffebee;
+        }
+        
+        .correct .result {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .incorrect .result {
+            font-weight: bold;
+            color: #F44336;
+        }
+        
+        .subject-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #78909c;
+            color: white;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .report-summary {
+            background: #f5f5f5;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2196F3;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .current-filters {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        /* Estilos para o Relatório 3 (Consolidado) */
+        .consolidated-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .consolidated-table th {
+            background: #2c3e50;
+            padding: 15px;
+            font-size: 1rem;
+            text-align: left;
+            color: white;
+            border-bottom: 2px solid #34495e;
+        }
+        
+        .consolidated-table td {
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .consolidated-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .consolidated-table tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .percentage-cell {
+            font-weight: bold;
+        }
+        
+        .percentage-high {
+            color: #4CAF50;
+        }
+        
+        .percentage-medium {
+            color: #FF9800;
+        }
+        
+        .percentage-low {
+            color: #F44336;
+        }
+
+        .materia-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .badge-matematica {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-portugues {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        
+        .consolidated-summary-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .consolidated-stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            min-width: 150px;
+        }
+        
+        .consolidated-stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2196F3;
+        }
+        
+        .consolidated-stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Estilos para o Relatório 4 (Gráfico) */
+        .chart-container {
+            position: relative;
+            height: 600px;
+            margin: 30px 0;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
+        }
+        
+        .chart-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .legend-color {
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            border: 2px solid rgba(0,0,0,0.1);
+        }
+        
+        .legend-acertos {
+            background-color: #2196F3;
+        }
+        
+        .legend-erros {
+            background-color: #F44336;
+        }
+        
+        /* Estilos específicos para botões de matéria */
+        .subject-btn.portugues {
+            background: #e67e22;
+        }
+
+        .subject-btn.portugues.active {
+            background: #d35400;
+        }
+
+        .subject-btn.matematica {
+            background: #27ae60;
+        }
+
+        .subject-btn.matematica.active {
+            background: #219a52;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .controls, .nav-menu {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-btn {
+                width: 90%;
+                margin-bottom: 5px;
+            }
+            
+            .filter-controls, .filters-container {
+                flex-direction: column;
+            }
+            
+            .subject-selector, .class-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            th, td {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .school-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .school-header h2 {
+                font-size: 1.3rem;
+            }
+            
+            .summary-card {
+                min-width: 100%;
+            }
+            
+            .chart-container {
+                height: 400px;
+                padding: 10px;
+            }
+            
+            .save-dropdown {
+                position: fixed;
+                top: auto;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 300px;
+            }
+        }
+        
+        /* Esconder seções não ativas */
+        .report-section {
+            display: none;
+        }
+        
+        .report-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Menu de Navegação (MANTIDO IGUAL) -->
+        <div class="navigation">
+            <div class="nav-menu">
+                <button class="nav-btn active" data-section="controls">📁 Importar Planilha</button>
+                <button class="nav-btn" data-section="report1">📊 Relatório Geral</button>
+                <button class="nav-btn" data-section="report2">📋 Relatório Detalhado</button>
+                <button class="nav-btn" data-section="report3">📈 Relatório Consolidado</button>
+                <button class="nav-btn" data-section="report4">📊 Gráfico de Desempenho</button>
+            </div>
+        </div>
+        
+        <!-- Cabeçalho (MANTIDO IGUAL) -->
+        <div class="school-header">
+            <h1>ESCOLA NOSSA SENHORA DA PIEDADE</h1>
+            <h2>SISTEMA DE RELATÓRIOS ACADÊMICOS</h2>
+            <h3>Análise de Desempenho Escolar</h3>
+            <div class="date" id="currentDate"></div>
+        </div>
+        
+        <!-- Seção de Controles (Upload) (MANTIDO IGUAL) -->
+        <div id="controlsSection" class="report-section active">
+            <div class="card">
+                <h2>Importar Planilha de Dados</h2>
+                <p style="text-align: center; margin-bottom: 20px; color: #666;">
+                    Importe a planilha Excel uma única vez para acessar todos os relatórios
+                </p>
+                
+                <div class="controls">
+                    <div class="file-upload">
+                        <input type="file" id="fileInput" accept=".xlsx, .xls, .xlsm">
+                        <label for="fileInput" class="file-label">📁 Importar Planilha Excel</label>
+                    </div>
+                </div>
+                
+                <div id="message"></div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <h3>Instruções:</h3>
+                    <p style="color: #666; max-width: 800px; margin: 10px auto;">
+                       
+                        Após importar, use o menu acima para navegar entre os relatórios.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Seção do Relatório 1 (Geral) (MANTIDO IGUAL) -->
+        <div id="report1Section" class="report-section">
+            <div class="card">
+                <h2>Relatório Geral de Desempenho</h2>
+                <div class="controls">
+                    <button id="generateReport1">📊 Gerar Relatório Geral</button>
+                    <div class="save-container" style="position: relative;">
+                        <button id="saveBtn1" class="save-btn" disabled>💾 Salvar</button>
+                        <div class="save-dropdown" id="saveDropdown1">
+                            <a href="#" class="save-option pdf" data-format="pdf">📄 Salvar como PDF</a>
+                            <a href="#" class="save-option excel" data-format="excel">📊 Salvar como Excel</a>
+                            <a href="#" class="save-option png" data-format="png">🖼️ Salvar como PNG</a>
+                            <a href="#" class="save-option html" data-format="html">🌐 Salvar como HTML</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filtros de Série -->
+                <div id="filterSection" style="display: none;">
+                    <div class="filter-controls" id="filterControls">
+                        <!-- Botões gerados dinamicamente -->
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="current-filter" id="currentFilter">
+                            Selecione uma turma
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="report1Container"></div>
+            </div>
+        </div>
+        
+        <!-- Seção do Relatório 2 (Detalhado) (MANTIDO IGUAL) -->
+        <div id="report2Section" class="report-section">
+            <div class="card">
+                <h2>Relatório Detalhado por Aluno</h2>
+                <div class="controls">
+                    <button id="generateReport2">📋 Gerar Relatório Detalhado</button>
+                    <div class="save-container" style="position: relative;">
+                        <button id="saveBtn2" class="save-btn" disabled>💾 Salvar</button>
+                        <div class="save-dropdown" id="saveDropdown2">
+                            <a href="#" class="save-option pdf" data-format="pdf">📄 Salvar como PDF</a>
+                            <a href="#" class="save-option excel" data-format="excel">📊 Salvar como Excel</a>
+                            <a href="#" class="save-option png" data-format="png">🖼️ Salvar como PNG</a>
+                            <a href="#" class="save-option html" data-format="html">🌐 Salvar como HTML</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filtros -->
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <div class="filter-label">Matéria</div>
+                        <div class="subject-selector">
+                            <button class="subject-btn active" data-subject="MATEMÁTICA">Matemática</button>
+                            <button class="subject-btn" data-subject="PORTUGUÊS">Português</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-label">Turma</div>
+                        <div class="class-selector" id="classSelector">
+                            <!-- Turmas adicionadas dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="report2Container"></div>
+            </div>
+        </div>
+        
+        <!-- Seção do Relatório 3 (Consolidado) (MANTIDO IGUAL) -->
+        <div id="report3Section" class="report-section">
+            <div class="card">
+                <h2>Relatório Consolidado por Exercício</h2>
+                <div class="controls">
+                    <button id="generateReport3">📈 Gerar Relatório Consolidado</button>
+                    <div class="save-container" style="position: relative;">
+                        <button id="saveBtn3" class="save-btn" disabled>💾 Salvar</button>
+                        <div class="save-dropdown" id="saveDropdown3">
+                            <a href="#" class="save-option pdf" data-format="pdf">📄 Salvar como PDF</a>
+                            <a href="#" class="save-option excel" data-format="excel">📊 Salvar como Excel</a>
+                            <a href="#" class="save-option png" data-format="png">🖼️ Salvar como PNG</a>
+                            <a href="#" class="save-option html" data-format="html">🌐 Salvar como HTML</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filtros do Relatório 3 -->
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <div class="filter-label">Matéria</div>
+                        <div class="subject-selector" id="subjectSelector3">
+                            <button class="subject-btn matematica active" data-subject="MATEMÁTICA">Matemática</button>
+                            <button class="subject-btn portugues" data-subject="PORTUGUÊS">Português</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-label">Turma</div>
+                        <div class="class-selector" id="classSelector3">
+                            <!-- Turmas adicionadas dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="report3Container"></div>
+            </div>
+        </div>
+        
+        <!-- Seção do Relatório 4 (Gráfico de Desempenho) (MANTIDO IGUAL) -->
+        <div id="report4Section" class="report-section">
+            <div class="card">
+                <h2>Gráfico de Desempenho por Exercício</h2>
+                <div class="controls">
+                    <button id="generateReport4">📊 Gerar Gráfico</button>
+                    <div class="save-container" style="position: relative;">
+                        <button id="saveBtn4" class="save-btn" disabled>💾 Salvar</button>
+                        <div class="save-dropdown" id="saveDropdown4">
+                            <a href="#" class="save-option pdf" data-format="pdf">📄 Salvar como PDF</a>
+                            <a href="#" class="save-option excel" data-format="excel">📊 Salvar como Excel</a>
+                            <a href="#" class="save-option png" data-format="png">🖼️ Salvar como PNG</a>
+                            <a href="#" class="save-option html" data-format="html">🌐 Salvar como HTML</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filtros do Relatório 4 -->
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <div class="filter-label">Matéria</div>
+                        <div class="subject-selector" id="subjectSelector4">
+                            <button class="subject-btn matematica active" data-subject="MATEMÁTICA">Matemática</button>
+                            <button class="subject-btn portugues" data-subject="PORTUGUÊS">Português</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-label">Turma</div>
+                        <div class="class-selector" id="classSelector4">
+                            <!-- Turmas adicionadas dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="report4Container"></div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Sistema de Relatórios Escolares &copy; 2023 - Escola Nossa Senhora da Piedade</p>
+        </div>
+    </div>
+
+    <script>
+        // ==================== VARIÁVEIS GLOBAIS ====================
+        let workbookData = null;
+        let globalNumQuestoes = 26; // VARIÁVEL GLOBAL PARA NÚMERO DE QUESTÕES
+        
+        // Dados para Relatório 1
+        let allStudents = [];
+        let currentStudents = [];
+        let availableSeries = [];
+        let currentFilter = '';
+        
+        // Dados para Relatório 2
+        let mathReports = [];
+        let portugueseReports = [];
+        let currentSubject2 = 'MATEMÁTICA';
+        let currentClass2 = '';
+        let availableClasses2 = new Set();
+        
+        // Dados para Relatório 3
+        let consolidatedData = [];
+        let currentSubject3 = 'MATEMÁTICA';
+        let currentClass3 = '';
+        let availableClasses3 = new Set();
+        
+        // Dados para Relatório 4
+        let chartData4 = [];
+        let currentSubject4 = 'MATEMÁTICA';
+        let currentClass4 = '';
+        let availableClasses4 = new Set();
+        let chartInstance4 = null;
+        
+        // ==================== FUNÇÕES AUXILIARES (NOVAS) ====================
+        
+        // Função para detectar número de questões dinamicamente
+        function detectNumeroQuestoes(gabaritoData) {
+            for (let i = 0; i < Math.min(5, gabaritoData.length); i++) {
+                const row = gabaritoData[i];
+                if (row) {
+                    // Conta quantas respostas válidas existem na linha
+                    const respostasValidas = row.filter(cell => 
+                        cell && typeof cell === 'string' && 
+                        (cell.toUpperCase() === 'A' || cell.toUpperCase() === 'B' || 
+                         cell.toUpperCase() === 'C' || cell.toUpperCase() === 'D' || 
+                         cell.toUpperCase() === 'E')
+                    ).length;
+                    
+                    if (respostasValidas > 0) {
+                        return respostasValidas;
+                    }
+                }
+            }
+            return 26; // Valor padrão
+        }
+        
+        // ==================== ELEMENTOS DA PÁGINA ====================
+        // Navegação
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const reportSections = document.querySelectorAll('.report-section');
+        
+        // Controles gerais
+        const fileInput = document.getElementById('fileInput');
+        const messageDiv = document.getElementById('message');
+        const currentDateElement = document.getElementById('currentDate');
+        
+        // Relatório 1
+        const generateReport1Btn = document.getElementById('generateReport1');
+        const saveBtn1 = document.getElementById('saveBtn1');
+        const saveDropdown1 = document.getElementById('saveDropdown1');
+        const filterSection = document.getElementById('filterSection');
+        const filterControls = document.getElementById('filterControls');
+        const currentFilterElement = document.getElementById('currentFilter');
+        const report1Container = document.getElementById('report1Container');
+        
+        // Relatório 2
+        const generateReport2Btn = document.getElementById('generateReport2');
+        const saveBtn2 = document.getElementById('saveBtn2');
+        const saveDropdown2 = document.getElementById('saveDropdown2');
+        const subjectButtons2 = document.querySelectorAll('#report2Section .subject-btn');
+        const classSelector2 = document.getElementById('classSelector');
+        const report2Container = document.getElementById('report2Container');
+        
+        // Relatório 3
+        const generateReport3Btn = document.getElementById('generateReport3');
+        const saveBtn3 = document.getElementById('saveBtn3');
+        const saveDropdown3 = document.getElementById('saveDropdown3');
+        const subjectButtons3 = document.querySelectorAll('#subjectSelector3 .subject-btn');
+        const classSelector3 = document.getElementById('classSelector3');
+        const report3Container = document.getElementById('report3Container');
+        
+        // Relatório 4
+        const generateReport4Btn = document.getElementById('generateReport4');
+        const saveBtn4 = document.getElementById('saveBtn4');
+        const saveDropdown4 = document.getElementById('saveDropdown4');
+        const subjectButtons4 = document.querySelectorAll('#subjectSelector4 .subject-btn');
+        const classSelector4 = document.getElementById('classSelector4');
+        const report4Container = document.getElementById('report4Container');
+        
+        // ==================== FUNÇÕES DE NAVEGAÇÃO ====================
+        function setupNavigation() {
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    navButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const sectionId = this.getAttribute('data-section') + 'Section';
+                    reportSections.forEach(section => section.classList.remove('active'));
+                    document.getElementById(sectionId).classList.add('active');
+                    
+                    // Fechar dropdowns abertos
+                    closeAllDropdowns();
+                    
+                    if (sectionId === 'controlsSection' && workbookData) {
+                        showMessage('Planilha já carregada. Navegue para os relatórios.', 'success');
+                    }
+                });
+            });
+        }
+        
+        // ==================== FUNÇÕES GERAIS ====================
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            currentDateElement.textContent = now.toLocaleDateString('pt-BR', options);
+        }
+        
+        function showMessage(text, type) {
+            const typeClass = type === 'info' ? 'loading' : type;
+            messageDiv.innerHTML = `<div class="status-message ${typeClass}">${text}</div>`;
+            
+            if (type !== 'loading') {
+                setTimeout(() => {
+                    if (messageDiv.innerHTML.includes(text)) {
+                        messageDiv.innerHTML = '';
+                    }
+                }, 5000);
+            }
+        }
+        
+        // ==================== FUNÇÕES PARA SALVAR ====================
+        function setupSaveButtons() {
+            const saveButtons = [saveBtn1, saveBtn2, saveBtn3, saveBtn4];
+            const saveDropdowns = [saveDropdown1, saveDropdown2, saveDropdown3, saveDropdown4];
+            
+            saveButtons.forEach((btn, index) => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const dropdown = saveDropdowns[index];
+                    
+                    // Fechar todos os outros dropdowns
+                    saveDropdowns.forEach(d => {
+                        if (d !== dropdown) d.classList.remove('show');
+                    });
+                    
+                    // Alternar o dropdown atual
+                    dropdown.classList.toggle('show');
+                });
+            });
+            
+            // Configurar opções de salvamento para cada dropdown
+            setupSaveOptions(saveDropdown1, 'report1');
+            setupSaveOptions(saveDropdown2, 'report2');
+            setupSaveOptions(saveDropdown3, 'report3');
+            setupSaveOptions(saveDropdown4, 'report4');
+            
+            // Fechar dropdowns ao clicar fora
+            document.addEventListener('click', function() {
+                closeAllDropdowns();
+            });
+        }
+        
+        function closeAllDropdowns() {
+            document.querySelectorAll('.save-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
+        }
+        
+        function setupSaveOptions(dropdown, reportType) {
+            const options = dropdown.querySelectorAll('.save-option');
+            options.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const format = this.getAttribute('data-format');
+                    let data = null;
+                    let defaultFileName = '';
+                    
+                    // Obter dados baseados no tipo de relatório
+                    switch(reportType) {
+                        case 'report1':
+                            data = currentStudents;
+                            defaultFileName = `Relatorio_Geral_${currentFilter || 'Turma'}_${new Date().toISOString().split('T')[0]}`;
+                            break;
+                        case 'report2':
+                            data = getCurrentReport2Data();
+                            defaultFileName = `Relatorio_Detalhado_${currentSubject2}_${currentClass2}_${new Date().toISOString().split('T')[0]}`;
+                            break;
+                        case 'report3':
+                            data = getCurrentReport3Data();
+                            defaultFileName = `Relatorio_Consolidado_${currentSubject3}_${currentClass3}_${new Date().toISOString().split('T')[0]}`;
+                            break;
+                        case 'report4':
+                            data = getCurrentReport4Data();
+                            defaultFileName = `Grafico_Desempenho_${currentSubject4}_${currentClass4}_${new Date().toISOString().split('T')[0]}`;
+                            break;
+                    }
+                    
+                    // Salvar no formato selecionado
+                    saveReport(format, data, reportType, defaultFileName);
+                    
+                    // Fechar dropdown
+                    dropdown.classList.remove('show');
+                });
+            });
+        }
+        
+        // Função para salvar relatório
+        async function saveReport(format, data, reportType, defaultFileName) {
+            try {
+                showMessage(`Gerando arquivo ${format.toUpperCase()}...`, 'loading');
+                
+                switch(format) {
+                    case 'pdf':
+                        await saveAsPDF(reportType, defaultFileName);
+                        break;
+                    case 'excel':
+                        saveAsExcel(data, defaultFileName, reportType);
+                        break;
+                    case 'png':
+                        await saveAsPNG(reportType, defaultFileName);
+                        break;
+                    case 'html':
+                        saveAsHTML(data, defaultFileName, reportType);
+                        break;
+                }
+                
+                showMessage(`Arquivo ${format.toUpperCase()} gerado com sucesso!`, 'success');
+            } catch (error) {
+                console.error('Erro ao salvar:', error);
+                showMessage(`Erro ao salvar ${format.toUpperCase()}: ${error.message}`, 'error');
+            }
+        }
+        
+        // Funções específicas de salvamento
+        async function saveAsPDF(reportType, defaultFileName) {
+            const containerId = reportType === 'report1' ? 'report1Container' :
+                              reportType === 'report2' ? 'report2Container' :
+                              reportType === 'report3' ? 'report3Container' : 'report4Container';
+            
+            const element = document.getElementById(containerId);
+            if (!element || element.innerHTML.trim() === '') {
+                throw new Error('Nenhum relatório para salvar');
+            }
+            
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            });
+            
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
+            const imgWidth = 210;
+            const pageHeight = 297;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            let heightLeft = imgHeight;
+            let position = 0;
+            
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+            
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+            
+            // Usar diálogo de salvamento do navegador
+            const pdfBlob = pdf.output('blob');
+            const url = URL.createObjectURL(pdfBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${defaultFileName}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        async function saveAsPNG(reportType, defaultFileName) {
+            const containerId = reportType === 'report1' ? 'report1Container' :
+                              reportType === 'report2' ? 'report2Container' :
+                              reportType === 'report3' ? 'report3Container' : 'report4Container';
+            
+            const element = document.getElementById(containerId);
+            if (!element || element.innerHTML.trim() === '') {
+                throw new Error('Nenhum relatório para salvar');
+            }
+            
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            });
+            
+            const url = canvas.toDataURL('image/png');
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${defaultFileName}.png`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        
+        function saveAsExcel(data, defaultFileName, reportType) {
+            if (!data || (Array.isArray(data) && data.length === 0)) {
+                throw new Error('Nenhum dado para exportar');
+            }
+            
+            let ws, wb;
+            
+            switch(reportType) {
+                case 'report1':
+                    ws = XLSX.utils.json_to_sheet(data);
+                    break;
+                case 'report2':
+                case 'report3':
+                case 'report4':
+                    // Para relatórios mais complexos, criar uma planilha manualmente
+                    const reportElement = document.getElementById(`${reportType}Container`);
+                    if (reportElement) {
+                        const table = reportElement.querySelector('table');
+                        if (table) {
+                            ws = XLSX.utils.table_to_sheet(table);
+                        } else {
+                            // Criar planilha básica com dados
+                            ws = XLSX.utils.json_to_sheet([{mensagem: 'Dados disponíveis apenas em PDF ou PNG'}]);
+                        }
+                    }
+                    break;
+            }
+            
+            if (!ws) {
+                throw new Error('Não foi possível criar a planilha');
+            }
+            
+            wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Relatório");
+            
+            // Usar diálogo de salvamento do navegador
+            const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+            const blob = new Blob([wbout], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${defaultFileName}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function saveAsHTML(data, defaultFileName, reportType) {
+            const containerId = reportType === 'report1' ? 'report1Container' :
+                              reportType === 'report2' ? 'report2Container' :
+                              reportType === 'report3' ? 'report3Container' : 'report4Container';
+            
+            const element = document.getElementById(containerId);
+            if (!element || element.innerHTML.trim() === '') {
+                throw new Error('Nenhum relatório para salvar');
+            }
+            
+            const htmlContent = `
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Carteirinha Estudantil</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      padding: 20px;
-      background: #f0f2f5;
-      min-height: 100vh;
-    }
-    
-    .container {
-      max-width: 850px;
-      margin: 0 auto;
-    }
-    
-    header {
-      background: linear-gradient(135deg, #1a237e, #283593);
-      color: white;
-      padding: 25px;
-      border-radius: 15px 15px 0 0;
-      margin-bottom: 20px;
-    }
-    
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-    
-    .subtitle {
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
-    
-    .card {
-      background: white;
-      border-radius: 15px;
-      padding: 30px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
-    
-    .input-section {
-      background: #f8f9fa;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    
-    input {
-      width: 100%;
-      max-width: 400px;
-      padding: 15px 20px;
-      font-size: 18px;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      margin: 10px 0;
-      text-align: center;
-      font-family: 'Courier New', monospace;
-    }
-    
-    .buttons {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 20px 0;
-    }
-    
-    button {
-      padding: 12px 25px;
-      font-size: 16px;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-      min-width: 140px;
-    }
-    
-    .btn-primary {
-      background: #1a237e;
-      color: white;
-    }
-    
-    .btn-success {
-      background: #2e7d32;
-      color: white;
-    }
-    
-    .btn-download {
-      background: #ff9800;
-      color: white;
-      display: none;
-    }
-    
-    button:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
-    }
-    
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-    
-    .status-box {
-      background: #e3f2fd;
-      border-left: 4px solid #1a237e;
-      padding: 15px;
-      margin: 15px 0;
-      border-radius: 8px;
-      text-align: left;
-      font-size: 14px;
-      display: none;
-    }
-    
-    .status-box.visible {
-      display: block;
-    }
-    
-    .status-box.dupla-matricula {
-      background: #fff3e0;
-      border-left: 4px solid #ff9800;
-    }
-    
-    .canvas-container {
-      position: relative;
-      margin: 20px 0;
-    }
-    
-    canvas {
-      width: 100%;
-      height: auto;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      background: white;
-    }
-    
-    .image-info {
-      background: #f5f5f5;
-      padding: 15px;
-      border-radius: 8px;
-      margin: 10px 0;
-      font-size: 14px;
-      text-align: left;
-    }
-    
-    .image-info.success {
-      background: #e8f5e9;
-      border-left: 4px solid #4caf50;
-    }
-    
-    .image-info.error {
-      background: #ffebee;
-      border-left: 4px solid #f44336;
-    }
-    
-    @media (max-width: 768px) {
-      .container {
-        padding: 10px;
-      }
-      
-      header {
-        padding: 20px 15px;
-      }
-      
-      h1 {
-        font-size: 1.5rem;
-      }
-      
-      .card {
-        padding: 20px;
-      }
-      
-      button {
-        width: 100%;
-        max-width: 300px;
-      }
-    }
-  </style>
-  
-  <!-- jsPDF library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${defaultFileName}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .summary { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+        .summary-card { background: #f8f9fa; padding: 15px; border-radius: 5px; min-width: 200px; }
+        .chart-container { max-width: 100%; overflow-x: auto; }
+    </style>
 </head>
-
 <body>
-  <div class="container">
-    <header>
-      <h1>🎓 Carteirinha Estudantil</h1>
-      <p class="subtitle">Sistema Digital de Identificação Estudantil para uso de Transporte Escolar Intermunicipal</p>
-    </header>
-    
-    <div class="card">
-      <div class="input-section">
-        <h3>Digite seu CPF para acessar:</h3>
-        <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14">
-        <p style="margin-top: 10px; color: #666; font-size: 14px;">
-          Para alunos com múltiplos cursos, digite o mesmo CPF para ver todas as matrículas
-        </p>
-      </div>
-      
-      <div class="buttons">
-        <button class="btn-primary" onclick="gerarCarteirinha()" id="btnGerar">Gerar Carteirinha</button>
-        <button class="btn-success" onclick="limparTudo()">Limpar</button>
-        <button class="btn-download" onclick="salvarCarteirinhaPDF()" id="btnSalvar">Salvar Carteirinha (PDF)</button>
-      </div>
-      
-      <div class="status-box visible" id="statusBox" style="border-left-color: rgb(76, 175, 80); background: rgb(232, 245, 233);">✅ Carteirinha gerada para: Aluno Teste</div>
-      
-      <div class="image-info success" id="imageInfo"> 
-        ✅Veja Abaixo o Resultado
-</div>
-    </div>
-    
-    <div class="card">
-      <h3></h3>
-      <div class="canvas-container">
-       <canvas id="frente" width="800" height="500"></canvas>
-      </div>
-   </div>
-    
-    <div class="card">
-      <h3></h3>
-      <div class="canvas-container">
-        <canvas id="verso" width="800" height="500"></canvas>
-      </div>
-   </div>
-  </div>
-
-  <!-- Importa os dados dos alunos do arquivo externo -->
-  <script src="alunos.js"></script>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
-  
-  <script>
-  // ============================================
-  // CONFIGURAÇÃO
-  // ============================================
-  const CONFIG = {
-    caminhoImagens: "./Imagens/",
-    caminhoFotos: "./Imagens/fotos/",
-    
-    placeholders: {
-      frente: "https://via.placeholder.com/800x500/4a6fa5/ffffff?text=CARTEIRINHA+ESTUDANTIL",
-      verso: "https://via.placeholder.com/800x500/2c3e50/ffffff?text=VERSO+DA+CARTEIRINHA",
-      foto: (matricula) => `https://ui-avatars.com/api/?name=Aluno&background=4a6fa5&color=fff&size=256&bold=true&length=1`
-    }
-  };
-
-  // ============================================
-  // VARIÁVEIS GLOBAIS
-  // ============================================
-  const canvasFrente = document.getElementById('frente');
-  const ctxFrente = canvasFrente.getContext('2d');
-  const canvasVerso = document.getElementById('verso');
-  const ctxVerso = canvasVerso.getContext('2d');
-  const statusBox = document.getElementById('statusBox');
-  const imageInfo = document.getElementById('imageInfo');
-  const btnSalvar = document.getElementById('btnSalvar');
-  const btnGerar = document.getElementById('btnGerar');
-  
-  let alunoAtual = null;
-  let alunosMultiplosCursos = []; // Array para armazenar múltiplos cursos do mesmo CPF
-
-  // ============================================
-  // DIMENSÕES PARA PDF (tamanho real para impressão e recorte)
-  // ============================================
-  const DIMENSOES_CARTEIRINHA = {
-    largura: 85.6,   // mm
-    altura: 53.98,   // mm
-    espaco: 2        // mm de espaço entre frente e verso
-  };
-
-  // ============================================
-  // FUNÇÕES DE UTILIDADE
-  // ============================================
-  function formatarCPF(cpf) {
-    cpf = cpf.replace(/\D/g, '');
-    if (cpf.length > 11) cpf = cpf.substring(0, 11);
-    if (cpf.length > 9) {
-      cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-    } else if (cpf.length > 6) {
-      cpf = cpf.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
-    } else if (cpf.length > 3) {
-      cpf = cpf.replace(/(\d{3})(\d{1,3})/, "$1.$2");
-    }
-    return cpf;
-  }
-
-  function mostrarStatus(mensagem, tipo = 'info', duplaMatricula = false) {
-    statusBox.textContent = mensagem;
-    statusBox.className = 'status-box visible';
-    
-    if (duplaMatricula) {
-      statusBox.classList.add('dupla-matricula');
-    } else {
-      statusBox.classList.remove('dupla-matricula');
-    }
-    
-    if (tipo === 'error') {
-      statusBox.style.borderLeftColor = '#f44336';
-      statusBox.style.background = '#ffebee';
-    } else if (tipo === 'success') {
-      statusBox.style.borderLeftColor = '#4caf50';
-      statusBox.style.background = '#e8f5e9';
-    } else {
-      statusBox.style.borderLeftColor = '#1a237e';
-      statusBox.style.background = '#e3f2fd';
-    }
-  }
-
-  function mostrarInfoImagens(mensagem, sucesso) {
-    imageInfo.textContent = mensagem;
-    imageInfo.className = sucesso ? 'image-info success' : 'image-info error';
-  }
-
-  // ============================================
-  // FUNÇÃO PRINCIPAL - CARREGAR IMAGEM
-  // ============================================
-  function carregarImagemComDetalhes(url, tipo) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      
-      img.onload = function() {
-        resolve({
-          sucesso: true,
-          imagem: img,
-          url: url,
-          largura: img.width,
-          altura: img.height,
-          tipo: tipo
+    <h1>Relatório Exportado - ${defaultFileName}</h1>
+    <p>Exportado em: ${new Date().toLocaleString('pt-BR')}</p>
+    ${element.innerHTML}
+</body>
+</html>`;
+            
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${defaultFileName}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Funções auxiliares para obter dados atuais
+        function getCurrentReport2Data() {
+            let reportsToShow = [];
+            if (currentSubject2 === 'MATEMÁTICA') {
+                reportsToShow = mathReports.filter(report => report.serie === currentClass2);
+            } else {
+                reportsToShow = portugueseReports.filter(report => report.serie === currentClass2);
+            }
+            return reportsToShow;
+        }
+        
+        function getCurrentReport3Data() {
+            let filteredData = consolidatedData.filter(item => item.materia === currentSubject3);
+            if (currentClass3) {
+                filteredData = filteredData.map(item => {
+                    const turmaData = item.turmaData && item.turmaData[currentClass3];
+                    if (turmaData) {
+                        return {
+                            ...item,
+                            acertos: turmaData.acertos,
+                            erros: turmaData.erros,
+                            percentualAcertos: turmaData.percentualAcertos,
+                            totalAlunos: turmaData.totalAlunos
+                        };
+                    }
+                    return null;
+                }).filter(item => item && item.totalAlunos > 0);
+            }
+            return filteredData;
+        }
+        
+        function getCurrentReport4Data() {
+            let filteredData = chartData4.filter(item => item.materia === currentSubject4);
+            if (currentClass4) {
+                filteredData = filteredData.map(item => {
+                    const turmaData = item.turmaData && item.turmaData[currentClass4];
+                    if (turmaData) {
+                        return {
+                            ...item,
+                            acertos: turmaData.acertos,
+                            erros: turmaData.erros,
+                            percentualAcertos: turmaData.percentualAcertos,
+                            totalAlunos: turmaData.totalAlunos
+                        };
+                    }
+                    return null;
+                }).filter(item => item && item.totalAlunos > 0);
+            }
+            return filteredData;
+        }
+        
+        // ==================== IMPORTAR PLANILHA ====================
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            showMessage('Processando arquivo, aguarde...', 'loading');
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    workbookData = XLSX.read(data, {type: 'array'});
+                    
+                    // Limpar dados anteriores
+                    allStudents = [];
+                    mathReports = [];
+                    portugueseReports = [];
+                    consolidatedData = [];
+                    chartData4 = [];
+                    availableSeries = [];
+                    availableClasses2.clear();
+                    availableClasses3.clear();
+                    availableClasses4.clear();
+                    
+                    // Ativar botões de geração
+                    generateReport1Btn.disabled = false;
+                    generateReport2Btn.disabled = false;
+                    generateReport3Btn.disabled = false;
+                    generateReport4Btn.disabled = false;
+                    
+                    showMessage('Arquivo carregado com sucesso! Navegue para os relatórios.', 'success');
+                    
+                } catch (error) {
+                    showMessage(`Erro ao processar arquivo: ${error.message}`, 'error');
+                }
+            };
+            reader.readAsArrayBuffer(file);
         });
-      };
-      
-      img.onerror = function(e) {
-        resolve({
-          sucesso: false,
-          imagem: null,
-          url: url,
-          erro: e,
-          tipo: tipo
+        
+        // ==================== RELATÓRIO 1 - FUNÇÕES ====================
+        generateReport1Btn.addEventListener('click', function() {
+            if (!workbookData) {
+                showMessage('Nenhum arquivo carregado. Importe uma planilha primeiro.', 'error');
+                return;
+            }
+            
+            try {
+                showMessage('Gerando relatório geral...', 'loading');
+                const report = generateReport(workbookData);
+                allStudents = report.students;
+                globalNumQuestoes = report.numQuestoes; // Armazenar globalmente
+                
+                extractAvailableSeries(report.students);
+                createFilterButtons();
+                
+                // Selecionar primeira turma automaticamente
+                if (availableSeries.length > 0) {
+                    filterBySeries(availableSeries[0]);
+                } else {
+                    currentStudents = [];
+                    displayReport1([], globalNumQuestoes);
+                    showMessage('Nenhuma turma encontrada nos dados.', 'error');
+                }
+                
+                saveBtn1.disabled = false;
+                filterSection.style.display = 'block';
+                
+                // Navegar para o relatório 1
+                navButtons.forEach(b => b.classList.remove('active'));
+                document.querySelector('.nav-btn[data-section="report1"]').classList.add('active');
+                reportSections.forEach(s => s.classList.remove('active'));
+                document.getElementById('report1Section').classList.add('active');
+                
+                showMessage(`Relatório geral gerado com sucesso! (${globalNumQuestoes} questões por matéria)`, 'success');
+                
+            } catch (error) {
+                showMessage(`Erro ao gerar relatório: ${error.message}`, 'error');
+            }
         });
-      };
-      
-      const timestamp = new Date().getTime();
-      const urlUnica = `${url}${url.includes('?') ? '&' : '?'}_=${timestamp}`;
-      img.src = urlUnica;
-    });
-  }
-
-  // ============================================
-  // DESENHO DA CARTEIRINHA - ATUALIZADO PARA MULTIPLOS CURSOS
-  // ============================================
-  function desenharFrenteBasica(ctx, aluno, fundo = null, foto = null) {
-    const largura = ctx.canvas.width;
-    const altura = ctx.canvas.height;
-    
-    // Limpa tudo
-    ctx.clearRect(0, 0, largura, altura);
-    
-    // Desenha fundo (modelo da imagem)
-    if (fundo && fundo.sucesso) {
-      ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
-    } else {
-      // Fundo branco com bordas
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, largura, altura);
-      
-      // Cabeçalho azul
-      ctx.fillStyle = '#1a237e';
-      ctx.fillRect(0, 0, largura, 60);
-      
-      // Texto do cabeçalho
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 20px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('SECRETARIA MUNICIPAL DE EDUCAÇÃO - ANADIA - AL', largura/2, 25);
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('CARTEIRA DE TRANSPORTE INTERMUNICIPAL', largura/2, 45);
-    }
-    
-    // Desenhar dados do aluno como na imagem
-    ctx.fillStyle = '#000';
-    ctx.textAlign = 'left';
-    ctx.font = 'bold 18px Arial';
-    
-    // Matrícula no topo
-    ctx.fillText('MATRÍCULA', 50, 100);
-    ctx.font = 'bold 24px Arial';
-    ctx.fillText(aluno.matricula, 50, 130);
-    
-    // Nome do aluno
-    ctx.font = 'bold 16px Arial';
-    ctx.fillText('NOME:', 50, 180);
-    ctx.font = 'bold 20px Arial';
-    ctx.fillText(aluno.nome.toUpperCase(), 50, 210);
-    
-    // Verificar se tem múltiplos cursos
-    const temMultiplosCursos = alunosMultiplosCursos && alunosMultiplosCursos.length > 1;
-    
-    if (temMultiplosCursos) {
-      // ===== PRIMEIRO CURSO (PRINCIPAL) =====
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('INSTITUIÇÃO:', 50, 260);
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText(aluno.instituicao, 50, 290);
-      
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('CURSO:', 50, 330);
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText(aluno.curso, 50, 360);
-      
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('CIDADE:', 50, 400);
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText(aluno.cidade, 50, 430);
-      
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('TURNO:', 50, 470);
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText(aluno.turno, 50, 500);
-      
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('VALIDADE:', 50, 540);
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText(aluno.validade, 50, 570);
-      
-      // ===== SEGUNDO CURSO =====
-      const segundoCurso = alunosMultiplosCursos[1];
-      
-      // Caixa azul para o segundo curso (como na imagem)
-      ctx.fillStyle = '#e3f2fd'; // Azul claro
-      ctx.fillRect(400, 250, 350, 150);
-      ctx.strokeStyle = '#1a237e';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(400, 250, 350, 150);
-      
-      ctx.fillStyle = '#1a237e';
-      ctx.font = 'bold 16px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('OBS: ESTUDA TAMBÉM EM OUTRA INSTITUIÇÃO', 575, 280);
-      
-      ctx.textAlign = 'left';
-      ctx.font = 'bold 14px Arial';
-      ctx.fillText('INSTITUIÇÃO:', 420, 310);
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText(segundoCurso.instituicao, 420, 330);
-      
-      ctx.font = 'bold 14px Arial';
-      ctx.fillText('CURSO:', 420, 360);
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText(segundoCurso.curso, 420, 380);
-      
-      ctx.font = 'bold 14px Arial';
-      ctx.fillText('CIDADE:', 420, 410);
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText(segundoCurso.cidade, 420, 430);
-      
-    } else {
-      // Formato original para um único curso
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('INSTITUIÇÃO:', 50, 260);
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText(aluno.instituicao, 50, 290);
-      
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('CURSO:', 50, 330);
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText(aluno.curso, 50, 360);
-      
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('CIDADE:', 50, 400);
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText(aluno.cidade, 50, 430);
-      
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('TURNO:', 50, 470);
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText(aluno.turno, 50, 500);
-      
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('VALIDADE:', 50, 540);
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText(aluno.validade, 50, 570);
-    }
-    
-    // Rodapé
-    ctx.fillStyle = '#666';
-    ctx.font = 'italic 14px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('UMA INICIATIVA SIMPLES - ANADIA / SISTEMAS', largura/2, 620);
-  }
-
-  function desenharVersoBasico(ctx, fundo = null) {
-    const largura = ctx.canvas.width;
-    const altura = ctx.canvas.height;
-    
-    ctx.clearRect(0, 0, largura, altura);
-    
-    if (fundo && fundo.sucesso) {
-      ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
-    } else {
-      // Fundo branco
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, largura, altura);
-      
-      // Cabeçalho azul
-      ctx.fillStyle = '#1a237e';
-      ctx.fillRect(0, 0, largura, 60);
-      
-      // Texto do cabeçalho
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 20px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('SECRETARIA MUNICIPAL DE EDUCAÇÃO - ANADIA - AL', largura/2, 25);
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('CARTEIRA DE TRANSPORTE INTERMUNICIPAL', largura/2, 45);
-      
-      // Ano grande
-      ctx.fillStyle = '#1a237e';
-      ctx.font = 'bold 80px Arial';
-      ctx.fillText('2026', largura/2, 180);
-      
-      // Texto da prefeitura
-      ctx.fillStyle = '#000';
-      ctx.font = 'bold 24px Arial';
-      ctx.fillText('PREFEITURA MUNICIPAL DE', largura/2, 250);
-      ctx.fillText('ANADIA', largura/2, 290);
-      ctx.font = 'bold 20px Arial';
-      ctx.fillText('POR UMA CIDADE CADA VEZ MELHOR', largura/2, 330);
-      
-      // Assinatura digital
-      ctx.fillStyle = '#666';
-      ctx.font = 'bold 14px Arial';
-      ctx.fillText('Documento assinado digitalmente', largura/2, 400);
-      ctx.font = 'bold 18px Arial';
-      ctx.fillText('gob.br', largura/2, 430);
-      ctx.font = 'bold 16px Arial';
-      ctx.fillText('JEAN RODRIGO ROCHA DE LIMA', largura/2, 460);
-      ctx.font = '14px Arial';
-      ctx.fillText('Data: 21/01/2026 08:45:26-0300', largura/2, 490);
-      ctx.font = '12px Arial';
-      ctx.fillText('Verifique em https://gob.br', largura/2, 510);
-    }
-    
-    // Se tiver múltiplos cursos, adicionar mais informações no verso
-    if (alunosMultiplosCursos && alunosMultiplosCursos.length > 1) {
-      const segundoCurso = alunosMultiplosCursos[1];
-      
-      ctx.fillStyle = '#1a237e';
-      ctx.font = 'bold 18px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('INFORMAÇÕES ADICIONAIS - SEGUNDO CURSO', largura/2, 560);
-      
-      ctx.textAlign = 'left';
-      ctx.fillText(`INSTITUIÇÃO: ${segundoCurso.instituicao}`, 50, 590);
-      ctx.fillText(`CURSO: ${segundoCurso.curso}`, 50, 620);
-      ctx.fillText(`CIDADE: ${segundoCurso.cidade}`, 50, 650);
-      ctx.fillText(`TURNO: ${segundoCurso.turno}`, 50, 680);
-      ctx.fillText(`VALIDADE: ${segundoCurso.validade}`, 50, 710);
-    }
-  }
-
-  // ============================================
-  // FUNÇÃO PARA SALVAR CARTEIRINHA EM PDF
-  // ============================================
-  async function salvarCarteirinhaPDF() {
-    if (!alunoAtual) {
-      mostrarStatus('Gere uma carteirinha primeiro!', 'error');
-      return;
-    }
-    
-    try {
-      mostrarStatus('Gerando PDF para recorte...', 'info');
-      
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
-      });
-      
-      const pageWidth = 210;
-      const pageHeight = 297;
-      const cardWidth = DIMENSOES_CARTEIRINHA.largura;
-      const cardHeight = DIMENSOES_CARTEIRINHA.altura;
-      const espaco = DIMENSOES_CARTEIRINHA.espaco;
-      
-      const xFrente = (pageWidth - (cardWidth * 2 + espaco)) / 2;
-      const xVerso = xFrente + cardWidth + espaco;
-      const yPos = (pageHeight - cardHeight) / 2;
-      
-      const frenteDataURL = canvasFrente.toDataURL('image/png');
-      const versoDataURL = canvasVerso.toDataURL('image/png');
-      
-      pdf.setTextColor(0, 0, 0);
-      
-      // Adicionar frente da carteirinha
-      pdf.addImage(frenteDataURL, 'PNG', xFrente, yPos, cardWidth, cardHeight);
-      
-      // Adicionar verso da carteirinha
-      pdf.addImage(versoDataURL, 'PNG', xVerso, yPos, cardWidth, cardHeight);
-      
-      // Linhas de corte
-      pdf.setDrawColor(200, 200, 200);
-      pdf.setLineWidth(0.1);
-      pdf.line(
-        xFrente + cardWidth + (espaco/2), 
-        yPos - 2, 
-        xFrente + cardWidth + (espaco/2), 
-        yPos + cardHeight + 2
-      );
-      
-      // Salvar o PDF
-      const nomeArquivo = alunosMultiplosCursos && alunosMultiplosCursos.length > 1 ? 
-        `carteirinha_${alunoAtual.matricula}_dupla_matricula.pdf` : 
-        `carteirinha_${alunoAtual.matricula}.pdf`;
-      pdf.save(nomeArquivo);
-      
-      mostrarStatus('PDF para recorte gerado com sucesso!', 'success');
-      
-    } catch (error) {
-      console.error('Erro ao gerar PDF:', error);
-      mostrarStatus('Erro ao gerar o PDF. Tente novamente.', 'error');
-    }
-  }
-
-  // ============================================
-  // FUNÇÃO PRINCIPAL - GERAR CARTEIRINHA (ATUALIZADA PARA MULTIPLOS CURSOS)
-  // ============================================
-  async function gerarCarteirinha() {
-    const cpfInput = document.getElementById('cpf');
-    let cpf = cpfInput.value.replace(/\D/g, '');
-    
-    if (cpf.length !== 11) {
-      mostrarStatus('Por favor, digite um CPF válido (11 números)', 'error');
-      cpfInput.value = formatarCPF(cpf);
-      cpfInput.focus();
-      return;
-    }
-    
-    // Desativar botão enquanto processa
-    const originalText = btnGerar.textContent;
-    btnGerar.textContent = 'Processando...';
-    btnGerar.disabled = true;
-    
-    mostrarStatus('Processando... Aguarde.', 'info');
-    
-    try {
-      cpfInput.value = formatarCPF(cpf);
-      
-      const hash = sha256(cpf);
-      
-      // Buscar TODOS os alunos com o mesmo CPF/hash
-      const alunosEncontrados = alunos.filter(a => a.hash === hash);
-      
-      if (alunosEncontrados.length === 0) {
-        mostrarStatus('Aluno não encontrado. Verifique o CPF.', 'error');
-        btnGerar.textContent = originalText;
-        btnGerar.disabled = false;
-        return;
-      }
-      
-      // Armazenar todos os cursos encontrados
-      alunosMultiplosCursos = alunosEncontrados;
-      
-      // Usar o primeiro aluno como "principal" (para foto e matrícula)
-      alunoAtual = alunosEncontrados[0];
-      
-      // Carregar as imagens (usar primeira matrícula para foto)
-      const [frenteResult, versoResult, fotoResult] = await Promise.all([
-        carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-frente.png', 'frente'),
-        carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso.png', 'verso'),
-        carregarImagemComDetalhes(CONFIG.caminhoFotos + alunoAtual.matricula + '.JPG', 'foto')
-      ]);
-      
-      // Informações de debug
-      let infoMsg = '';
-      infoMsg += frenteResult.sucesso ? '✅ Modelo frente carregado\n' : '❌ Modelo frente não encontrado\n';
-      infoMsg += versoResult.sucesso ? '✅ Modelo verso carregado\n' : '❌ Modelo verso não encontrado\n';
-      infoMsg += fotoResult.sucesso ? '✅ Foto carregada\n' : '❌ Foto não encontrado\n';
-      
-      mostrarInfoImagens(infoMsg, frenteResult.sucesso || versoResult.sucesso || fotoResult.sucesso);
-      
-      // Desenha as carteirinhas com suporte a múltiplos cursos
-      desenharFrenteBasica(ctxFrente, alunoAtual, frenteResult, fotoResult);
-      desenharVersoBasico(ctxVerso, versoResult);
-      
-      // Mostra botão de salvar
-      btnSalvar.style.display = 'inline-block';
-      
-      // Mensagem de status baseada no número de cursos
-      if (alunosEncontrados.length > 1) {
-        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome} (${alunosEncontrados.length} cursos - DUPLA MATRÍCULA)`, 'success', true);
-      } else {
-        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome}`, 'success');
-      }
-      
-    } catch (error) {
-      console.error('Erro crítico:', error);
-      mostrarStatus('Erro ao processar. Tente novamente.', 'error');
-    } finally {
-      // Reativar o botão independente do resultado
-      btnGerar.textContent = originalText;
-      btnGerar.disabled = false;
-    }
-  }
-
-  // ============================================
-  // FUNÇÕES ADICIONAIS
-  // ============================================
-  function limparTudo() {
-    ctxFrente.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
-    ctxVerso.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
-    statusBox.classList.remove('visible');
-    statusBox.classList.remove('dupla-matricula');
-    imageInfo.textContent = '';
-    btnSalvar.style.display = 'none';
-    document.getElementById('cpf').value = '';
-    alunoAtual = null;
-    alunosMultiplosCursos = []; // Limpar array de múltiplos cursos
-    
-    // Garantir que o botão de gerar esteja ativo
-    btnGerar.disabled = false;
-    btnGerar.textContent = 'Gerar Carteirinha';
-    
-    mostrarStatus('Sistema limpo. Digite um CPF para começar.', 'info');
-  }
-
-  // ============================================
-  // INICIALIZAÇÃO
-  // ============================================
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log('🎓 Sistema de Carteirinha iniciado');
-    
-    const cpfInput = document.getElementById('cpf');
-    cpfInput.addEventListener('input', function() {
-      this.value = formatarCPF(this.value);
-    });
-    
-    cpfInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        gerarCarteirinha();
-      }
-    });
-    
-    setTimeout(() => {
-      mostrarStatus('Sistema pronto. Digite um CPF para gerar sua carteirinha.', 'info');
-    }, 500);
-  });
-  </script>
+        
+        // Funções do Relatório 1
+        function extractAvailableSeries(students) {
+            const seriesSet = new Set();
+            students.forEach(student => {
+                if (student.serie && student.serie !== 'N/A') {
+                    seriesSet.add(student.serie);
+                }
+            });
+            availableSeries = Array.from(seriesSet).sort();
+        }
+        
+        function createFilterButtons() {
+            filterControls.innerHTML = '';
+            
+            availableSeries.forEach(serie => {
+                const button = document.createElement('button');
+                button.className = `filter-btn ${currentFilter === serie ? 'active' : ''}`;
+                button.textContent = `👥 ${serie}`;
+                button.onclick = () => filterBySeries(serie);
+                filterControls.appendChild(button);
+            });
+        }
+        
+        function filterBySeries(serie) {
+            currentFilter = serie;
+            currentStudents = allStudents.filter(student => student.serie === serie);
+            currentFilterElement.textContent = `Exibindo: Turma ${serie}`;
+            
+            createFilterButtons();
+            displayReport1(currentStudents);
+        }
+        
+        // ==================== FUNÇÕES DE PROCESSAMENTO ====================
+        
+        // Função principal para gerar relatório (MODIFICADA)
+        function generateReport(workbook) {
+            const sheetNames = workbook.SheetNames;
+            
+            const mathSheet = findSheetByName(workbook, ['MATEMÁTICA', 'MATEMATICA', 'MAT']);
+            const mathGabaritoSheet = findSheetByName(workbook, ['GABARITO_M', 'GABARITO MAT', 'GABARITO MATEMÁTICA']);
+            const portugueseSheet = findSheetByName(workbook, ['PORTUGUÊS', 'PORTUGUES', 'PORT']);
+            const portugueseGabaritoSheet = findSheetByName(workbook, ['GABARITO_P', 'GABARITO PORT', 'GABARITO PORTUGUÊS']);
+            
+            if (!mathSheet || !mathGabaritoSheet || !portugueseSheet || !portugueseGabaritoSheet) {
+                throw new Error(`Planilhas necessárias não encontradas. Planilhas disponíveis: ${sheetNames.join(', ')}`);
+            }
+            
+            const mathData = XLSX.utils.sheet_to_json(mathSheet, {header: 1});
+            const mathGabaritoData = XLSX.utils.sheet_to_json(mathGabaritoSheet, {header: 1});
+            const portugueseData = XLSX.utils.sheet_to_json(portugueseSheet, {header: 1});
+            const portugueseGabaritoData = XLSX.utils.sheet_to_json(portugueseGabaritoSheet, {header: 1});
+            
+            // Detectar número de questões baseado no gabarito (MODIFICADO)
+            const numQuestoes = detectNumeroQuestoes(mathGabaritoData);
+            
+            const mathGabarito = extractGabarito(mathGabaritoData, numQuestoes); // MODIFICADO
+            const portugueseGabarito = extractGabarito(portugueseGabaritoData, numQuestoes); // MODIFICADO
+            
+            const students = [];
+            
+            processStudentData(mathData, students, 'math', mathGabarito, numQuestoes); // MODIFICADO
+            processStudentData(portugueseData, students, 'portuguese', portugueseGabarito, numQuestoes); // MODIFICADO
+            
+            students.forEach(student => {
+                student.average = calculateAverage(
+                    student.mathScore, 
+                    student.portugueseScore, 
+                    student.mathRealized, 
+                    student.portugueseRealized
+                );
+                student.numQuestoes = numQuestoes; // Adicionar informação
+            });
+            
+            return { students, numQuestoes }; // Retornar ambos
+        }
+        
+        function findSheetByName(workbook, possibleNames) {
+            for (const name of possibleNames) {
+                const sheet = workbook.Sheets[name];
+                if (sheet) return sheet;
+            }
+            return null;
+        }
+        
+        // Função extractGabarito MODIFICADA para receber número de questões
+        function extractGabarito(gabaritoData, numQuestoes) {
+            for (let i = 0; i < Math.min(5, gabaritoData.length); i++) {
+                const row = gabaritoData[i];
+                if (row && row.length >= numQuestoes) {
+                    const startIndex = row.findIndex(cell => 
+                        cell && typeof cell === 'string' && 
+                        (cell.toUpperCase() === 'A' || cell.toUpperCase() === 'B' || 
+                         cell.toUpperCase() === 'C' || cell.toUpperCase() === 'D' || 
+                         cell.toUpperCase() === 'E')
+                    );
+                    
+                    if (startIndex !== -1) {
+                        return row.slice(startIndex, startIndex + numQuestoes);
+                    }
+                }
+            }
+            return Array(numQuestoes).fill(''); // Retornar array com tamanho correto
+        }
+        
+        // Função processStudentData MODIFICADA para usar número dinâmico de questões
+        function processStudentData(sheetData, students, subject, gabarito, totalQuestions) {
+            for (let i = 1; i < sheetData.length; i++) {
+                const row = sheetData[i];
+                if (!row || row.length < 3) continue;
+                
+                const code = row[0]?.toString().trim();
+                const name = row[1]?.toString().trim();
+                const serie = row[2]?.toString().trim();
+                
+                if (!code) continue;
+                
+                let student = students.find(s => s.code === code);
+                if (!student) {
+                    student = { 
+                        code, 
+                        name: name || 'N/A', 
+                        serie: serie || 'N/A',
+                        mathScore: "0.00", 
+                        portugueseScore: "0.00", 
+                        average: "0.00",
+                        mathCorrect: 0,
+                        portugueseCorrect: 0,
+                        mathPercentage: "0.0",
+                        portuguesePercentage: "0.0",
+                        mathRealized: false,
+                        portugueseRealized: false,
+                        numQuestoes: totalQuestions
+                    };
+                    students.push(student);
+                }
+                
+                let correctAnswers = 0;
+                // Usar totalQuestions dinamicamente (MODIFICADO)
+                const respostas = row.slice(3, 3 + totalQuestions);
+                
+                for (let j = 0; j < respostas.length && j < gabarito.length; j++) {
+                    if (respostas[j]?.toString().trim().toUpperCase() === gabarito[j]?.toString().trim().toUpperCase()) {
+                        correctAnswers++;
+                    }
+                }
+                
+                if (subject === 'math') {
+                    student.mathCorrect = correctAnswers;
+                    student.mathPercentage = ((correctAnswers / totalQuestions) * 100).toFixed(1);
+                    student.mathScore = calculateScore(correctAnswers, totalQuestions);
+                    student.mathRealized = correctAnswers > 0;
+                } else {
+                    student.portugueseCorrect = correctAnswers;
+                    student.portuguesePercentage = ((correctAnswers / totalQuestions) * 100).toFixed(1);
+                    student.portugueseScore = calculateScore(correctAnswers, totalQuestions);
+                    student.portugueseRealized = correctAnswers > 0;
+                }
+            }
+        }
+        
+        function calculateScore(correctAnswers, totalQuestions) {
+            return ((correctAnswers / totalQuestions) * 10).toFixed(2);
+        }
+        
+        function calculateAverage(mathScore, portugueseScore, mathRealized, portugueseRealized) {
+            const math = mathRealized ? parseFloat(mathScore) : 0;
+            const portuguese = portugueseRealized ? parseFloat(portugueseScore) : 0;
+            return ((math + portuguese) / 2).toFixed(2);
+        }
+        
+        function getScoreClass(score) {
+            const numScore = parseFloat(score);
+            if (numScore >= 7) return 'score-excellent';
+            if (numScore >= 5) return 'score-good';
+            return 'score-poor';
+        }
+        
+        // Função displayReport1 MODIFICADA para mostrar número correto de questões
+        function displayReport1(students) {
+            if (students.length === 0) {
+                report1Container.innerHTML = `
+                    <div class="status-message info">
+                        Nenhum aluno encontrado para a turma selecionada.
+                    </div>`;
+                return;
+            }
+            
+            // Usar o número de questões do primeiro aluno ou global
+            const numQuestoes = students[0]?.numQuestoes || globalNumQuestoes || 26;
+            
+            let mathSum = 0, portugueseSum = 0, averageSum = 0;
+            let mathCount = 0, portugueseCount = 0, averageCount = 0;
+            
+            students.forEach(student => {
+                if (student.mathRealized) {
+                    mathSum += parseFloat(student.mathScore);
+                    mathCount++;
+                }
+                if (student.portugueseRealized) {
+                    portugueseSum += parseFloat(student.portugueseScore);
+                    portugueseCount++;
+                }
+                if (student.mathRealized || student.portugueseRealized) {
+                    averageSum += parseFloat(student.average);
+                    averageCount++;
+                }
+            });
+            
+            const mathAverage = mathCount > 0 ? (mathSum / mathCount).toFixed(2) : "0.00";
+            const portugueseAverage = portugueseCount > 0 ? (portugueseSum / portugueseCount).toFixed(2) : "0.00";
+            const overallAverage = averageCount > 0 ? (averageSum / averageCount).toFixed(2) : "0.00";
+            
+            let html = `
+                <h2>Relatório de Desempenho - Turma ${currentFilter}</h2>
+                <div class="summary">
+                    <div class="summary-card">
+                        <h3>Média de Matemática</h3>
+                        <div class="value">${mathAverage}</div>
+                        <small>(${mathCount} alunos realizaram)</small>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Média de Português</h3>
+                        <div class="value">${portugueseAverage}</div>
+                        <small>(${portugueseCount} alunos realizaram)</small>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Média Geral</h3>
+                        <div class="value">${overallAverage}</div>
+                        <small>(${averageCount} alunos com notas)</small>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Total de Alunos</h3>
+                        <div class="value">${students.length}</div>
+                        <small>(${numQuestoes} questões por matéria)</small>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 30px;">Notas Individuais</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nome do Aluno</th>
+                            <th>Série</th>
+                            <th>Matemática</th>
+                            <th>Português</th>
+                            <th>Média</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            students.forEach(student => {
+                const mathClass = student.mathRealized ? getScoreClass(student.mathScore) : 'not-realized';
+                const portugueseClass = student.portugueseRealized ? getScoreClass(student.portugueseScore) : 'not-realized';
+                const averageClass = getScoreClass(student.average);
+                
+                const mathDisplay = student.mathRealized ? 
+                    `${student.mathScore} <small>(${student.mathCorrect}/${numQuestoes} - ${student.mathPercentage}%)</small>` : 
+                    '<span class="not-realized">Não Pontuou</span>';
+                
+                const portugueseDisplay = student.portugueseRealized ? 
+                    `${student.portugueseScore} <small>(${student.portugueseCorrect}/${numQuestoes} - ${student.portuguesePercentage}%)</small>` : 
+                    '<span class="not-realized">Não realizada</span>';
+                
+                html += `
+                    <tr>
+                        <td>${student.code}</td>
+                        <td>${student.name}</td>
+                        <td>${student.serie}</td>
+                        <td class="math-score ${mathClass}">${mathDisplay}</td>
+                        <td class="portuguese-score ${portugueseClass}">${portugueseDisplay}</td>
+                        <td class="average-score ${averageClass}">${student.average}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `</tbody></table>`;
+            report1Container.innerHTML = html;
+        }
+        
+        // ==================== RELATÓRIO 2 - FUNÇÕES ====================
+        generateReport2Btn.addEventListener('click', function() {
+            if (!workbookData) {
+                showMessage('Nenhum arquivo carregado. Importe uma planilha primeiro.', 'error');
+                return;
+            }
+            
+            try {
+                showMessage('Processando ambas as matérias...', 'loading');
+                
+                // Usar globalNumQuestoes detectado do Relatório 1
+                const numQuestoes = globalNumQuestoes || 26;
+                
+                mathReports = generateDetailedReport(workbookData, 'MATEMÁTICA', numQuestoes); // MODIFICADO
+                portugueseReports = generateDetailedReport(workbookData, 'PORTUGUÊS', numQuestoes); // MODIFICADO
+                
+                collectAvailableClasses2();
+                updateClassButtons2();
+                
+                // Selecionar primeira turma automaticamente
+                if (availableClasses2.size > 0) {
+                    const firstClass = Array.from(availableClasses2)[0];
+                    currentClass2 = firstClass;
+                    updateClassButtons2();
+                    updateDisplayReport2();
+                } else {
+                    showMessage('Nenhuma turma encontrada nos dados.', 'error');
+                }
+                
+                saveBtn2.disabled = false;
+                
+                // Navegar para o relatório 2
+                navButtons.forEach(b => b.classList.remove('active'));
+                document.querySelector('.nav-btn[data-section="report2"]').classList.add('active');
+                reportSections.forEach(s => s.classList.remove('active'));
+                document.getElementById('report2Section').classList.add('active');
+                
+                showMessage(`Relatórios detalhados gerados com sucesso! (${numQuestoes} questões)`, 'success');
+                
+            } catch (error) {
+                showMessage(`Erro ao gerar relatório: ${error.message}`, 'error');
+            }
+        });
+        
+        // Eventos dos botões de filtro do Relatório 2
+        subjectButtons2.forEach(btn => {
+            btn.addEventListener('click', function() {
+                subjectButtons2.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentSubject2 = this.getAttribute('data-subject');
+                updateDisplayReport2();
+            });
+        });
+        
+        function updateClassButtons2() {
+            classSelector2.innerHTML = '';
+            
+            availableClasses2.forEach(turma => {
+                const btn = document.createElement('button');
+                btn.className = `class-btn ${currentClass2 === turma ? 'active' : ''}`;
+                btn.setAttribute('data-class', turma);
+                btn.textContent = turma;
+                btn.addEventListener('click', function() {
+                    classSelector2.querySelectorAll('.class-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentClass2 = this.getAttribute('data-class');
+                    updateDisplayReport2();
+                });
+                classSelector2.appendChild(btn);
+            });
+        }
+        
+        function collectAvailableClasses2() {
+            availableClasses2.clear();
+            
+            mathReports.forEach(report => {
+                if (report.serie) availableClasses2.add(report.serie);
+            });
+            
+            portugueseReports.forEach(report => {
+                if (report.serie) availableClasses2.add(report.serie);
+            });
+        }
+        
+        function updateDisplayReport2() {
+            if (!currentClass2) return;
+            
+            let reportsToShow = [];
+            
+            if (currentSubject2 === 'MATEMÁTICA') {
+                reportsToShow = mathReports.filter(report => report.serie === currentClass2);
+            } else {
+                reportsToShow = portugueseReports.filter(report => report.serie === currentClass2);
+            }
+            
+            displayDetailedReport(reportsToShow);
+        }
+        
+        // Funções do Relatório 2 (MODIFICADA para receber número de questões)
+        function generateDetailedReport(workbook, subject, numQuestoes) {
+            let dataSheet, gabaritoSheet;
+            
+            if (subject === 'MATEMÁTICA') {
+                dataSheet = workbook.Sheets['MATEMÁTICA'];
+                gabaritoSheet = workbook.Sheets['GABARITO_M'];
+            } else {
+                dataSheet = workbook.Sheets['PORTUGUÊS'];
+                gabaritoSheet = workbook.Sheets['GABARITO_P'];
+            }
+            
+            if (!dataSheet || !gabaritoSheet) {
+                throw new Error(`Planilhas para ${subject} não encontradas`);
+            }
+            
+            const studentData = XLSX.utils.sheet_to_json(dataSheet, {header: 1});
+            const gabaritoData = XLSX.utils.sheet_to_json(gabaritoSheet, {header: 1});
+            
+            const questionNames = extractQuestionNames(gabaritoData, numQuestoes); // MODIFICADO
+            const gabarito = extractGabarito(gabaritoData, numQuestoes); // MODIFICADO
+            const descritores = extractDescritores(gabaritoData, numQuestoes); // MODIFICADO
+            
+            const detailedReports = [];
+            const totalQuestions = numQuestoes; // Usar número dinâmico
+            
+            for (let i = 1; i < studentData.length; i++) {
+                const row = studentData[i];
+                if (!row || row.length < 3) continue;
+                
+                const code = String(row[0] || '').trim();
+                const name = String(row[1] || '').trim();
+                const serie = String(row[2] || '').trim();
+                
+                if (!code || !name) continue;
+                
+                // Usar número dinâmico de questões (MODIFICADO)
+                const respostas = row.slice(3, 3 + numQuestoes);
+                const hasAnswers = respostas.some(answer => answer && String(answer).trim() !== '');
+                
+                if (!hasAnswers) continue;
+                
+                let correctAnswers = 0;
+                const questions = [];
+                
+                for (let j = 0; j < respostas.length && j < gabarito.length; j++) {
+                    const studentAnswer = String(respostas[j] || '').trim().toUpperCase();
+                    const correctAnswer = String(gabarito[j] || '').trim().toUpperCase();
+                    const isCorrect = studentAnswer === correctAnswer && studentAnswer !== '';
+                    
+                    if (isCorrect) correctAnswers++;
+                    
+                    questions.push({
+                        name: questionNames[j] || `Questão ${j + 1}`,
+                        studentAnswer: studentAnswer || '-',
+                        correctAnswer: correctAnswer,
+                        isCorrect: isCorrect,
+                        subject: descritores[j] || 'N/A'
+                    });
+                }
+                
+                const score = calculateScore(correctAnswers, totalQuestions);
+                const percentage = ((correctAnswers / totalQuestions) * 100).toFixed(1);
+                
+                detailedReports.push({
+                    code: code,
+                    name: name,
+                    serie: serie,
+                    subject: subject,
+                    questions: questions,
+                    correctAnswers: correctAnswers,
+                    totalQuestions: totalQuestions,
+                    score: score,
+                    percentage: percentage,
+                    wrongAnswers: totalQuestions - correctAnswers,
+                    numQuestoes: numQuestoes // Adicionar informação
+                });
+            }
+            
+            return detailedReports;
+        }
+        
+        // Função extractQuestionNames MODIFICADA
+        function extractQuestionNames(gabaritoData, numQuestoes) {
+            const names = [];
+            if (gabaritoData.length > 1) {
+                const row = gabaritoData[1];
+                for (let i = 2; i < 2 + numQuestoes; i++) {
+                    names.push(String(row[i] || `Questão ${i-1}`).trim());
+                }
+            }
+            return names;
+        }
+        
+        // Função extractDescritores MODIFICADA
+        function extractDescritores(gabaritoData, numQuestoes) {
+            const descritores = [];
+            if (gabaritoData.length > 3) {
+                const row = gabaritoData[3];
+                for (let i = 2; i < 2 + numQuestoes; i++) {
+                    descritores.push(String(row[i] || 'N/A').trim());
+                }
+            }
+            return descritores;
+        }
+        
+        function displayDetailedReport(reports) {
+            if (reports.length === 0) {
+                report2Container.innerHTML = `
+                    <div class="status-message info">
+                        Nenhum aluno encontrado para os filtros selecionados.
+                        <br>Matéria: ${currentSubject2} | Turma: ${currentClass2}
+                    </div>`;
+                return;
+            }
+            
+            const numQuestoes = reports[0]?.numQuestoes || 26;
+            
+            let html = `
+                <div class="current-filters">
+                    <strong>Filtros aplicados:</strong> Matéria: ${currentSubject2} | Turma: ${currentClass2}
+                </div>
+                <p style="text-align: center; margin: 10px 0;">
+                    Total de alunos: ${reports.length} | Questões: ${numQuestoes}
+                </p>
+            `;
+            
+            reports.forEach(report => {
+                html += `
+                    <div class="student-report">
+                        <div class="student-header">
+                            <h3>${report.name}</h3>
+                            <p>Código: ${report.code} | Série: ${report.serie} | Matéria: ${report.subject}</p>
+                        </div>
+                        <table class="question-table">
+                            <thead>
+                                <tr>
+                                    <th>Questão</th>
+                                    <th>Valor Informado</th>
+                                    <th>Valor Correto</th>
+                                    <th>Resultado</th>
+                                    <th>Assunto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                report.questions.forEach(question => {
+                    const rowClass = question.isCorrect ? 'correct' : 'incorrect';
+                    const result = question.isCorrect ? 'Certo' : 'Errado';
+                    
+                    html += `
+                        <tr class="${rowClass}">
+                            <td>${question.name}</td>
+                            <td>${question.studentAnswer}</td>
+                            <td>${question.correctAnswer}</td>
+                            <td class="result">${result}</td>
+                            <td><span class="subject-badge">${question.subject}</span></td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                            </tbody>
+                        </table>
+                        <div class="report-summary">
+                            <div class="summary-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">${report.correctAnswers}/${report.totalQuestions}</div>
+                                    <div class="stat-label">Acertos</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${report.score}</div>
+                                    <div class="stat-label">Nota</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${report.percentage}%</div>
+                                    <div class="stat-label">Percentual</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            report2Container.innerHTML = html;
+        }
+        
+        // ==================== RELATÓRIO 3 - FUNÇÕES ====================
+        generateReport3Btn.addEventListener('click', function() {
+            if (!workbookData) {
+                showMessage('Nenhum arquivo carregado. Importe uma planilha primeiro.', 'error');
+                return;
+            }
+            
+            try {
+                showMessage('Processando dados consolidados...', 'loading');
+                
+                // Usar número de questões global
+                const numQuestoes = globalNumQuestoes || 26;
+                consolidatedData = generateConsolidatedReport(workbookData, numQuestoes); // MODIFICADO
+                
+                collectAvailableClasses3();
+                updateClassButtons3();
+                
+                // Selecionar primeira turma automaticamente
+                if (availableClasses3.size > 0) {
+                    const firstClass = Array.from(availableClasses3)[0];
+                    currentClass3 = firstClass;
+                    updateClassButtons3();
+                    updateDisplayReport3();
+                } else {
+                    showMessage('Nenhuma turma encontrada nos dados.', 'error');
+                }
+                
+                saveBtn3.disabled = false;
+                
+                // Navegar para o relatório 3
+                navButtons.forEach(b => b.classList.remove('active'));
+                document.querySelector('.nav-btn[data-section="report3"]').classList.add('active');
+                reportSections.forEach(s => s.classList.remove('active'));
+                document.getElementById('report3Section').classList.add('active');
+                
+                showMessage(`Relatório consolidado gerado com sucesso! (${numQuestoes} questões)`, 'success');
+                
+            } catch (error) {
+                showMessage(`Erro ao gerar relatório: ${error.message}`, 'error');
+                console.error('Erro detalhado:', error);
+            }
+        });
+        
+        // Eventos dos botões de filtro do Relatório 3
+        subjectButtons3.forEach(btn => {
+            btn.addEventListener('click', function() {
+                subjectButtons3.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentSubject3 = this.getAttribute('data-subject');
+                updateDisplayReport3();
+            });
+        });
+        
+        function updateClassButtons3() {
+            classSelector3.innerHTML = '';
+            
+            availableClasses3.forEach(turma => {
+                const btn = document.createElement('button');
+                btn.className = `class-btn ${currentClass3 === turma ? 'active' : ''}`;
+                btn.setAttribute('data-class', turma);
+                btn.textContent = turma;
+                btn.addEventListener('click', function() {
+                    classSelector3.querySelectorAll('.class-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentClass3 = this.getAttribute('data-class');
+                    updateDisplayReport3();
+                });
+                classSelector3.appendChild(btn);
+            });
+        }
+        
+        function collectAvailableClasses3() {
+            availableClasses3.clear();
+            
+            consolidatedData.forEach(item => {
+                if (item.turmas) {
+                    item.turmas.forEach(turma => {
+                        availableClasses3.add(turma);
+                    });
+                }
+            });
+        }
+        
+        function updateDisplayReport3() {
+            if (!currentClass3) return;
+            
+            let filteredData = consolidatedData.filter(item => item.materia === currentSubject3);
+            filteredData = filteredData.map(item => {
+                const turmaData = item.turmaData && item.turmaData[currentClass3];
+                if (turmaData) {
+                    return {
+                        ...item,
+                        acertos: turmaData.acertos,
+                        erros: turmaData.erros,
+                        percentualAcertos: turmaData.percentualAcertos,
+                        totalAlunos: turmaData.totalAlunos
+                    };
+                }
+                return null;
+            }).filter(item => item && item.totalAlunos > 0);
+            
+            displayConsolidatedReport(filteredData);
+        }
+        
+        // Função principal para gerar relatório consolidado (Relatório 3) MODIFICADA
+        function generateConsolidatedReport(workbook, numQuestoes) {
+            const mathSheet = workbook.Sheets['MATEMÁTICA'];
+            const portugueseSheet = workbook.Sheets['PORTUGUÊS'];
+            const gabaritoMathSheet = workbook.Sheets['GABARITO_M'];
+            const gabaritoPortugueseSheet = workbook.Sheets['GABARITO_P'];
+            
+            if (!mathSheet || !portugueseSheet || !gabaritoMathSheet || !gabaritoPortugueseSheet) {
+                throw new Error('Planilhas necessárias não encontradas');
+            }
+            
+            // Extrair dados dos alunos
+            const mathData = XLSX.utils.sheet_to_json(mathSheet, {header: 1});
+            const portugueseData = XLSX.utils.sheet_to_json(portugueseSheet, {header: 1});
+            
+            // Extrair informações dos gabaritos usando número dinâmico
+            const mathGabarito = extractGabaritoInfo(gabaritoMathSheet, numQuestoes); // MODIFICADO
+            const portugueseGabarito = extractGabaritoInfo(gabaritoPortugueseSheet, numQuestoes); // MODIFICADO
+            
+            // Inicializar estrutura para dados consolidados
+            const consolidated = [];
+            
+            // Processar questões de matemática
+            mathGabarito.forEach((questao, index) => {
+                consolidated.push({
+                    questao: questao.nome,
+                    assunto: questao.assunto,
+                    materia: 'MATEMÁTICA',
+                    acertos: 0,
+                    erros: 0,
+                    totalAlunos: 0,
+                    percentualAcertos: 0,
+                    turmas: new Set(),
+                    turmaData: {},
+                    numQuestoes: numQuestoes // Adicionar informação
+                });
+            });
+            
+            // Processar questões de português
+            portugueseGabarito.forEach((questao, index) => {
+                consolidated.push({
+                    questao: questao.nome,
+                    assunto: questao.assunto,
+                    materia: 'PORTUGUÊS',
+                    acertos: 0,
+                    erros: 0,
+                    totalAlunos: 0,
+                    percentualAcertos: 0,
+                    turmas: new Set(),
+                    turmaData: {},
+                    numQuestoes: numQuestoes // Adicionar informação
+                });
+            });
+            
+            // Processar alunos de MATEMÁTICA
+            for (let i = 1; i < mathData.length; i++) {
+                const row = mathData[i];
+                if (!row || row.length < 3) continue;
+                
+                const serie = String(row[2] || '').trim();
+                if (!serie) continue;
+                
+                // Usar número dinâmico de questões
+                const respostas = row.slice(3, 3 + numQuestoes);
+                
+                for (let j = 0; j < respostas.length && j < mathGabarito.length; j++) {
+                    const studentAnswer = String(respostas[j] || '').trim().toUpperCase();
+                    const correctAnswer = String(mathGabarito[j].resposta || '').trim().toUpperCase();
+                    
+                    consolidated[j].totalAlunos++;
+                    consolidated[j].turmas.add(serie);
+                    
+                    if (!consolidated[j].turmaData[serie]) {
+                        consolidated[j].turmaData[serie] = {
+                            acertos: 0,
+                            erros: 0,
+                            totalAlunos: 0,
+                            percentualAcertos: 0
+                        };
+                    }
+                    
+                    consolidated[j].turmaData[serie].totalAlunos++;
+                    
+                    if (studentAnswer === correctAnswer && studentAnswer !== '') {
+                        consolidated[j].acertos++;
+                        consolidated[j].turmaData[serie].acertos++;
+                    } else if (studentAnswer !== '') {
+                        consolidated[j].erros++;
+                        consolidated[j].turmaData[serie].erros++;
+                    }
+                }
+            }
+            
+            // Processar alunos de PORTUGUÊS
+            for (let i = 1; i < portugueseData.length; i++) {
+                const row = portugueseData[i];
+                if (!row || row.length < 3) continue;
+                
+                const serie = String(row[2] || '').trim();
+                if (!serie) continue;
+                
+                const respostas = row.slice(3, 3 + numQuestoes); // MODIFICADO
+                const startIndex = mathGabarito.length;
+                
+                for (let j = 0; j < respostas.length && j < portugueseGabarito.length; j++) {
+                    const consolidatedIndex = startIndex + j;
+                    const studentAnswer = String(respostas[j] || '').trim().toUpperCase();
+                    const correctAnswer = String(portugueseGabarito[j].resposta || '').trim().toUpperCase();
+                    
+                    consolidated[consolidatedIndex].totalAlunos++;
+                    consolidated[consolidatedIndex].turmas.add(serie);
+                    
+                    if (!consolidated[consolidatedIndex].turmaData[serie]) {
+                        consolidated[consolidatedIndex].turmaData[serie] = {
+                            acertos: 0,
+                            erros: 0,
+                            totalAlunos: 0,
+                            percentualAcertos: 0
+                        };
+                    }
+                    
+                    consolidated[consolidatedIndex].turmaData[serie].totalAlunos++;
+                    
+                    if (studentAnswer === correctAnswer && studentAnswer !== '') {
+                        consolidated[consolidatedIndex].acertos++;
+                        consolidated[consolidatedIndex].turmaData[serie].acertos++;
+                    } else if (studentAnswer !== '') {
+                        consolidated[consolidatedIndex].erros++;
+                        consolidated[consolidatedIndex].turmaData[serie].erros++;
+                    }
+                }
+            }
+            
+            // Calcular percentuais
+            consolidated.forEach(item => {
+                if (item.totalAlunos > 0) {
+                    item.percentualAcertos = ((item.acertos / item.totalAlunos) * 100).toFixed(2);
+                }
+                
+                Object.keys(item.turmaData).forEach(turma => {
+                    const turmaItem = item.turmaData[turma];
+                    if (turmaItem.totalAlunos > 0) {
+                        turmaItem.percentualAcertos = ((turmaItem.acertos / turmaItem.totalAlunos) * 100).toFixed(2);
+                    }
+                });
+                
+                item.turmas = Array.from(item.turmas);
+            });
+            
+            return consolidated;
+        }
+        
+        // Função para extrair informações do gabarito (Relatório 3) MODIFICADA
+        function extractGabaritoInfo(gabaritoSheet, numQuestoes) {
+            const gabaritoData = XLSX.utils.sheet_to_json(gabaritoSheet, {header: 1});
+            const questoes = [];
+            
+            if (gabaritoData.length >= 4) {
+                const nomes = gabaritoData[1] ? gabaritoData[1].slice(2, 2 + numQuestoes) : [];
+                const respostas = gabaritoData[2] ? gabaritoData[2].slice(2, 2 + numQuestoes) : [];
+                const assuntos = gabaritoData[3] ? gabaritoData[3].slice(2, 2 + numQuestoes) : [];
+                
+                for (let i = 0; i < numQuestoes; i++) {
+                    questoes.push({
+                        nome: nomes[i] || `Questão ${i + 1}`,
+                        resposta: respostas[i] || '',
+                        assunto: assuntos[i] || 'N/A'
+                    });
+                }
+            }
+            
+            return questoes;
+        }
+        
+        // Função para exibir relatório consolidado (MANTIDA IGUAL)
+        function displayConsolidatedReport(data) {
+            if (data.length === 0) {
+                report3Container.innerHTML = `
+                    <div class="card">
+                        <div class="status-message info">
+                            Nenhum dado encontrado para os filtros selecionados.
+                            <br>Matéria: ${currentSubject3} | Turma: ${currentClass3}
+                        </div>
+                    </div>`;
+                return;
+            }
+            
+            // Calcular totais
+            const totalAcertos = data.reduce((sum, item) => sum + parseInt(item.acertos), 0);
+            const totalErros = data.reduce((sum, item) => sum + parseInt(item.erros), 0);
+            const totalAlunos = data.reduce((sum, item) => sum + parseInt(item.totalAlunos), 0);
+            const percentualGeral = totalAlunos > 0 ? ((totalAcertos / totalAlunos) * 100).toFixed(2) : 0;
+            
+            let html = `
+                <div class="current-filters">
+                    <strong>Filtros aplicados:</strong> Matéria: ${currentSubject3} | Turma: ${currentClass3}
+                </div>
+                
+                <table class="consolidated-table">
+                    <thead>
+                        <tr>
+                            <th>Questão</th>
+                            <th>Assunto</th>
+                            <th>Acertos</th>
+                            <th>Erros</th>
+                            <th>Acertos (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            data.forEach(item => {
+                const percentualClass = getPercentageClass(item.percentualAcertos);
+                const materiaBadgeClass = item.materia === 'MATEMÁTICA' ? 'badge-matematica' : 'badge-portugues';
+                
+                html += `
+                    <tr>
+                        <td>
+                            <strong>${item.questao}</strong>
+                            <div class="materia-badge ${materiaBadgeClass}">${item.materia}</div>
+                        </td>
+                        <td>${item.assunto}</td>
+                        <td>${item.acertos}</td>
+                        <td>${item.erros}</td>
+                        <td class="percentage-cell ${percentualClass}">${item.percentualAcertos}%</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+                
+                <div class="consolidated-summary-stats">
+                    <div class="consolidated-stat-item">
+                        <div class="consolidated-stat-value">${data.length}</div>
+                        <div class="consolidated-stat-label">Total de Questões</div>
+                    </div>
+                    <div class="consolidated-stat-item">
+                        <div class="consolidated-stat-value">${totalAcertos}</div>
+                        <div class="consolidated-stat-label">Total de Acertos</div>
+                    </div>
+                    <div class="consolidated-stat-item">
+                        <div class="consolidated-stat-value">${totalErros}</div>
+                        <div class="consolidated-stat-label">Total de Erros</div>
+                    </div>
+                    <div class="consolidated-stat-item">
+                        <div class="consolidated-stat-value ${getPercentageClass(percentualGeral)}">${percentualGeral}%</div>
+                        <div class="consolidated-stat-label">Percentual Geral</div>
+                    </div>
+                </div>
+            `;
+            
+            report3Container.innerHTML = html;
+        }
+        
+        // Função para determinar a classe CSS baseada no percentual
+        function getPercentageClass(percentual) {
+            const percent = parseFloat(percentual);
+            if (percent >= 70) return 'percentage-high';
+            if (percent >= 40) return 'percentage-medium';
+            return 'percentage-low';
+        }
+        
+        // ==================== RELATÓRIO 4 - FUNÇÕES ====================
+        generateReport4Btn.addEventListener('click', function() {
+            if (!workbookData) {
+                showMessage('Nenhum arquivo carregado. Importe uma planilha primeiro.', 'error');
+                return;
+            }
+            
+            try {
+                showMessage('Processando dados para gráfico...', 'loading');
+                
+                // Usar número de questões global
+                const numQuestoes = globalNumQuestoes || 26;
+                chartData4 = generateConsolidatedReport(workbookData, numQuestoes); // MODIFICADO
+                
+                collectAvailableClasses4();
+                updateClassButtons4();
+                
+                // Selecionar primeira turma automaticamente
+                if (availableClasses4.size > 0) {
+                    const firstClass = Array.from(availableClasses4)[0];
+                    currentClass4 = firstClass;
+                    updateClassButtons4();
+                    updateDisplayReport4();
+                } else {
+                    showMessage('Nenhuma turma encontrada nos dados.', 'error');
+                }
+                
+                saveBtn4.disabled = false;
+                
+                // Navegar para o relatório 4
+                navButtons.forEach(b => b.classList.remove('active'));
+                document.querySelector('.nav-btn[data-section="report4"]').classList.add('active');
+                reportSections.forEach(s => s.classList.remove('active'));
+                document.getElementById('report4Section').classList.add('active');
+                
+                showMessage(`Dados para gráfico processados com sucesso! (${numQuestoes} questões)`, 'success');
+                
+            } catch (error) {
+                showMessage(`Erro ao gerar dados para gráfico: ${error.message}`, 'error');
+                console.error('Erro detalhado:', error);
+            }
+        });
+        
+        // Eventos dos botões de filtro do Relatório 4
+        subjectButtons4.forEach(btn => {
+            btn.addEventListener('click', function() {
+                subjectButtons4.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentSubject4 = this.getAttribute('data-subject');
+                updateDisplayReport4();
+            });
+        });
+        
+        function updateClassButtons4() {
+            classSelector4.innerHTML = '';
+            
+            availableClasses4.forEach(turma => {
+                const btn = document.createElement('button');
+                btn.className = `class-btn ${currentClass4 === turma ? 'active' : ''}`;
+                btn.setAttribute('data-class', turma);
+                btn.textContent = turma;
+                btn.addEventListener('click', function() {
+                    classSelector4.querySelectorAll('.class-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentClass4 = this.getAttribute('data-class');
+                    updateDisplayReport4();
+                });
+                classSelector4.appendChild(btn);
+            });
+        }
+        
+        function collectAvailableClasses4() {
+            availableClasses4.clear();
+            
+            chartData4.forEach(item => {
+                if (item.turmas) {
+                    item.turmas.forEach(turma => {
+                        availableClasses4.add(turma);
+                    });
+                }
+            });
+        }
+        
+        function updateDisplayReport4() {
+            if (!currentClass4) return;
+            
+            let filteredData = chartData4.filter(item => item.materia === currentSubject4);
+            filteredData = filteredData.map(item => {
+                const turmaData = item.turmaData && item.turmaData[currentClass4];
+                if (turmaData) {
+                    return {
+                        ...item,
+                        acertos: turmaData.acertos,
+                        erros: turmaData.erros,
+                        percentualAcertos: turmaData.percentualAcertos,
+                        totalAlunos: turmaData.totalAlunos
+                    };
+                }
+                return null;
+            }).filter(item => item && item.totalAlunos > 0);
+            
+            displayChart4(filteredData);
+        }
+        
+        // Função para exibir gráfico (Relatório 4) - MANTIDA IGUAL
+        function displayChart4(data) {
+            if (data.length === 0) {
+                report4Container.innerHTML = `
+                    <div class="card">
+                        <div class="status-message info">
+                            Nenhum dado encontrado para os filtros selecionados.
+                            <br>Matéria: ${currentSubject4} | Turma: ${currentClass4}
+                        </div>
+                    </div>`;
+                return;
+            }
+            
+            // Destruir gráfico anterior se existir
+            if (chartInstance4) {
+                chartInstance4.destroy();
+            }
+            
+            // Preparar dados para o gráfico
+            const labels = data.map(item => item.questao);
+            const acertosData = data.map(item => item.acertos);
+            const errosData = data.map(item => item.erros);
+            
+            // Criar HTML do gráfico
+            report4Container.innerHTML = `
+                <div class="current-filters">
+                    <strong>Filtros aplicados:</strong> Matéria: ${currentSubject4} | Turma: ${currentClass4}
+                </div>
+                
+                <h3 class="chart-title">Desempenho por Exercício - ${currentSubject4}</h3>
+                
+                <div class="chart-container">
+                    <canvas id="performanceChart4"></canvas>
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color legend-acertos"></div>
+                        <span>Acertos</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-erros"></div>
+                        <span>Erros</span>
+                    </div>
+                </div>
+            `;
+            
+            // Criar o gráfico
+            const ctx = document.getElementById('performanceChart4').getContext('2d');
+            chartInstance4 = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Acertos',
+                            data: acertosData,
+                            backgroundColor: '#2196F3',
+                            borderColor: '#1976D2',
+                            borderWidth: 2,
+                        },
+                        {
+                            label: 'Erros',
+                            data: errosData,
+                            backgroundColor: '#F44336',
+                            borderColor: '#D32F2F',
+                            borderWidth: 2,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Exercícios',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                maxRotation: 90,
+                                minRotation: 90,
+                                font: {
+                                    size: 12,
+                                    weight: 'bold',
+                                    family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                                },
+                                padding: 10,
+                                color: '#2c3e50'
+                            },
+                            grid: {
+                                display: true,
+                                color: 'rgba(0,0,0,0.1)'
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Quantidade de Respostas',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                stepSize: 5,
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true,
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    elements: {
+                        bar: {
+                            borderWidth: 2,
+                            borderColor: 'rgba(255,255,255,0.8)',
+                            borderRadius: 4,
+                            backgroundColor: 'rgba(255,255,255,0.1)'
+                        }
+                    },
+                    barPercentage: 0.8,
+                    categoryPercentage: 0.8
+                }
+            });
+        }
+        
+        // ==================== INICIALIZAÇÃO ====================
+        updateCurrentDate();
+        setupNavigation();
+        setupSaveButtons();
+    </script>
 </body>
 </html>
