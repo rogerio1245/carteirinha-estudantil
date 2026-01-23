@@ -407,17 +407,44 @@
     ctx.fillStyle = '#000'; // Cor preta para boa legibilidade
     ctx.textAlign = 'left';
     
-    // Nome do aluno (campo superior direito) - AJUSTADO
+    // Nome do aluno (campo superior direito)
     ctx.font = 'bold 16px Arial';
     ctx.fillText(aluno.nome.toUpperCase(), 335, 130);
     
-    // Demais dados (alinhados verticalmente) - AJUSTADOS
+    // Demais dados (alinhados verticalmente)
     ctx.font = '16px Arial';
     ctx.fillText(aluno.instituicao, 460, 190);   // Instituição
     ctx.fillText(aluno.curso, 460, 245);         // Curso
     ctx.fillText(aluno.cidade, 460, 300);        // Cidade
     ctx.fillText(aluno.turno, 460, 357);         // Turno
     ctx.fillText(aluno.validade, 460, 420);      // Validade
+    
+    // VERIFICA SE TEM SEGUNDA MATRÍCULA (NOVO CÓDIGO)
+    if (aluno.temOutraMatricula && aluno.segundaInstituicao) {
+      // Adiciona observação (primeiro retângulo azul)
+      ctx.fillStyle = '#1a237e'; // Azul escuro
+      ctx.fillRect(300, 440, 450, 30); // Retângulo azul para observação
+      
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 14px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('OBS: ESTUDÁ TAMBÉM EM OUTRA INSTITUIÇÃO', largura/2, 462);
+      ctx.textAlign = 'left';
+      
+      // Dados da segunda matrícula (segundo retângulo azul)
+      ctx.fillStyle = '#1a237e'; // Azul escuro
+      ctx.fillRect(300, 475, 450, 60); // Retângulo azul para segunda matrícula
+      
+      ctx.fillStyle = 'white';
+      ctx.font = '14px Arial';
+      
+      // Primeira linha: INSTITUIÇÃO e CURSO
+      ctx.fillText(`INSTITUIÇÃO: ${aluno.segundaInstituicao}`, 310, 495);
+      ctx.fillText(`CURSO: ${aluno.segundoCurso}`, 310, 515);
+      
+      // Segunda linha: CIDADE
+      ctx.fillText(`CIDADE: ${aluno.segundaCidade}`, 310, 535);
+    }
     
     // MATRÍCULA VERTICAL (lado esquerdo)
     ctx.save();
@@ -556,7 +583,7 @@
   }
 
   // ============================================
-  // FUNÇÃO PRINCIPAL - GERAR CARTEIRINHA
+  // FUNÇÃO PRINCIPAL - GERAR CARTEIRINHA (ATUALIZADA)
   // ============================================
   async function gerarCarteirinha() {
     const cpfInput = document.getElementById('cpf');
@@ -575,11 +602,28 @@
       cpfInput.value = formatarCPF(cpf);
       
       const hash = sha256(cpf);
-      alunoAtual = alunos.find(a => a.hash === hash);
       
-      if (!alunoAtual) {
+      // Buscar TODOS os registros deste CPF (pode retornar múltiplos)
+      const alunosEncontrados = alunos.filter(a => a.hash === hash);
+      
+      if (alunosEncontrados.length === 0) {
         mostrarStatus('Aluno não encontrado. Verifique o CPF.', 'error');
         return;
+      }
+      
+      // Para facilitar, usamos o primeiro registro como principal
+      // Se houver mais de um registro, marcamos que tem múltiplas matrículas
+      const alunoPrincipal = alunosEncontrados[0];
+      
+      // Verificar se existe registro com temOutraMatricula = true
+      const temMatriculaDupla = alunosEncontrados.some(a => a.temOutraMatricula);
+      
+      if (temMatriculaDupla) {
+        // Encontrar o registro que tem os dados da segunda matrícula
+        const alunoComDupla = alunosEncontrados.find(a => a.temOutraMatricula);
+        alunoAtual = alunoComDupla;
+      } else {
+        alunoAtual = alunoPrincipal;
       }
       
       mostrarStatus(`Carregando dados de: ${alunoAtual.nome}`, 'info');
@@ -591,12 +635,12 @@
       ]);
       
       // Informações de debug
-     // let infoMsg = '';
-     // infoMsg += frenteResult.sucesso ? '✅ Modelo frente carregado\n' : '❌ Modelo frente não encontrado\n';
-      //infoMsg += versoResult.sucesso ? '✅ Modelo verso carregado\n' : '❌ Modelo verso não encontrado\n';
-      //infoMsg += fotoResult.sucesso ? '✅ Foto carregada\n' : '❌ Foto não encontrado\n';
+      let infoMsg = '';
+      infoMsg += frenteResult.sucesso ? '✅ Modelo frente carregado\n' : '❌ Modelo frente não encontrado\n';
+      infoMsg += versoResult.sucesso ? '✅ Modelo verso carregado\n' : '❌ Modelo verso não encontrado\n';
+      infoMsg += fotoResult.sucesso ? '✅ Foto carregada\n' : '❌ Foto não encontrado\n';
       
-     // mostrarInfoImagens(infoMsg, frenteResult.sucesso || versoResult.sucesso || fotoResult.sucesso);
+      mostrarInfoImagens(infoMsg, frenteResult.sucesso || versoResult.sucesso || fotoResult.sucesso);
       
       // Desenha as carteirinhas com coordenadas ajustadas
       desenharFrenteBasica(ctxFrente, alunoAtual, frenteResult, fotoResult);
@@ -605,7 +649,11 @@
       // Mostra botão de salvar
       btnSalvar.style.display = 'inline-block';
       
-      mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome}`, 'success');
+      if (alunosEncontrados.length > 1) {
+        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome} (${alunosEncontrados.length} matrículas)`, 'success');
+      } else {
+        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome}`, 'success');
+      }
       
     } catch (error) {
       console.error('Erro crítico:', error);
@@ -651,10 +699,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
