@@ -422,18 +422,18 @@
     // VERIFICA SE TEM SEGUNDA MATRÍCULA (DETECÇÃO AUTOMÁTICA)
     if (alunoSecundario) {
       // Adiciona observação (primeiro retângulo azul)
-      ctx.fillStyle = '#1a237e';
-      ctx.fillRect(300, 440, 450, 30);
-      
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 14px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('OBS: ESTUDÁ TAMBÉM EM OUTRA INSTITUIÇÃO', largura/2, 462);
-      ctx.textAlign = 'left';
-      
-      // Dados da segunda matrícula (segundo retângulo azul)
-      ctx.fillStyle = '#1a237e';
-      ctx.fillRect(300, 475, 450, 60);
+        // VERIFICA SE TEM SEGUNDA MATRÍCULA (APENAS TEXTO)
+  if (alunoSecundario) {
+    // Adiciona observação em texto preto normal
+    ctx.font = 'bold 14px Arial';
+    ctx.fillText('OBS: ESTUDÁ TAMBÉM EM OUTRA INSTITUIÇÃO', 460, 440);
+    
+    // Dados da segunda matrícula em texto preto normal
+    ctx.font = '14px Arial';
+    
+    // Linha: INSTITUIÇÃO
+    ctx.fillText(`UMA INSTITUIÇÃO: ${alunoSecundario.instituicao}`, 460, 470);
+  }
       
       ctx.fillStyle = 'white';
       ctx.font = '14px Arial';
@@ -682,3 +682,4 @@
   </script>
 </body>
 </html>
+
