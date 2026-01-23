@@ -245,7 +245,7 @@
     placeholders: {
       frente: "https://via.placeholder.com/800x500/4a6fa5/ffffff?text=CARTEIRINHA+ESTUDANTIL",
       verso: "https://via.placeholder.com/800x500/2c3e50/ffffff?text=VERSO+DA+CARTEIRINHA",
-      duplamatricula: "https://via.placeholder.com/800x500/666666/ffffff?text=DUPLA+MATRÍCULA",
+      verso2: "https://via.placeholder.com/800x500/666666/ffffff?text=SEGUNDA+MATRÍCULA",
       foto: (matricula) => `https://ui-avatars.com/api/?name=Aluno&background=4a6fa5&color=fff&size=256&bold=true&length=1`
     }
   };
@@ -266,13 +266,12 @@
   let matriculaSecundaria = null;
 
   // ============================================
-  // DIMENSÕES PARA PDF (tamanho real para impressão e recorte)
+  // DIMENSÕES PARA PDF
   // ============================================
   const DIMENSOES_CARTEIRINHA = {
-    // Tamanho padrão de carteirinha: ~8.56cm x 5.398cm
-    largura: 85.6,   // mm
-    altura: 53.98,   // mm
-    espaco: 2        // mm de espaço entre frente e verso (mínimo para recorte)
+    largura: 85.6,
+    altura: 53.98,
+    espaco: 2
   };
 
   // ============================================
@@ -352,9 +351,9 @@
   }
 
   // ============================================
-  // DESENHO DA Frente - Mantém apenas dados principais
+  // DESENHO DA FRENTE - SIMPLES
   // ============================================
-  function desenharFrenteBasica(ctx, alunoPrincipal, fundo = null, foto = null) {
+  function desenharFrenteBasica(ctx, aluno, fundo = null, foto = null) {
     const largura = ctx.canvas.width;
     const altura = ctx.canvas.height;
     
@@ -365,7 +364,6 @@
     if (fundo && fundo.sucesso) {
       ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
     } else {
-      // Fallback se não houver imagem de fundo
       const grad = ctx.createLinearGradient(0, 0, largura, 0);
       grad.addColorStop(0, '#1a237e');
       grad.addColorStop(0.5, '#283593');
@@ -380,13 +378,12 @@
       ctx.textAlign = 'left';
     }
     
-    // ÁREA DA FOTO - COORDENADAS ORIGINAIS
+    // ÁREA DA FOTO
     const fotoX = 125;
     const fotoY = 195;
     const fotoW = 160;
     const fotoH = 180;
     
-    // Foto do aluno ou placeholder
     if (foto && foto.sucesso) {
       try {
         const scale = Math.min(fotoW / foto.imagem.width, fotoH / foto.imagem.height);
@@ -398,69 +395,48 @@
         ctx.drawImage(foto.imagem, offsetX, offsetY, scaledW, scaledH);
       } catch (e) {
         console.error('Erro ao desenhar foto:', e);
-        desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, alunoPrincipal.matricula);
+        desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, aluno.matricula);
       }
     } else {
-      desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, alunoPrincipal.matricula);
+      desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, aluno.matricula);
     }
     
-    // DADOS DO ALUNO - COORDENADAS ORIGINAIS
+    // DADOS DO ALUNO
     ctx.fillStyle = '#000';
     ctx.textAlign = 'left';
     
-    // Nome do aluno
     ctx.font = 'bold 16px Arial';
-    ctx.fillText(alunoPrincipal.nome.toUpperCase(), 335, 130);
+    ctx.fillText(aluno.nome.toUpperCase(), 335, 130);
     
-    // Demais dados
     ctx.font = '16px Arial';
-    ctx.fillText(alunoPrincipal.instituicao, 460, 190);
-    ctx.fillText(alunoPrincipal.curso, 460, 245);
-    ctx.fillText(alunoPrincipal.cidade, 460, 300);
-    ctx.fillText(alunoPrincipal.turno, 460, 357);
-    ctx.fillText(alunoPrincipal.validade, 460, 420);
+    ctx.fillText(aluno.instituicao, 460, 190);
+    ctx.fillText(aluno.curso, 460, 245);
+    ctx.fillText(aluno.cidade, 460, 300);
+    ctx.fillText(aluno.turno, 460, 357);
+    ctx.fillText(aluno.validade, 460, 420);
     
-    // MATRÍCULA VERTICAL (lado esquerdo)
+    // MATRÍCULA VERTICAL
     ctx.save();
     ctx.translate(82, 320);
     ctx.rotate(-Math.PI / 2);
     ctx.font = '24px Arial';
     ctx.fillStyle = '#4a6fa5';
-    ctx.fillText(alunoPrincipal.matricula, 0, 0);
+    ctx.fillText(aluno.matricula, 0, 0);
     ctx.restore();
   }
 
   // ============================================
-  // DESENHO DO VERSO - Agora usa duplamatricula.png quando houver
+  // DESENHO DO VERSO - SIMPLES
   // ============================================
-  function desenharVersoComDupla(ctx, alunoSecundario = null, fundo = null, duplamatricula = null) {
+  function desenharVersoBasico(ctx, fundo = null) {
     const largura = ctx.canvas.width;
     const altura = ctx.canvas.height;
     
     ctx.clearRect(0, 0, largura, altura);
     
-    // Se tem segunda matrícula E tem imagem duplamatricula.png
-    if (alunoSecundario && duplamatricula && duplamatricula.sucesso) {
-      // Usa a imagem duplamatricula.png como fundo
-      ctx.drawImage(duplamatricula.imagem, 0, 0, largura, altura);
-      
-      // Adiciona os dados da segunda matrícula sobre a imagem
-      // As coordenadas devem ser ajustadas conforme o layout da sua imagem
-      ctx.fillStyle = '#000'; // Texto preto
-      ctx.textAlign = 'left';
-      ctx.font = 'bold 16px Arial';
-      
-      // Ajuste estas coordenadas conforme o layout da sua imagem duplamatricula.png
-      // EXEMPLO - você precisará ajustar conforme sua imagem:
-      ctx.fillText(alunoSecundario.instituicao, 100, 200);   // Instituição
-      ctx.fillText(alunoSecundario.curso, 100, 240);         // Curso
-      ctx.fillText(alunoSecundario.cidade, 100, 280);        // Cidade
-      
-    } else if (fundo && fundo.sucesso) {
-      // Usa o modelo-verso.png normal
+    if (fundo && fundo.sucesso) {
       ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
     } else {
-      // Fallback para verso
       const grad = ctx.createLinearGradient(0, 0, 0, altura);
       grad.addColorStop(0, '#37474f');
       grad.addColorStop(1, '#263238');
@@ -558,7 +534,7 @@
   }
 
   // ============================================
-  // FUNÇÃO PRINCIPAL - GERAR CARTEIRINHA (ATUALIZADA)
+  // FUNÇÃO PRINCIPAL - GERAR CARTEIRINHA (SIMPLIFICADA)
   // ============================================
   async function gerarCarteirinha() {
     const cpfInput = document.getElementById('cpf');
@@ -597,7 +573,7 @@
         matriculaPrincipal = alunoAtual;
         console.log('✅ 1 matrícula encontrada para:', alunoAtual.nome);
       }
-      // Se houver múltiplos registros
+      // Se houver múltiplos registros (CPF duplicado)
       else if (alunosEncontrados.length > 1) {
         matriculaPrincipal = alunosEncontrados[0];
         matriculaSecundaria = alunosEncontrados[1];
@@ -610,31 +586,30 @@
       
       mostrarStatus(`Carregando dados de: ${alunoAtual.nome}`, 'info');
       
-      // Carregar imagens
-      const [frenteResult, versoResult, fotoResult, duplaResult] = await Promise.all([
-        carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-frente.png', 'frente'),
-        carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso.png', 'verso'),
-        carregarImagemComDetalhes(CONFIG.caminhoFotos + alunoAtual.matricula + '.JPG', 'foto'),
-        carregarImagemComDetalhes(CONFIG.caminhoImagens + 'duplamatricula.png', 'duplamatricula')
-      ]);
+      // Carregar imagens - ESCOLHE O VERSO CERTO
+      let frenteResult, versoResult, fotoResult;
       
-      // Desenha a carteirinha
-      desenharFrenteBasica(ctxFrente, matriculaPrincipal, frenteResult, fotoResult);
+      frenteResult = await carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-frente.png', 'frente');
+      fotoResult = await carregarImagemComDetalhes(CONFIG.caminhoFotos + alunoAtual.matricula + '.JPG', 'foto');
       
-      // Verifica se deve usar duplamatricula.png ou modelo-verso.png
-      if (matriculaSecundaria && duplaResult.sucesso) {
-        // Usa duplamatricula.png para alunos com duas matrículas
-        desenharVersoComDupla(ctxVerso, matriculaSecundaria, null, duplaResult);
+      // DECIDE QUAL VERSO USAR
+      if (alunosEncontrados.length > 1) {
+        // Usa modelo-verso2.png para CPFs com duas matrículas
+        versoResult = await carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso2.png', 'verso');
       } else {
-        // Usa modelo-verso.png normal
-        desenharVersoComDupla(ctxVerso, null, versoResult, null);
+        // Usa modelo-verso.png normal para CPFs com uma matrícula
+        versoResult = await carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso.png', 'verso');
       }
+      
+      // Desenha as carteirinhas
+      desenharFrenteBasica(ctxFrente, alunoAtual, frenteResult, fotoResult);
+      desenharVersoBasico(ctxVerso, versoResult);
       
       // Mostra botão de salvar
       btnSalvar.style.display = 'inline-block';
       
       if (alunosEncontrados.length > 1) {
-        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome} (${alunosEncontrados.length} matrículas)`, 'success');
+        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome} (${alunosEncontrados.length} cursos)`, 'success');
       } else {
         mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome}`, 'success');
       }
