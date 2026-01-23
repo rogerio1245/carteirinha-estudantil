@@ -1,1024 +1,762 @@
-const alunos = [
-  {
-    hash: "311b1abdaf0ec24d9f6e270f12a05c735bc25b42e1dbacc9e44b0b3aa0c09578",
-    nome: "ISABEL RIBEIRO E SILVA",
-    instituicao: "UNIMA AFYA",
-    curso: "PSICOLOGA",
-    matricula: "0001",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "97c29f8ecdf7e69e25cff14883b3403b7006c01aec8a4e7636248a67cd15fef0",
-    nome: "MARIANA MESSIAS DO NASCIMENTO",
-    instituicao: "IFAL",
-    curso: "TÉCNICO EM S. DO TRABALHO",
-    matricula: "0002",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "410bcc7f238b8aed97bf476ae421f0f84b2da4557555e8b62cda62e7fe53f36e",
-    nome: "ALDITAN MATHEUS S. DE O. LINS F.",
-    instituicao: "ESTÁCIO",
-    curso: "ENFERMAGEM",
-    matricula: "0003",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "e40ab4727ec76ddde2dbb45ec40d15e8786a5319460fb47c5433f0a2929b68da",
-    nome: "BARBARA GABRIELLY CERQUEIRA DOS SANTOS",
-    instituicao: "NERO",
-    curso: "AUXILIAR DE SAÚDE BUCAL",
-    matricula: "0004",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "48ad128d5e5ec4b14f4d7b61402631eaceb350804418129544f22efb558f13f2",
-    nome: "MARIANA EMANUELLY DA SILVA GOMES",
-    instituicao: "UNIMA",
-    curso: "ODONTOLOGIA",
-    matricula: "0005",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "358baa8a12158e87495d6602ae1b9bb4285a471945e5988c69d63fbbbb7e2157",
-    nome: "JESSICA CAJUEIRO DOS SANTOS",
-    instituicao: "UFAL",
-    curso: "TEC. EM ENF. LETRAS PORTUGUÊS",
-    matricula: "0006",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "bbac7924366a6b843c3bd1b4149b0134455108785bef0398d934845933b111f2",
-    nome: "NYVEA MIRIAM SANTOS FONSECA",
-    instituicao: "UFAL",
-    curso: "ODONTOLOGIA",
-    matricula: "0007",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "d80f04b7302e1ae27c6a5f365615b05cd78c67ad4b694deee5b65d2e44dad6db",
-    nome: "REINALDO SOARES DA SILVA",
-    instituicao: "UNIMA AFYA",
-    curso: "DIREITO",
-    matricula: "0008",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "e882483d0cb55ddff8459ef1437dca6bb5c2199d2f10c996a34b193e333c6ba9",
-    nome: "SAMUEL BELARMINO SANTOS",
-    instituicao: "IFAL",
-    curso: "INFORMÁTICA",
-    matricula: "0009",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "fcab44319504b547c4052d74a6a8519e0c0ac8e023c6c2f869c8219d437422e3",
-    nome: "VITÓRIA RAQUEL VICENTE CAVALCANTI",
-    instituicao: "UNOPAR",
-    curso: "PEDAGOGIA",
-    matricula: "0010",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "98f8017837d242d0545b032621966380dffac2537507d2225be22e1db5038b3a",
-    nome: "NATHÁLIA VITÓRIA TEIXEIRA SILVA",
-    instituicao: "IFAL",
-    curso: "INFORMÁTICA",
-    matricula: "0011",
-    cidade: "PALMEIRA DOS ÍNDIOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "2cec5caf79cab9df7dbd1fbe9a29cb94acd5abf429602ed1f9721fbecf740bda",
-    nome: "LUANA VIEIRA DA SILVA MESSIAS",
-    instituicao: "UNOPAR",
-    curso: "EDUCAÇÃO FÍSICA",
-    matricula: "0012",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "e9168c3c716ee224e4f6a4e15069d4531950e92c08df1123b3575396a88c131f",
-    nome: "EVELIN LEAH SANTOS DA SILVA",
-    instituicao: "IFAL",
-    curso: "DESENVOLVIMENTO DE SISTEMAS",
-    matricula: "0013",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "72cfab74d5adfc8902c43b7d1623d969978ed5af92fa4ba75aa4660b712a1e7b",
-    nome: "MARIA FERNANDA DA CONCEIÇÃO DA SILVA",
-    instituicao: "CPAN",
-    curso: "TÉCNICO EM ENFERMAGEM",
-    matricula: "0014",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "e8beec3e6b6811c2029be27b93640ff91379c75e2f1ff708ca800cf629f2791b",
-    nome: "CLARICE LIGIA DE CARVALHO SANTOS",
-    instituicao: "ANHANGUERA",
-    curso: "FISIOTERAPIA",
-    matricula: "0015",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "4d7f6bff12d99e06bdcadfb895a7cf56348d3d77db880a1c1653afa17eed5d02",
-    nome: "VALÉRIA PAULINO DOS SANTOS QUINTELA",
-    instituicao: "UNINASSAU",
-    curso: "FONOAUDIOLOGIA",
-    matricula: "0016",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "094b81e8776d8599f6bb5e4371e668b3b15eb83183c31f889b1c6acaf49b783c",
-    nome: "ROSANGELA DOS SANTOS DE MENEZES",
-    instituicao: "UNINASSAU",
-    curso: "FONOAUDIOLOGIA",
-    matricula: "0017",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "66a3a498c9698aeba8876bac396209e88c715b0dc2046403882b9d4897fc5c43",
-    nome: "JISLAINI SILVA BATISTA",
-    instituicao: "ESTÁCIO",
-    curso: "PSICOLOGIA",
-    matricula: "0018",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "7f48c94bb15c8cdea958a4b53d32d7dcac8c7f1649d0b07b4c0c5977de79fd0b",
-    nome: "ELISANGELA DA CONCEICAO DA SILVA",
-    instituicao: "CPAN",
-    curso: "TÉCNICO EM ENFERMAGEM",
-    matricula: "0019",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "e42e725e63da2367107162d3a51fa0c5a8bc076ec64abcc81a656423e2c85ac3",
-    nome: "MÁRCIA ISADORA BARROS DE MESSIAS",
-    instituicao: "CESMAC",
-    curso: "ODONTOLOGIA",
-    matricula: "0020",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "f4381f4d43a5a6b57dd2a4fe3cb7dbabdf7e0069c5973bf46aa28c9facaefe85",
-    nome: "BRUNO LEÔNDIDAS DA SILVA SANTOS",
-    instituicao: "IFAL",
-    curso: "INFORMÁTICA",
-    matricula: "0021",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "2c4fb9f8590cdb1015df1931137a4bdb578eccfa1d35a06d86ebd76e37c50741",
-    nome: "BIANCA CORREIA PALMEIRA.",
-    instituicao: "IFAL",
-    curso: "TÉCNICO EM S. DO TRABALHO.",
-    matricula: "0022",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "ae9f8cb8e5125c7df0249089f09ef725b305509dceb3738c17c226b938f46ca0",
-    nome: "VIVIANE SILVA DOS SANTOS",
-    instituicao: "UNINASSAU",
-    curso: "ENFERMAGEM",
-    matricula: "0023",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "a21c722c19eb09723546e3d8c766dc87ee1118f9aecb86d8a52bed457302c49a",
-    nome: "VINÍCIUS ANTÔNIO MARQUES LINS",
-    instituicao: "IFAL",
-    curso: "ESTRADAS",
-    matricula: "0024",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "2fc779bbe905596bca874b13eaf6dbcbdfd831670fd1bb2059489db3be90afd4",
-    nome: "JOYCE DA SILVA GUIMARÃES",
-    instituicao: "UFAL",
-    curso: "PEDAGOGIA",
-    matricula: "0025",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "2e84cc547b81884099077fee5deb243b52941665440096dd0981e6d4e02ae172",
-    nome: "MIRIAN TAMIRES DA SILVA",
-    instituicao: "IFAL",
-    curso: "ELETRÔNICA",
-    matricula: "0026",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "1053d1204797fc813f56c3cb3e8f17fd4b415749f76433c19247bd1335a11611",
-    nome: "MARIA LETÍCIA SILVA DE OLIVEIRA",
-    instituicao: "UFAL",
-    curso: "MEDICINA",
-    matricula: "0027",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "0c7cfa42368e21c613aaa9889a432608685f0e2f73ef4266008295afdff481e3",
-    nome: "CAMYLA KARINE SILVA DOS SANTOS",
-    instituicao: "IFAL",
-    curso: "INFORMÁTICA PARA INTERNET",
-    matricula: "0028",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "1def3cda1cb3339b1ee1f00e2b881ff801fb98c9021398c0e7a78672dfa389e5",
-    nome: "MARIA EDUARDA DO NASCIMENTO DA SILVA",
-    instituicao: "UFAL",
-    curso: "SERVIÇO SOCIAL",
-    matricula: "0029",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "600073413fd3d6c6e1063cdedc282466730e38f710f4ffc5fe4eedb4a8cfdf01",
-    nome: "MARIA ELOÍSA DO NASCIMENTO DA SILVA",
-    instituicao: "UFAL",
-    curso: "SERVIÇO SOCIAL",
-    matricula: "0030",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "382918ad0420ea4ff788369e483b5affff8ebbb00f6afa899612f586fb3efdff",
-    nome: "JOSÉ TARCISO SILVA DOS SANTOS",
-    instituicao: "UFAL",
-    curso: "AGRONOMIA",
-    matricula: "0031",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "fa5945ebd07df20fb0f0c7baa48dea7e1ec27628359635fee83080e9f85a2a56",
-    nome: "ROSANA KÉSSIA TENÓRIO DA FONSECA",
-    instituicao: "ANHANGUERA",
-    curso: "ENFERMAGEM",
-    matricula: "0032",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "e882483d0cb55ddff8459ef1437dca6bb5c2199d2f10c996a34b193e333c6ba9",
-    nome: "SAMUEL BELARMINO SANTOS",
-    instituicao: "IFAL",
-    curso: "INFORMÁTICA",
-    matricula: "0033",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "c656ae95d556e10a729b173840b2977ba0c272c6635a58284bc0532c5a9e8cdc",
-    nome: "MARIA EDUARDA SANTOS DA SILVA",
-    instituicao: "IFAL",
-    curso: "INFORMÁTICA",
-    matricula: "0034",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "942e73d687b7cb1b0d1d43abe6dff3f94f3eb1eb2fe1ed3f59c9688488ca9def",
-    nome: "MONIQUE CAROLINE DOS SANTOS",
-    instituicao: "UFAL",
-    curso: "PEDAGOGIA",
-    matricula: "0035",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "23f26f1e9e1228c36bf6859089ab0cc9eeff8a4621c64cfce6c0d06d718783a9",
-    nome: "ALEX MANOEL CONCEIÇÃO DA SILVA",
-    instituicao: "GRAU TÉCNICO",
-    curso: "RADIOLOGIA",
-    matricula: "0036",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "6101e7c3894db368237b29e4391801b9516b4085148e9c307f4f117e98e50202",
-    nome: "MARIA GABRIELA M. MARQUES DA COSTA",
-    instituicao: "UNOPAR",
-    curso: "NUTRIÇÃO",
-    matricula: "0037",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "68d85ae75d9283f553dade277352833c27d722d8153a295edc89db9627863382",
-    nome: "CLARA MYLLENA DOS SANTOS MESSIAS",
-    instituicao: "UNINASSAU",
-    curso: "FONOAUDIOLOGIA",
-    matricula: "0038",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "280e1d2baf37180d5cff63599eb364f7ca9f7e58acbcbf7a0a64d3409295c928",
-    nome: "LUCIANA TAVARES DA SILVA GUIMARÃES",
-    instituicao: "UNOPAR",
-    curso: "NUTRIÇÃO",
-    matricula: "0039",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "0553f8e5f95eb86f1e911737000c1b33179136bfa67635d218cb2829149d8e3e",
-    nome: "CRISLANE DOS SANTOS RODRIQUES",
-    instituicao: "UNOPA",
-    curso: "PEDAGOGIA",
-    matricula: "0040",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "4460471e4baa6273f52bdcdfc4d6f604ca137f8aa155a3519cf5cab115a7eced",
-    nome: "MARISTELA DOS SANTOS DE OLIVEIRA",
-    instituicao: "(UNEAL)",
-    curso: "BACHARELADO EM DIREITO",
-    matricula: "0041",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "96bcd8844e195e59c91da4e59fa47fd16e963d6d732defa8df587b910a122ef5",
-    nome: "THAYNAR MARIA DE OLIVEIRA DOS SANTOS",
-    instituicao: "UNINASSAU",
-    curso: "ENFERMAGEM",
-    matricula: "0042",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "8d4b8030d97030d95b2ae2014f5531c349c181cc939d8dd20e145f834971aaa0",
-    nome: "DAVI DA SILVA DOS SANTOS",
-    instituicao: "SENAI",
-    curso: "TÉCNICO EM ELETROTÉCNICA",
-    matricula: "0043",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "3479d2860b8c6e9a4b48e17e8ba0178606a5e33d3f32b4af9b50b90b05f67ae4",
-    nome: "VIVIANE KAROLINE DA GRAÇA SANTOS",
-    instituicao: "C. P. SANTA JULIANA",
-    curso: "ENFERMAGEM DO TRABALHO",
-    matricula: "0044",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "60ec9c517c2a86189e5416f73a729ac990c6db296578b6faa0008deee06d783a",
-    nome: "CASSIANE VICTÓRIA DOS SANTOS TENÓRIO.",
-    instituicao: "UFAL",
-    curso: "LICENCIATURA EM GEOGRAFIA",
-    matricula: "0045",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "873e1f697a4261249cc42f3c5ee7b03e331593d87f25864c29fb0c363e845c6c",
-    nome: "ANA VITÓRIA LIMA DOS SANTOS",
-    instituicao: "IFAL",
-    curso: "MECÂNICA",
-    matricula: "0046",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "17c34b2d31ae7380ba21765a4b36ee86a2d6eace44b1e93bac34116e21a91cf9",
-    nome: "JÉSSICA KAYLANNE DA COSTA DE OLIVEIRA",
-    instituicao: "UNINASSAU",
-    curso: "MEDICINA VETERINÁRIA",
-    matricula: "0047",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "f802899ba55b913c2ffc4d4c6ede2d5893a28bc4198c557eb14b695f166db52c",
-    nome: "NATALIA DOS SANTOS",
-    instituicao: "UNINASSAU",
-    curso: "ENFERMAGEM",
-    matricula: "0048",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "c7bd8e6f82597c79f60a646d17d80c9ab17d9d685b6353200105be6a1d5c5140",
-    nome: "EMMILLY RIKELLY GAMA SANTOS",
-    instituicao: "UNOPAR",
-    curso: "BIOMEDICINA",
-    matricula: "0049",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "058bfd7c4d715a2785d28ef11bbb1a51398cccdd5c6480b2f1c407c2666597de",
-    nome: "MARIA JÚLIA CARDOSO DOS SANTOS",
-    instituicao: "UNOPAR",
-    curso: "ENFERMAGEM",
-    matricula: "0050",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "b2bf8f16347edf027affae8371ebc3ab8348b02b3eabfd73b903e6e771200acb",
-    nome: "MARIA CLARA MELO DA SILVA",
-    instituicao: "UNOPAR",
-    curso: "BACHARELADO - FISIOTERAPIA",
-    matricula: "0051",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "b7e52e1af958be7369adb64d849641a45f95c114b0a855afa5f699ae8ddf0843",
-    nome: "GABRIELA DA SILVA ROCHA",
-    instituicao: "ESTÁCIO",
-    curso: "FARMÁCIA",
-    matricula: "0052",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "f740469d35d87d7e9c58faf42807d3ae9077bbdc84120361c084ab7ff773b8b5",
-    nome: "JOSÉ FELIPE NASCIMENTO BARBOSA",
-    instituicao: "IFAL",
-    curso: "MECÂNICA",
-    matricula: "0053",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "be16eeef2f19f718f949db6516bf464b9d7376f3a13d7a37be90f249d7c6dd6c",
-    nome: "NALANDA SILVA DE OLIVEIRA",
-    instituicao: "ANHANGUERA",
-    curso: "CIÊNCIAS CONTÁBEIS",
-    matricula: "0054",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "74b93bb96f638a22d38e265083f4a73ea30166e1cd96fc34bdbd61f1285ade85",
-    nome: "DANILO DOS SANTOS DE MESSIAS",
-    instituicao: "IFAL",
-    curso: "MECÂNICA",
-    matricula: "0055",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "dd2ed8fd8afb0b055ec2d21d9c6f532936d7d24475618fe29d8b4dc8820a3627",
-    nome: "MARIA AMANDA GABRIELA DOS S. ROCHA",
-    instituicao: "C. P. ANNA NERY",
-    curso: "TÉCNICO EM ENFERMAGEM",
-    matricula: "0056",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "4ff0572502dcfedb6e6272c7483ce0891d58ed1ec7d50414f4266f77b386cdf4",
-    nome: "NATHALIA FARIAS DOS SANTOS",
-    instituicao: "UNOPAR",
-    curso: "ENFERMAGEM",
-    matricula: "0057",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "7ced3a02cb2192a8c317d3684e9764383766d1dfafe6782035b1e7ccc3bb28ea",
-    nome: "EVILLYN PRISCILLA DA SILVA DOS SANTOS",
-    instituicao: "UFAL",
-    curso: "GEOGRAFIA",
-    matricula: "0058",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "b515bccd87ddd62dc8e4192318a0502804603ebb4b935e19c605e448aa7578d8",
-    nome: "YASMIN VITÓRIA DA SILVA",
-    instituicao: "UFAL",
-    curso: "GEOGRAFIA",
-    matricula: "0059",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "3805fd5f32f03b4c0f845a42b0c67d59ce9497017b544b96ed552812add926cb",
-    nome: "KAUÃ ROGER DA SILVA FONSECA",
-    instituicao: "IFAL",
-    curso: "EDIFICAÇÕES",
-    matricula: "0060",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "501ab684a2b2b5fa3ba75496d5dc01668931f6209e06194c1b10774810e59ad2",
-    nome: "BEATRIZ VITÓRIA CÂNDIDO MESSIAS",
-    instituicao: "IFAL",
-    curso: "INFORMÁTICA",
-    matricula: "0061",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "287b5dee657f3687afb24a9a008c3462dddd2e2c2a94b35aa4e8b44e028c141d",
-    nome: "JEANE DOS SANTOS CARDOSO",
-    instituicao: "ESC. E. TARCÍSIO DE JESUS",
-    curso: "PROFESSORA",
-    matricula: "0062",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "d8b65660501526bba31e4df1ecd6134c7ed500211a238ea090e2825688e97d0d",
-    nome: "VICTOR GABRIEL SILVA BARROS",
-    instituicao: "IFAL",
-    curso: "ELETRÔNICA",
-    matricula: "0063",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "af4ff052bfd84473b84f8fcee1e030f62fa918f09999785d7a384923161df8a8",
-    nome: "JOÃO LUCAS VASCONCELOS SOARES SANTOS",
-    instituicao: "IFAL",
-    curso: "INFORMÁTICA PARA INTERNET",
-    matricula: "0064",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "aa0e25fe71df9aee24f6cb627f5069028f55d0d242d9243f2413e1a28644d0f6",
-    nome: "JOSÉ JUAN VINÍCIUS BARBOSA DA SILVA",
-    instituicao: "SANTA BARBARA",
-    curso: "TÉCNICO DE ENFERMAGEM",
-    matricula: "0065",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "015985fafacb4f3a5aff9163b1d46e6424d9613c256792dd5c3e44ea1e612e17",
-    nome: "CAYO LUCAS VIEIRA MESSIAS",
-    instituicao: "IFAL",
-    curso: "INFORMÁTICA PARA INTERNET",
-    matricula: "0066",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "2cec5caf79cab9df7dbd1fbe9a29cb94acd5abf429602ed1f9721fbecf740bda",
-    nome: "LUANA VIEIRA DA SILVA MESSIAS",
-    instituicao: "UNOPAR",
-    curso: "EDUCAÇÃO FÍSICA",
-    matricula: "0067",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "f315a677ce38d232e9e76d3d8b34d51ff103a79171b99a97f32b404d351a18c7",
-    nome: "SHAMARA LOURRANY N. DA CONCEIÇÃO",
-    instituicao: "UFAL",
-    curso: "PAESPE",
-    matricula: "0068",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "dd1d069ed2f2a029f7770cd878cc555eacb4698bee0ae8361b3d0c494be8e4b7",
-    nome: "MARIANA DE MENEZES ROMÃO",
-    instituicao: "SANTA JULIANA",
-    curso: "TÉCNICO EM ENFERMAGEM",
-    matricula: "0069",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "d2520bdeaeaf773378459f68420dc09e3c77bbc86a5dc55dd8592d140bab66fc",
-    nome: "MARIA ADRIELLY DE ARAUJO ROCHA",
-    instituicao: "AMOR",
-    curso: "SERVIÇOS DE SAUDE E ASSISTENCIA",
-    matricula: "0070",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "956c5b01db6a426d75a283e7eea712bacf7456fd163b5779125b9d4210e7349d",
-    nome: "VERONICA VILELA DE ARAUJO ROCHA",
-    instituicao: "AMOR",
-    curso: "SERVIÇOS DE SAUDE E ASSISTENCIA",
-    matricula: "0071",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "6d58dace48028403ee04a457d70af8daa40e740799115ccdb4a2f9f79f3998bf",
-    nome: "SAMUEL CAMILO DA SILVA DOS SANTOS",
-    instituicao: "UNCISAL",
-    curso: "TECNOLOGIA EM ALIMENTOS",
-    matricula: "0072",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "12084be6fe4cf723de3559eb3e2a0216a9972ae61626afb6793875cd98c44474",
-    nome: "TELMA MARIA FRUTUOSO DE MELO FELIX",
-    instituicao: "DIRETRIZ CURSOS",
-    curso: "CURSOS PREPARATÓRIOS",
-    matricula: "0073",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "dca9a22c2c160bfeb6b4f3708c4c48ccabd9b54a6ebdec2da24949965b2c386f",
-    nome: "EDUARDO DA SILVA ARAUJO",
-    instituicao: "IFAL",
-    curso: "ELETROTÉCNICA",
-    matricula: "0074",
-    cidade: "PALMEIRA DOS ÍNDIOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "04a75ac01bb627ef4963d5e62ed2b24de5052ddf79f2e96c57d83dd45ed7b96f",
-    nome: "RAFAEL DE CERQUEIRA CARVALHO",
-    instituicao: "IFAL",
-    curso: "INFORMÁTICA PARA INTERNET",
-    matricula: "0075",
-    cidade: "SÃO MIGUEL DOS CAMPOS",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "d7d4e27506e3e18492cd334c98ab742b57b0730a6e63c7d039980a2d37771b26",
-    nome: "LUÍS ARTUR HOLANDA SANTOS",
-    instituicao: "IFAL",
-    curso: "SISTEMAS DE INFORMAÇÃO",
-    matricula: "0076",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "07bc46dfee01f1d8fabdf4b05b22a0efa92c1083abed9da3052261a429f0658b",
-    nome: "BEATRIZ DOS SANTOS DE OLIVEIRA",
-    instituicao: "UNEAL",
-    curso: "DIREITO",
-    matricula: "0077",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "4b303e6a0b53e7eb7304503d7e91e6dcbe20b19d6d1854976fd20cb9d1640eb5",
-    nome: "JOANA CLARA DOS SANTOS DE OLIVEIRA",
-    instituicao: "IFAL-",
-    curso: "DESENVOLVIMENTO DE SISTEMAS",
-    matricula: "0078",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "7db808d4700f72bf3626e930f004fa50d48953cba867a595cde7a1b0ebe8ca73",
-    nome: "ROBERTO HENRIQUE SANTOS BARBOSA",
-    instituicao: "IFAL",
-    curso: "LICENCIATURA CIÊNCIAS BIOLÓGICAS",
-    matricula: "0079",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "201937e339da1dd9f4cca1b15c2d19db3af51b1ef78162aac4b8909622105d10",
-    nome: "DAMIANA DA SILVA SANTOS",
-    instituicao: "IFAL",
-    curso: "PEDAGOGIA",
-    matricula: "0080",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "4cbfd23aebcd4b8fae8084ea4a29e8a5d902428b40e9765ea181a21a3558bf9a",
-    nome: "LIVIA KAMILLY CERQUEIRA DA SILVA",
-    instituicao: "UFAL",
-    curso: "ENGENHARIA AMBIENTAL E SANITÁRIA",
-    matricula: "0081",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "277d600b66c609221a584aa1b0341ef937f5070c41a54d055cdc88d684e42d88",
-    nome: "MARIA NATANAELY DOS SANTOS",
-    instituicao: "UNINASSAU",
-    curso: "ENFERMAGEM",
-    matricula: "0082",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "9c8c1b529ac645290ef51efed97a5aa86488319c84812dc4344fc0430807a001",
-    nome: "JADSON LAURINDO DA SILVA",
-    instituicao: "UFAL",
-    curso: "GEOGRAFIA LICENCIATURA",
-    matricula: "0083",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "b6669805f0e6947ce77eb191585f3985187935765cc44146dbc357404dc653ce",
-    nome: "JOÃO PEDRO DA SILVA LOPES",
-    instituicao: "IFAL",
-    curso: "EDIFICAÇÕES",
-    matricula: "0084",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "15b7f09f62342eaf82bebdecc52cadec26bb0d67b78e0a0ae1936f5be95f75e9",
-    nome: "JUH.SILVA.GOMES.27@GMAIL.COM",
-    instituicao: "UFAL",
-    curso: "QUÍMICA TECNOLÓGICA E INDUSTRIAL",
-    matricula: "0085",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "4cd37e25ebadd96edc1dd7c9c87779c9041f8287f2db49d81538327b78367fb2",
-    nome: "MARIZA DOS SANTOS SILVA",
-    instituicao: "IFAL",
-    curso: "EDIFICAÇÕES",
-    matricula: "0086",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "d20e42f0e2edd13e716103099a598e5e06fa5cec9139a761944b6c0b64fcde14",
-    nome: "ILLANY LIMA DOS SANTOS BARBOSA",
-    instituicao: "UFAL",
-    curso: "ENGENHARIA ELÉTRICA",
-    matricula: "0087",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "f9a81fbb3240a7c0245bb6cff39c0eaec4bdb710883e921b54794a08163c2b23",
-    nome: "MARIA LUANA SILVA DE OLIVEIRA",
-    instituicao: "IFAL",
-    curso: "ENGENHARIA CIVIL",
-    matricula: "0088",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "97d9efe50151ba084beb50653c94623cce432d07dc2c5cb4ff54fa23152cb9a0",
-    nome: "JOSÉ WANDERSON SILVA DOS SANTOS",
-    instituicao: "UFAL",
-    curso: "AGRONOMIA",
-    matricula: "0089",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "b3a21cc669d4334b3e2783cc663ee53a3876e7b4f87e9a6aa4ee2257ece0a824",
-    nome: "LUCAS GABRIEL",
-    instituicao: "UNOPAR",
-    curso: "EDUCAÇÃO FÍSICA",
-    matricula: "0090",
-    cidade: "MACEIÓ",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "0d725bd3453550ed2f2c8651468bab199f73389cdf36015d6f15161e89504f9e",
-    nome: "ERASMO IAGO RODRIGUES VANDERLEI",
-    instituicao: "IFAL",
-    curso: "ELETROTÉCNICA",
-    matricula: "0091",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "e7582eea0c5bf9de5e3d18c5b1ef66e6eb3f664ba915fd3656bc1a0fc6cd6547",
-    nome: "NATHANIELLE SANTOS DE FREITAS",
-    instituicao: "NERO",
-    curso: "AUXILIAR EM SAÚDE BUCAL",
-    matricula: "0092",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
-    hash: "7f477d67f56a752afed6a46af03d17b92ff6753bd1f7920861834af51760ab1f",
-    nome: "EVELYN TARCYLE SANTOS CORREIA",
-    instituicao: "UNINASSAU",
-    curso: "FISIOTERAPIA",
-    matricula: "0093",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
-    validade: "31/12/2026"
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Carteirinha Estudantil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: #f0f2f5;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+    
+    header {
+      background: linear-gradient(135deg, #1a237e, #283593);
+      color: white;
+      padding: 25px;
+      border-radius: 15px 15px 0 0;
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    
+    .input-section {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    input {
+      width: 100%;
+      max-width: 400px;
+      padding: 15px 20px;
+      font-size: 18px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      margin: 10px 0;
+      text-align: center;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 140px;
+    }
+    
+    .btn-primary {
+      background: #1a237e;
+      color: white;
+    }
+    
+    .btn-success {
+      background: #2e7d32;
+      color: white;
+    }
+    
+    .btn-download {
+      background: #ff9800;
+      color: white;
+      display: none;
+    }
+    
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+    
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .status-box {
+      background: #e3f2fd;
+      border-left: 4px solid #1a237e;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      text-align: left;
+      font-size: 14px;
+      display: none;
+    }
+    
+    .status-box.visible {
+      display: block;
+    }
+    
+    .canvas-container {
+      position: relative;
+      margin: 20px 0;
+    }
+    
+    canvas {
+      width: 100%;
+      height: auto;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      background: white;
+    }
+    
+    .image-info {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-size: 14px;
+      text-align: left;
+    }
+    
+    .image-info.success {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+    }
+    
+    .image-info.error {
+      background: #ffebee;
+      border-left: 4px solid #f44336;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+      
+      header {
+        padding: 20px 15px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      button {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+  
+  <!-- jsPDF library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>🎓 Carteirinha Estudantil</h1>
+      <p class="subtitle">Sistema Digital de Identificação Estudantil para uso de Transporte Escolar Intermunicipal</p>
+    </header>
+    
+    <div class="card">
+      <div class="input-section">
+        <h3>Digite seu CPF para acessar:</h3>
+        <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14">
+        <p style="margin-top: 10px; color: #666; font-size: 14px;">
+          
+        </p>
+      </div>
+      
+      <div class="buttons">
+        <button class="btn-primary" onclick="gerarCarteirinha()" id="btnGerar">Gerar Carteirinha</button>
+        <button class="btn-success" onclick="limparTudo()">Limpar</button>
+        <button class="btn-download" onclick="salvarCarteirinhaPDF()" id="btnSalvar">Salvar Carteirinha (PDF)</button>
+      </div>
+      
+      <div class="status-box visible" id="statusBox" style="border-left-color: rgb(76, 175, 80); background: rgb(232, 245, 233);">✅ Carteirinha gerada para: Aluno Teste</div>
+      
+      <div class="image-info success" id="imageInfo"> 
+        ✅Veja Abaixo o Resultado
+</div>
+    </div>
+    
+    <div class="card">
+      <h3></h3>
+      <div class="canvas-container">
+       <canvas id="frente" width="800" height="500"></canvas>
+      </div>
+   </div>
+    
+    <div class="card">
+      <h3></h3>
+      <div class="canvas-container">
+        <canvas id="verso" width="800" height="500"></canvas>
+      </div>
+   </div>
+  </div>
+
+  <!-- Importa os dados dos alunos do arquivo externo -->
+  <script src="alunos.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+  
+  <script>
+  // ============================================
+  // CONFIGURAÇÃO
+  // ============================================
+  const CONFIG = {
+    caminhoImagens: "./Imagens/",
+    caminhoFotos: "./Imagens/fotos/",
+    
+    placeholders: {
+      frente: "https://via.placeholder.com/800x500/4a6fa5/ffffff?text=CARTEIRINHA+ESTUDANTIL",
+      verso: "https://via.placeholder.com/800x500/2c3e50/ffffff?text=VERSO+DA+CARTEIRINHA",
+      foto: (matricula) => `https://ui-avatars.com/api/?name=Aluno&background=4a6fa5&color=fff&size=256&bold=true&length=1`
+    }
+  };
+
+  // ============================================
+  // VARIÁVEIS GLOBAIS
+  // ============================================
+  const canvasFrente = document.getElementById('frente');
+  const ctxFrente = canvasFrente.getContext('2d');
+  const canvasVerso = document.getElementById('verso');
+  const ctxVerso = canvasVerso.getContext('2d');
+  const statusBox = document.getElementById('statusBox');
+  const imageInfo = document.getElementById('imageInfo');
+  const btnSalvar = document.getElementById('btnSalvar');
+  const btnGerar = document.getElementById('btnGerar');
+  
+  let alunoAtual = null;
+  let alunosMultiplosCursos = []; // Array para armazenar múltiplos cursos do mesmo CPF
+
+  // ============================================
+  // DIMENSÕES PARA PDF (tamanho real para impressão e recorte)
+  // ============================================
+  const DIMENSOES_CARTEIRINHA = {
+    // Tamanho padrão de carteirinha: ~8.56cm x 5.398cm
+    largura: 85.6,   // mm
+    altura: 53.98,   // mm
+    espaco: 2        // mm de espaço entre frente e verso (mínimo para recorte)
+  };
+
+  // ============================================
+  // FUNÇÕES DE UTILIDADE
+  // ============================================
+  function formatarCPF(cpf) {
+    cpf = cpf.replace(/\D/g, '');
+    if (cpf.length > 11) cpf = cpf.substring(0, 11);
+    if (cpf.length > 9) {
+      cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    } else if (cpf.length > 6) {
+      cpf = cpf.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
+    } else if (cpf.length > 3) {
+      cpf = cpf.replace(/(\d{3})(\d{1,3})/, "$1.$2");
+    }
+    return cpf;
   }
-];
+
+  function mostrarStatus(mensagem, tipo = 'info') {
+    statusBox.textContent = mensagem;
+    statusBox.className = 'status-box visible';
+    
+    if (tipo === 'error') {
+      statusBox.style.borderLeftColor = '#f44336';
+      statusBox.style.background = '#ffebee';
+    } else if (tipo === 'success') {
+      statusBox.style.borderLeftColor = '#4caf50';
+      statusBox.style.background = '#e8f5e9';
+    } else {
+      statusBox.style.borderLeftColor = '#1a237e';
+      statusBox.style.background = '#e3f2fd';
+    }
+  }
+
+  function mostrarInfoImagens(mensagem, sucesso) {
+    imageInfo.textContent = mensagem;
+    imageInfo.className = sucesso ? 'image-info success' : 'image-info error';
+  }
+
+  // ============================================
+  // FUNÇÃO PRINCIPAL - CARREGAR IMAGEM
+  // ============================================
+  function carregarImagemComDetalhes(url, tipo) {
+    return new Promise((resolve) => {
+      console.log(`🔄 Tentando carregar: ${url}`);
+      
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      
+      img.onload = function() {
+        console.log(`✅ Imagem carregada: ${url} (${img.width}x${img.height})`);
+        resolve({
+          sucesso: true,
+          imagem: img,
+          url: url,
+          largura: img.width,
+          altura: img.height,
+          tipo: tipo
+        });
+      };
+      
+      img.onerror = function(e) {
+        console.error(`❌ Falha ao carregar: ${url}`, e);
+        resolve({
+          sucesso: false,
+          imagem: null,
+          url: url,
+          erro: e,
+          tipo: tipo
+        });
+      };
+      
+      const timestamp = new Date().getTime();
+      const urlUnica = `${url}${url.includes('?') ? '&' : '?'}_=${timestamp}`;
+      img.src = urlUnica;
+    });
+  }
+
+  // ============================================
+  // DESENHO DA CARTEIRINHA - ATUALIZADO PARA MULTIPLOS CURSOS
+  // ============================================
+  function desenharFrenteBasica(ctx, aluno, fundo = null, foto = null) {
+    const largura = ctx.canvas.width;
+    const altura = ctx.canvas.height;
+    
+    // Limpa tudo
+    ctx.clearRect(0, 0, largura, altura);
+    
+    // Desenha fundo
+    if (fundo && fundo.sucesso) {
+      ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
+    } else {
+      // Fallback se não houver imagem de fundo
+      const grad = ctx.createLinearGradient(0, 0, largura, 0);
+      grad.addColorStop(0, '#1a237e');
+      grad.addColorStop(0.5, '#283593');
+      grad.addColorStop(1, '#3949ab');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, largura, altura);
+      
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 32px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('CARTEIRINHA ESTUDANTIL', largura/2, 60);
+      ctx.textAlign = 'left';
+    }
+    
+    // ÁREA DA FOTO
+    const fotoX = 125;
+    const fotoY = 195;
+    const fotoW = 160;
+    const fotoH = 180;
+    
+    // Foto do aluno ou placeholder
+    if (foto && foto.sucesso) {
+      try {
+        const scale = Math.min(fotoW / foto.imagem.width, fotoH / foto.imagem.height);
+        const scaledW = foto.imagem.width * scale;
+        const scaledH = foto.imagem.height * scale;
+        const offsetX = fotoX + (fotoW - scaledW) / 2;
+        const offsetY = fotoY + (fotoH - scaledH) / 2;
+        
+        ctx.drawImage(foto.imagem, offsetX, offsetY, scaledW, scaledH);
+      } catch (e) {
+        console.error('Erro ao desenhar foto:', e);
+        desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, aluno.matricula);
+      }
+    } else {
+      desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, aluno.matricula);
+    }
+    
+    // DADOS DO ALUNO
+    ctx.fillStyle = '#000';
+    ctx.textAlign = 'left';
+    
+    // Nome do aluno
+    ctx.font = 'bold 16px Arial';
+    ctx.fillText(aluno.nome.toUpperCase(), 335, 130);
+    
+    // Verificar se tem múltiplos cursos
+    const temMultiplosCursos = alunosMultiplosCursos && alunosMultiplosCursos.length > 1;
+    
+    if (temMultiplosCursos) {
+      // ===== PRIMEIRO CURSO =====
+      // Adicionar indicação visual para múltiplos cursos
+      ctx.fillStyle = '#1a237e';
+      ctx.font = 'bold 14px Arial';
+      ctx.fillText('CURSO 1:', 460, 170);
+      
+      ctx.fillStyle = '#000';
+      ctx.font = '14px Arial';
+      ctx.fillText(aluno.instituicao, 460, 190);
+      ctx.fillText(aluno.curso, 460, 210);
+      ctx.fillText(aluno.cidade, 460, 230);
+      ctx.fillText(aluno.turno, 460, 250);
+      ctx.fillText(aluno.validade, 460, 270);
+      
+      // ===== SEGUNDO CURSO =====
+      const segundoCurso = alunosMultiplosCursos[1];
+      ctx.fillStyle = '#1a237e';
+      ctx.font = 'bold 14px Arial';
+      ctx.fillText('CURSO 2:', 460, 300);
+      
+      ctx.fillStyle = '#000';
+      ctx.font = '14px Arial';
+      ctx.fillText(segundoCurso.instituicao, 460, 320);
+      ctx.fillText(segundoCurso.curso, 460, 340);
+      ctx.fillText(segundoCurso.cidade, 460, 360);
+      ctx.fillText(segundoCurso.turno, 460, 380);
+      ctx.fillText(segundoCurso.validade, 460, 400);
+      
+      // Adicionar nota informativa
+      ctx.fillStyle = '#666';
+      ctx.font = 'italic 12px Arial';
+      ctx.fillText('Documento válido para ambos os cursos', 460, 430);
+      
+    } else {
+      // Formato original para um único curso
+      ctx.font = '16px Arial';
+      ctx.fillText(aluno.instituicao, 460, 190);
+      ctx.fillText(aluno.curso, 460, 245);
+      ctx.fillText(aluno.cidade, 460, 300);
+      ctx.fillText(aluno.turno, 460, 357);
+      ctx.fillText(aluno.validade, 460, 420);
+    }
+    
+    // MATRÍCULA VERTICAL (lado esquerdo)
+    ctx.save();
+    ctx.translate(82, 320);
+    ctx.rotate(-Math.PI / 2);
+    ctx.font = '24px Arial';
+    ctx.fillStyle = '#4a6fa5';
+    ctx.fillText(aluno.matricula, 0, 0);
+    ctx.restore();
+    
+    // Adicionar indicador visual se tiver múltiplos cursos
+    if (temMultiplosCursos) {
+      ctx.fillStyle = '#FF9800';
+      ctx.font = 'bold 14px Arial';
+      ctx.textAlign = 'right';
+      ctx.fillText('DUPLA MATRÍCULA', largura - 20, 50);
+      ctx.textAlign = 'left';
+    }
+  }
+
+  function desenharVersoBasico(ctx, fundo = null) {
+    const largura = ctx.canvas.width;
+    const altura = ctx.canvas.height;
+    
+    ctx.clearRect(0, 0, largura, altura);
+    
+    if (fundo && fundo.sucesso) {
+      ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
+    } else {
+      // Fallback para verso
+      const grad = ctx.createLinearGradient(0, 0, 0, altura);
+      grad.addColorStop(0, '#37474f');
+      grad.addColorStop(1, '#263238');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, largura, altura);
+      
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 28px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('VERSO DA CARTEIRINHA', largura/2, 80);
+    }
+    
+    // Adicionar informações sobre dupla matrícula no verso se aplicável
+    if (alunosMultiplosCursos && alunosMultiplosCursos.length > 1) {
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 18px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('INFORMAÇÃO SOBRE DUPLA MATRÍCULA', largura/2, 150);
+      
+      ctx.font = '14px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText('Este documento é válido para:', 50, 200);
+      
+      alunosMultiplosCursos.forEach((curso, index) => {
+        const yPos = 230 + (index * 60);
+        ctx.fillText(`${index + 1}. ${curso.instituicao} - ${curso.curso}`, 70, yPos);
+        ctx.fillText(`   Turno: ${curso.turno} | Cidade: ${curso.cidade}`, 70, yPos + 20);
+      });
+    }
+  }
+
+  function desenharPlaceholderFoto(ctx, x, y, w, h, matricula) {
+    // Placeholder simples para quando não há foto
+    const grad = ctx.createRadialGradient(x + w/2, y + h/2, 0, x + w/2, y + h/2, w/2);
+    grad.addColorStop(0, '#5c6bc0');
+    grad.addColorStop(1, '#3949ab');
+    ctx.fillStyle = grad;
+    ctx.fillRect(x, y, w, h);
+    
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 60px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('👤', x + w/2, y + h/2 - 20);
+    
+    ctx.font = '20px Arial';
+    ctx.fillText(matricula, x + w/2, y + h/2 + 40);
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+  }
+
+  // ============================================
+  // FUNÇÃO PARA SALVAR CARTEIRINHA EM PDF (MODELO DE RECORTE)
+  // ============================================
+  async function salvarCarteirinhaPDF() {
+    if (!alunoAtual) {
+      mostrarStatus('Gere uma carteirinha primeiro!', 'error');
+      return;
+    }
+    
+    try {
+      mostrarStatus('Gerando PDF para recorte...', 'info');
+      
+      // Criar um novo documento PDF
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+      
+      // Dimensões da página A4
+      const pageWidth = 210; // mm
+      const pageHeight = 297; // mm
+      
+      // Dimensões da carteirinha (tamanho real)
+      const cardWidth = DIMENSOES_CARTEIRINHA.largura;  // 85.6 mm
+      const cardHeight = DIMENSOES_CARTEIRINHA.altura;  // 53.98 mm
+      const espaco = DIMENSOES_CARTEIRINHA.espaco;      // 2 mm
+      
+      // Calcular posições para deixar frente e verso lado a lado
+      // Frente à esquerda, Verso à direita
+      const xFrente = (pageWidth - (cardWidth * 2 + espaco)) / 2;
+      const xVerso = xFrente + cardWidth + espaco;
+      const yPos = (pageHeight - cardHeight) / 2; // Centralizado verticalmente
+      
+      // Converter canvas para imagens base64
+      const frenteDataURL = canvasFrente.toDataURL('image/png');
+      const versoDataURL = canvasVerso.toDataURL('image/png');
+      
+      // Limpar qualquer texto ou elemento extra
+      pdf.setTextColor(0, 0, 0);
+      
+      // Adicionar frente da carteirinha (LADO ESQUERDO)
+      pdf.addImage(frenteDataURL, 'PNG', xFrente, yPos, cardWidth, cardHeight);
+      
+      // Adicionar verso da carteirinha (LADO DIREITO)
+      pdf.addImage(versoDataURL, 'PNG', xVerso, yPos, cardWidth, cardHeight);
+      
+      // Adicionar linha de corte muito fina (quase imperceptível)
+      pdf.setDrawColor(200, 200, 200); // Cinza claro
+      pdf.setLineWidth(0.1); // Linha muito fina
+      
+      // Linha de corte entre frente e verso
+      pdf.line(
+        xFrente + cardWidth + (espaco/2), 
+        yPos - 2, 
+        xFrente + cardWidth + (espaco/2), 
+        yPos + cardHeight + 2
+      );
+      
+      // Linhas de corte ao redor (opcional, para guia de recorte)
+      pdf.setDrawColor(150, 150, 150);
+      
+      // Borda ao redor da frente (pontilhada)
+      pdf.setLineDashPattern([1, 1], 0);
+      pdf.rect(xFrente - 1, yPos - 1, cardWidth + 2, cardHeight + 2);
+      
+      // Borda ao redor do verso (pontilhada)
+      pdf.rect(xVerso - 1, yPos - 1, cardWidth + 2, cardHeight + 2);
+      pdf.setLineDashPattern([], 0); // Resetar padrão
+      
+      // Salvar o PDF
+      const nomeArquivo = alunosMultiplosCursos && alunosMultiplosCursos.length > 1 ? 
+        `carteirinha_${alunoAtual.matricula}_multicurso.pdf` : 
+        `carteirinha_${alunoAtual.matricula}.pdf`;
+      pdf.save(nomeArquivo);
+      
+      mostrarStatus('PDF para recorte gerado com sucesso!', 'success');
+      
+    } catch (error) {
+      console.error('Erro ao gerar PDF:', error);
+      mostrarStatus('Erro ao gerar o PDF. Tente novamente.', 'error');
+    }
+  }
+
+  // ============================================
+  // FUNÇÃO PRINCIPAL - GERAR CARTEIRINHA (ATUALIZADA PARA MULTIPLOS CURSOS)
+  // ============================================
+  async function gerarCarteirinha() {
+    const cpfInput = document.getElementById('cpf');
+    let cpf = cpfInput.value.replace(/\D/g, '');
+    
+    if (cpf.length !== 11) {
+      mostrarStatus('Por favor, digite um CPF válido (11 números)', 'error');
+      cpfInput.value = formatarCPF(cpf);
+      cpfInput.focus();
+      return;
+    }
+    
+    // Desativar botão enquanto processa
+    const originalText = btnGerar.textContent;
+    btnGerar.textContent = 'Processando...';
+    btnGerar.disabled = true;
+    
+    mostrarStatus('Processando... Aguarde.', 'info');
+    
+    try {
+      cpfInput.value = formatarCPF(cpf);
+      
+      const hash = sha256(cpf);
+      
+      // Buscar TODOS os alunos com o mesmo CPF/hash
+      const alunosEncontrados = alunos.filter(a => a.hash === hash);
+      
+      if (alunosEncontrados.length === 0) {
+        mostrarStatus('Aluno não encontrado. Verifique o CPF.', 'error');
+        btnGerar.textContent = originalText;
+        btnGerar.disabled = false;
+        return;
+      }
+      
+      // Armazenar todos os cursos encontrados
+      alunosMultiplosCursos = alunosEncontrados;
+      
+      // Usar o primeiro aluno como "principal" (para foto e matrícula)
+      alunoAtual = alunosEncontrados[0];
+      
+      if (alunosEncontrados.length > 1) {
+        mostrarStatus(`Encontrado: ${alunoAtual.nome} (${alunosEncontrados.length} cursos)`, 'info');
+      } else {
+        mostrarStatus(`Carregando dados de: ${alunoAtual.nome}`, 'info');
+      }
+      
+      // Carregar as imagens (usar primeira matrícula para foto)
+      const [frenteResult, versoResult, fotoResult] = await Promise.all([
+        carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-frente.png', 'frente'),
+        carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso.png', 'verso'),
+        carregarImagemComDetalhes(CONFIG.caminhoFotos + alunoAtual.matricula + '.JPG', 'foto')
+      ]);
+      
+      // Informações de debug - RESTAURADAS
+      let infoMsg = '';
+      infoMsg += frenteResult.sucesso ? '✅ Modelo frente carregado\n' : '❌ Modelo frente não encontrado\n';
+      infoMsg += versoResult.sucesso ? '✅ Modelo verso carregado\n' : '❌ Modelo verso não encontrado\n';
+      infoMsg += fotoResult.sucesso ? '✅ Foto carregada\n' : '❌ Foto não encontrado\n';
+      
+      mostrarInfoImagens(infoMsg, frenteResult.sucesso || versoResult.sucesso || fotoResult.sucesso);
+      
+      // Desenha as carteirinhas com suporte a múltiplos cursos
+      desenharFrenteBasica(ctxFrente, alunoAtual, frenteResult, fotoResult);
+      desenharVersoBasico(ctxVerso, versoResult);
+      
+      // Mostra botão de salvar
+      btnSalvar.style.display = 'inline-block';
+      
+      // Mensagem de status baseada no número de cursos
+      if (alunosEncontrados.length > 1) {
+        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome} (${alunosEncontrados.length} cursos)`, 'success');
+      } else {
+        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome}`, 'success');
+      }
+      
+    } catch (error) {
+      console.error('Erro crítico:', error);
+      mostrarStatus('Erro ao processar. Tente novamente.', 'error');
+    } finally {
+      // Reativar o botão independente do resultado
+      btnGerar.textContent = originalText;
+      btnGerar.disabled = false;
+    }
+  }
+
+  // ============================================
+  // FUNÇÕES ADICIONAIS
+  // ============================================
+  function limparTudo() {
+    ctxFrente.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
+    ctxVerso.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
+    statusBox.classList.remove('visible');
+    imageInfo.textContent = '';
+    btnSalvar.style.display = 'none';
+    document.getElementById('cpf').value = '';
+    alunoAtual = null;
+    alunosMultiplosCursos = []; // Limpar array de múltiplos cursos
+    
+    // Garantir que o botão de gerar esteja ativo
+    btnGerar.disabled = false;
+    btnGerar.textContent = 'Gerar Carteirinha';
+    
+    mostrarStatus('Sistema limpo. Digite um CPF para começar.', 'info');
+  }
+
+  // ============================================
+  // INICIALIZAÇÃO
+  // ============================================
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎓 Sistema de Carteirinha iniciado');
+    
+    const cpfInput = document.getElementById('cpf');
+    cpfInput.addEventListener('input', function() {
+      this.value = formatarCPF(this.value);
+    });
+    
+    cpfInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        gerarCarteirinha();
+      }
+    });
+    
+    setTimeout(() => {
+      mostrarStatus('Sistema pronto. Digite um CPF para gerar sua carteirinha.', 'info');
+    }, 500);
+  });
+  </script>
+</body>
+</html>
