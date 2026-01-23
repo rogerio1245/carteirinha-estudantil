@@ -684,7 +684,7 @@
         carregarImagemComDetalhes(CONFIG.caminhoFotos + alunoAtual.matricula + '.JPG', 'foto')
       ]);
       
-      // Informações de debug - RESTAURADAS
+      // Informações de debug
       let infoMsg = '';
       infoMsg += frenteResult.sucesso ? '✅ Modelo frente carregado\n' : '❌ Modelo frente não encontrado\n';
       infoMsg += versoResult.sucesso ? '✅ Modelo verso carregado\n' : '❌ Modelo verso não encontrado\n';
@@ -708,6 +708,7 @@
       
     } catch (error) {
       console.error('Erro crítico:', error);
+      console.error('Stack trace:', error.stack);
       mostrarStatus('Erro ao processar. Tente novamente.', 'error');
     } finally {
       // Reativar o botão independente do resultado
@@ -741,6 +742,15 @@
   // ============================================
   document.addEventListener('DOMContentLoaded', function() {
     console.log('🎓 Sistema de Carteirinha iniciado');
+    
+    // Adicionar listener para capturar erros não tratados
+    window.addEventListener('error', function(e) {
+      console.error('Erro global capturado:', e.error);
+      console.error('Mensagem:', e.message);
+      console.error('URL:', e.filename);
+      console.error('Linha:', e.lineno);
+      console.error('Coluna:', e.colno);
+    });
     
     const cpfInput = document.getElementById('cpf');
     cpfInput.addEventListener('input', function() {
