@@ -131,6 +131,11 @@
       display: block;
     }
     
+    .status-box.dupla-matricula {
+      background: #fff3e0;
+      border-left: 4px solid #ff9800;
+    }
+    
     .canvas-container {
       position: relative;
       margin: 20px 0;
@@ -203,7 +208,7 @@
         <h3>Digite seu CPF para acessar:</h3>
         <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14">
         <p style="margin-top: 10px; color: #666; font-size: 14px;">
-          
+          Para alunos com múltiplos cursos, digite o mesmo CPF para ver todas as matrículas
         </p>
       </div>
       
@@ -235,46 +240,12 @@
    </div>
   </div>
 
-  <!-- SHA256 library -->
+  <!-- Importa os dados dos alunos do arquivo externo -->
+  <script src="alunos.js"></script>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
   
   <script>
-  // ============================================
-  // DADOS DOS ALUNOS (agora incluído no arquivo HTML)
-  // ============================================
-  var alunos = [
-    {
-      hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", // hash do CPF "teste"
-      nome: "Aluno Teste",
-      matricula: "2024001",
-      instituicao: "Instituição de Ensino Teste",
-      curso: "Curso Teste",
-      cidade: "Cidade Teste",
-      turno: "MATUTINO",
-      validade: "31/12/2025"
-    },
-    {
-      hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", // mesmo CPF, curso diferente
-      nome: "Aluno Teste",
-      matricula: "2024001",
-      instituicao: "Outra Instituição",
-      curso: "Segundo Curso",
-      cidade: "Outra Cidade",
-      turno: "VESPERTINO",
-      validade: "30/06/2026"
-    },
-    {
-      hash: "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35", // hash do CPF "12345678909"
-      nome: "Maria Silva",
-      matricula: "2024002",
-      instituicao: "Universidade Federal",
-      curso: "Medicina",
-      cidade: "São Paulo",
-      turno: "INTEGRAL",
-      validade: "31/12/2026"
-    }
-  ];
-
   // ============================================
   // CONFIGURAÇÃO
   // ============================================
@@ -308,10 +279,9 @@
   // DIMENSÕES PARA PDF (tamanho real para impressão e recorte)
   // ============================================
   const DIMENSOES_CARTEIRINHA = {
-    // Tamanho padrão de carteirinha: ~8.56cm x 5.398cm
     largura: 85.6,   // mm
     altura: 53.98,   // mm
-    espaco: 2        // mm de espaço entre frente e verso (mínimo para recorte)
+    espaco: 2        // mm de espaço entre frente e verso
   };
 
   // ============================================
@@ -330,9 +300,15 @@
     return cpf;
   }
 
-  function mostrarStatus(mensagem, tipo = 'info') {
+  function mostrarStatus(mensagem, tipo = 'info', duplaMatricula = false) {
     statusBox.textContent = mensagem;
     statusBox.className = 'status-box visible';
+    
+    if (duplaMatricula) {
+      statusBox.classList.add('dupla-matricula');
+    } else {
+      statusBox.classList.remove('dupla-matricula');
+    }
     
     if (tipo === 'error') {
       statusBox.style.borderLeftColor = '#f44336';
@@ -356,13 +332,10 @@
   // ============================================
   function carregarImagemComDetalhes(url, tipo) {
     return new Promise((resolve) => {
-      console.log(`🔄 Tentando carregar: ${url}`);
-      
       const img = new Image();
       img.crossOrigin = 'anonymous';
       
       img.onload = function() {
-        console.log(`✅ Imagem carregada: ${url} (${img.width}x${img.height})`);
         resolve({
           sucesso: true,
           imagem: img,
@@ -374,7 +347,6 @@
       };
       
       img.onerror = function(e) {
-        console.error(`❌ Falha ao carregar: ${url}`, e);
         resolve({
           sucesso: false,
           imagem: null,
@@ -400,121 +372,137 @@
     // Limpa tudo
     ctx.clearRect(0, 0, largura, altura);
     
-    // Desenha fundo
+    // Desenha fundo (modelo da imagem)
     if (fundo && fundo.sucesso) {
       ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
     } else {
-      // Fallback se não houver imagem de fundo
-      const grad = ctx.createLinearGradient(0, 0, largura, 0);
-      grad.addColorStop(0, '#1a237e');
-      grad.addColorStop(0.5, '#283593');
-      grad.addColorStop(1, '#3949ab');
-      ctx.fillStyle = grad;
+      // Fundo branco com bordas
+      ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, largura, altura);
       
+      // Cabeçalho azul
+      ctx.fillStyle = '#1a237e';
+      ctx.fillRect(0, 0, largura, 60);
+      
+      // Texto do cabeçalho
       ctx.fillStyle = 'white';
-      ctx.font = 'bold 32px Arial';
+      ctx.font = 'bold 20px Arial';
       ctx.textAlign = 'center';
-      ctx.fillText('CARTEIRINHA ESTUDANTIL', largura/2, 60);
-      ctx.textAlign = 'left';
+      ctx.fillText('SECRETARIA MUNICIPAL DE EDUCAÇÃO - ANADIA - AL', largura/2, 25);
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('CARTEIRA DE TRANSPORTE INTERMUNICIPAL', largura/2, 45);
     }
     
-    // ÁREA DA FOTO
-    const fotoX = 125;
-    const fotoY = 195;
-    const fotoW = 160;
-    const fotoH = 180;
-    
-    // Foto do aluno ou placeholder
-    if (foto && foto.sucesso) {
-      try {
-        const scale = Math.min(fotoW / foto.imagem.width, fotoH / foto.imagem.height);
-        const scaledW = foto.imagem.width * scale;
-        const scaledH = foto.imagem.height * scale;
-        const offsetX = fotoX + (fotoW - scaledW) / 2;
-        const offsetY = fotoY + (fotoH - scaledH) / 2;
-        
-        ctx.drawImage(foto.imagem, offsetX, offsetY, scaledW, scaledH);
-      } catch (e) {
-        console.error('Erro ao desenhar foto:', e);
-        desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, aluno.matricula);
-      }
-    } else {
-      desenharPlaceholderFoto(ctx, fotoX, fotoY, fotoW, fotoH, aluno.matricula);
-    }
-    
-    // DADOS DO ALUNO
+    // Desenhar dados do aluno como na imagem
     ctx.fillStyle = '#000';
     ctx.textAlign = 'left';
+    ctx.font = 'bold 18px Arial';
+    
+    // Matrícula no topo
+    ctx.fillText('MATRÍCULA', 50, 100);
+    ctx.font = 'bold 24px Arial';
+    ctx.fillText(aluno.matricula, 50, 130);
     
     // Nome do aluno
     ctx.font = 'bold 16px Arial';
-    ctx.fillText(aluno.nome.toUpperCase(), 335, 130);
+    ctx.fillText('NOME:', 50, 180);
+    ctx.font = 'bold 20px Arial';
+    ctx.fillText(aluno.nome.toUpperCase(), 50, 210);
     
     // Verificar se tem múltiplos cursos
     const temMultiplosCursos = alunosMultiplosCursos && alunosMultiplosCursos.length > 1;
     
     if (temMultiplosCursos) {
-      // ===== PRIMEIRO CURSO =====
-      // Adicionar indicação visual para múltiplos cursos
-      ctx.fillStyle = '#1a237e';
-      ctx.font = 'bold 14px Arial';
-      ctx.fillText('CURSO 1:', 460, 170);
+      // ===== PRIMEIRO CURSO (PRINCIPAL) =====
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('INSTITUIÇÃO:', 50, 260);
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText(aluno.instituicao, 50, 290);
       
-      ctx.fillStyle = '#000';
-      ctx.font = '14px Arial';
-      ctx.fillText(aluno.instituicao, 460, 190);
-      ctx.fillText(aluno.curso, 460, 210);
-      ctx.fillText(aluno.cidade, 460, 230);
-      ctx.fillText(aluno.turno, 460, 250);
-      ctx.fillText(aluno.validade, 460, 270);
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('CURSO:', 50, 330);
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText(aluno.curso, 50, 360);
+      
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('CIDADE:', 50, 400);
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText(aluno.cidade, 50, 430);
+      
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('TURNO:', 50, 470);
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText(aluno.turno, 50, 500);
+      
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('VALIDADE:', 50, 540);
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText(aluno.validade, 50, 570);
       
       // ===== SEGUNDO CURSO =====
       const segundoCurso = alunosMultiplosCursos[1];
+      
+      // Caixa azul para o segundo curso (como na imagem)
+      ctx.fillStyle = '#e3f2fd'; // Azul claro
+      ctx.fillRect(400, 250, 350, 150);
+      ctx.strokeStyle = '#1a237e';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(400, 250, 350, 150);
+      
       ctx.fillStyle = '#1a237e';
+      ctx.font = 'bold 16px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('OBS: ESTUDA TAMBÉM EM OUTRA INSTITUIÇÃO', 575, 280);
+      
+      ctx.textAlign = 'left';
       ctx.font = 'bold 14px Arial';
-      ctx.fillText('CURSO 2:', 460, 300);
+      ctx.fillText('INSTITUIÇÃO:', 420, 310);
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText(segundoCurso.instituicao, 420, 330);
       
-      ctx.fillStyle = '#000';
-      ctx.font = '14px Arial';
-      ctx.fillText(segundoCurso.instituicao, 460, 320);
-      ctx.fillText(segundoCurso.curso, 460, 340);
-      ctx.fillText(segundoCurso.cidade, 460, 360);
-      ctx.fillText(segundoCurso.turno, 460, 380);
-      ctx.fillText(segundoCurso.validade, 460, 400);
+      ctx.font = 'bold 14px Arial';
+      ctx.fillText('CURSO:', 420, 360);
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText(segundoCurso.curso, 420, 380);
       
-      // Adicionar nota informativa
-      ctx.fillStyle = '#666';
-      ctx.font = 'italic 12px Arial';
-      ctx.fillText('Documento válido para ambos os cursos', 460, 430);
+      ctx.font = 'bold 14px Arial';
+      ctx.fillText('CIDADE:', 420, 410);
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText(segundoCurso.cidade, 420, 430);
       
     } else {
       // Formato original para um único curso
-      ctx.font = '16px Arial';
-      ctx.fillText(aluno.instituicao, 460, 190);
-      ctx.fillText(aluno.curso, 460, 245);
-      ctx.fillText(aluno.cidade, 460, 300);
-      ctx.fillText(aluno.turno, 460, 357);
-      ctx.fillText(aluno.validade, 460, 420);
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('INSTITUIÇÃO:', 50, 260);
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText(aluno.instituicao, 50, 290);
+      
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('CURSO:', 50, 330);
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText(aluno.curso, 50, 360);
+      
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('CIDADE:', 50, 400);
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText(aluno.cidade, 50, 430);
+      
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('TURNO:', 50, 470);
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText(aluno.turno, 50, 500);
+      
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('VALIDADE:', 50, 540);
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText(aluno.validade, 50, 570);
     }
     
-    // MATRÍCULA VERTICAL (lado esquerdo)
-    ctx.save();
-    ctx.translate(82, 320);
-    ctx.rotate(-Math.PI / 2);
-    ctx.font = '24px Arial';
-    ctx.fillStyle = '#4a6fa5';
-    ctx.fillText(aluno.matricula, 0, 0);
-    ctx.restore();
-    
-    // Adicionar indicador visual se tiver múltiplos cursos
-    if (temMultiplosCursos) {
-      ctx.fillStyle = '#FF9800';
-      ctx.font = 'bold 14px Arial';
-      ctx.textAlign = 'right';
-      ctx.fillText('DUPLA MATRÍCULA', largura - 20, 50);
-      ctx.textAlign = 'left';
-    }
+    // Rodapé
+    ctx.fillStyle = '#666';
+    ctx.font = 'italic 14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('UMA INICIATIVA SIMPLES - ANADIA / SISTEMAS', largura/2, 620);
   }
 
   function desenharVersoBasico(ctx, fundo = null) {
@@ -526,60 +514,69 @@
     if (fundo && fundo.sucesso) {
       ctx.drawImage(fundo.imagem, 0, 0, largura, altura);
     } else {
-      // Fallback para verso
-      const grad = ctx.createLinearGradient(0, 0, 0, altura);
-      grad.addColorStop(0, '#37474f');
-      grad.addColorStop(1, '#263238');
-      ctx.fillStyle = grad;
+      // Fundo branco
+      ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, largura, altura);
       
+      // Cabeçalho azul
+      ctx.fillStyle = '#1a237e';
+      ctx.fillRect(0, 0, largura, 60);
+      
+      // Texto do cabeçalho
       ctx.fillStyle = 'white';
-      ctx.font = 'bold 28px Arial';
+      ctx.font = 'bold 20px Arial';
       ctx.textAlign = 'center';
-      ctx.fillText('VERSO DA CARTEIRINHA', largura/2, 80);
+      ctx.fillText('SECRETARIA MUNICIPAL DE EDUCAÇÃO - ANADIA - AL', largura/2, 25);
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('CARTEIRA DE TRANSPORTE INTERMUNICIPAL', largura/2, 45);
+      
+      // Ano grande
+      ctx.fillStyle = '#1a237e';
+      ctx.font = 'bold 80px Arial';
+      ctx.fillText('2026', largura/2, 180);
+      
+      // Texto da prefeitura
+      ctx.fillStyle = '#000';
+      ctx.font = 'bold 24px Arial';
+      ctx.fillText('PREFEITURA MUNICIPAL DE', largura/2, 250);
+      ctx.fillText('ANADIA', largura/2, 290);
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText('POR UMA CIDADE CADA VEZ MELHOR', largura/2, 330);
+      
+      // Assinatura digital
+      ctx.fillStyle = '#666';
+      ctx.font = 'bold 14px Arial';
+      ctx.fillText('Documento assinado digitalmente', largura/2, 400);
+      ctx.font = 'bold 18px Arial';
+      ctx.fillText('gob.br', largura/2, 430);
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText('JEAN RODRIGO ROCHA DE LIMA', largura/2, 460);
+      ctx.font = '14px Arial';
+      ctx.fillText('Data: 21/01/2026 08:45:26-0300', largura/2, 490);
+      ctx.font = '12px Arial';
+      ctx.fillText('Verifique em https://gob.br', largura/2, 510);
     }
     
-    // Adicionar informações sobre dupla matrícula no verso se aplicável
+    // Se tiver múltiplos cursos, adicionar mais informações no verso
     if (alunosMultiplosCursos && alunosMultiplosCursos.length > 1) {
-      ctx.fillStyle = 'white';
+      const segundoCurso = alunosMultiplosCursos[1];
+      
+      ctx.fillStyle = '#1a237e';
       ctx.font = 'bold 18px Arial';
       ctx.textAlign = 'center';
-      ctx.fillText('INFORMAÇÃO SOBRE DUPLA MATRÍCULA', largura/2, 150);
+      ctx.fillText('INFORMAÇÕES ADICIONAIS - SEGUNDO CURSO', largura/2, 560);
       
-      ctx.font = '14px Arial';
       ctx.textAlign = 'left';
-      ctx.fillText('Este documento é válido para:', 50, 200);
-      
-      alunosMultiplosCursos.forEach((curso, index) => {
-        const yPos = 230 + (index * 60);
-        ctx.fillText(`${index + 1}. ${curso.instituicao} - ${curso.curso}`, 70, yPos);
-        ctx.fillText(`   Turno: ${curso.turno} | Cidade: ${curso.cidade}`, 70, yPos + 20);
-      });
+      ctx.fillText(`INSTITUIÇÃO: ${segundoCurso.instituicao}`, 50, 590);
+      ctx.fillText(`CURSO: ${segundoCurso.curso}`, 50, 620);
+      ctx.fillText(`CIDADE: ${segundoCurso.cidade}`, 50, 650);
+      ctx.fillText(`TURNO: ${segundoCurso.turno}`, 50, 680);
+      ctx.fillText(`VALIDADE: ${segundoCurso.validade}`, 50, 710);
     }
-  }
-
-  function desenharPlaceholderFoto(ctx, x, y, w, h, matricula) {
-    // Placeholder simples para quando não há foto
-    const grad = ctx.createRadialGradient(x + w/2, y + h/2, 0, x + w/2, y + h/2, w/2);
-    grad.addColorStop(0, '#5c6bc0');
-    grad.addColorStop(1, '#3949ab');
-    ctx.fillStyle = grad;
-    ctx.fillRect(x, y, w, h);
-    
-    ctx.fillStyle = 'white';
-    ctx.font = 'bold 60px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('👤', x + w/2, y + h/2 - 20);
-    
-    ctx.font = '20px Arial';
-    ctx.fillText(matricula, x + w/2, y + h/2 + 40);
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'alphabetic';
   }
 
   // ============================================
-  // FUNÇÃO PARA SALVAR CARTEIRINHA EM PDF (MODELO DE RECORTE)
+  // FUNÇÃO PARA SALVAR CARTEIRINHA EM PDF
   // ============================================
   async function salvarCarteirinhaPDF() {
     if (!alunoAtual) {
@@ -590,7 +587,6 @@
     try {
       mostrarStatus('Gerando PDF para recorte...', 'info');
       
-      // Criar um novo documento PDF
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({
         orientation: 'portrait',
@@ -598,39 +594,30 @@
         format: 'a4'
       });
       
-      // Dimensões da página A4
-      const pageWidth = 210; // mm
-      const pageHeight = 297; // mm
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const cardWidth = DIMENSOES_CARTEIRINHA.largura;
+      const cardHeight = DIMENSOES_CARTEIRINHA.altura;
+      const espaco = DIMENSOES_CARTEIRINHA.espaco;
       
-      // Dimensões da carteirinha (tamanho real)
-      const cardWidth = DIMENSOES_CARTEIRINHA.largura;  // 85.6 mm
-      const cardHeight = DIMENSOES_CARTEIRINHA.altura;  // 53.98 mm
-      const espaco = DIMENSOES_CARTEIRINHA.espaco;      // 2 mm
-      
-      // Calcular posições para deixar frente e verso lado a lado
-      // Frente à esquerda, Verso à direita
       const xFrente = (pageWidth - (cardWidth * 2 + espaco)) / 2;
       const xVerso = xFrente + cardWidth + espaco;
-      const yPos = (pageHeight - cardHeight) / 2; // Centralizado verticalmente
+      const yPos = (pageHeight - cardHeight) / 2;
       
-      // Converter canvas para imagens base64
       const frenteDataURL = canvasFrente.toDataURL('image/png');
       const versoDataURL = canvasVerso.toDataURL('image/png');
       
-      // Limpar qualquer texto ou elemento extra
       pdf.setTextColor(0, 0, 0);
       
-      // Adicionar frente da carteirinha (LADO ESQUERDO)
+      // Adicionar frente da carteirinha
       pdf.addImage(frenteDataURL, 'PNG', xFrente, yPos, cardWidth, cardHeight);
       
-      // Adicionar verso da carteirinha (LADO DIREITO)
+      // Adicionar verso da carteirinha
       pdf.addImage(versoDataURL, 'PNG', xVerso, yPos, cardWidth, cardHeight);
       
-      // Adicionar linha de corte muito fina (quase imperceptível)
-      pdf.setDrawColor(200, 200, 200); // Cinza claro
-      pdf.setLineWidth(0.1); // Linha muito fina
-      
-      // Linha de corte entre frente e verso
+      // Linhas de corte
+      pdf.setDrawColor(200, 200, 200);
+      pdf.setLineWidth(0.1);
       pdf.line(
         xFrente + cardWidth + (espaco/2), 
         yPos - 2, 
@@ -638,20 +625,9 @@
         yPos + cardHeight + 2
       );
       
-      // Linhas de corte ao redor (opcional, para guia de recorte)
-      pdf.setDrawColor(150, 150, 150);
-      
-      // Borda ao redor da frente (pontilhada)
-      pdf.setLineDashPattern([1, 1], 0);
-      pdf.rect(xFrente - 1, yPos - 1, cardWidth + 2, cardHeight + 2);
-      
-      // Borda ao redor do verso (pontilhada)
-      pdf.rect(xVerso - 1, yPos - 1, cardWidth + 2, cardHeight + 2);
-      pdf.setLineDashPattern([], 0); // Resetar padrão
-      
       // Salvar o PDF
       const nomeArquivo = alunosMultiplosCursos && alunosMultiplosCursos.length > 1 ? 
-        `carteirinha_${alunoAtual.matricula}_multicurso.pdf` : 
+        `carteirinha_${alunoAtual.matricula}_dupla_matricula.pdf` : 
         `carteirinha_${alunoAtual.matricula}.pdf`;
       pdf.save(nomeArquivo);
       
@@ -705,12 +681,6 @@
       // Usar o primeiro aluno como "principal" (para foto e matrícula)
       alunoAtual = alunosEncontrados[0];
       
-      if (alunosEncontrados.length > 1) {
-        mostrarStatus(`Encontrado: ${alunoAtual.nome} (${alunosEncontrados.length} cursos)`, 'info');
-      } else {
-        mostrarStatus(`Carregando dados de: ${alunoAtual.nome}`, 'info');
-      }
-      
       // Carregar as imagens (usar primeira matrícula para foto)
       const [frenteResult, versoResult, fotoResult] = await Promise.all([
         carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-frente.png', 'frente'),
@@ -735,14 +705,13 @@
       
       // Mensagem de status baseada no número de cursos
       if (alunosEncontrados.length > 1) {
-        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome} (${alunosEncontrados.length} cursos)`, 'success');
+        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome} (${alunosEncontrados.length} cursos - DUPLA MATRÍCULA)`, 'success', true);
       } else {
         mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome}`, 'success');
       }
       
     } catch (error) {
       console.error('Erro crítico:', error);
-      console.error('Stack trace:', error.stack);
       mostrarStatus('Erro ao processar. Tente novamente.', 'error');
     } finally {
       // Reativar o botão independente do resultado
@@ -758,6 +727,7 @@
     ctxFrente.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
     ctxVerso.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
     statusBox.classList.remove('visible');
+    statusBox.classList.remove('dupla-matricula');
     imageInfo.textContent = '';
     btnSalvar.style.display = 'none';
     document.getElementById('cpf').value = '';
@@ -776,16 +746,6 @@
   // ============================================
   document.addEventListener('DOMContentLoaded', function() {
     console.log('🎓 Sistema de Carteirinha iniciado');
-    console.log('📊 Alunos carregados:', alunos.length);
-    
-    // Adicionar listener para capturar erros não tratados
-    window.addEventListener('error', function(e) {
-      console.error('Erro global capturado:', e.error);
-      console.error('Mensagem:', e.message);
-      console.error('URL:', e.filename);
-      console.error('Linha:', e.lineno);
-      console.error('Coluna:', e.colno);
-    });
     
     const cpfInput = document.getElementById('cpf');
     cpfInput.addEventListener('input', function() {
@@ -797,11 +757,6 @@
         gerarCarteirinha();
       }
     });
-    
-    // Testar o sistema com dados de exemplo
-    console.log('📋 Dados de teste disponíveis:');
-    console.log('- CPF: "teste" (hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855)');
-    console.log('- CPF: "12345678909" (hash: d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35)');
     
     setTimeout(() => {
       mostrarStatus('Sistema pronto. Digite um CPF para gerar sua carteirinha.', 'info');
