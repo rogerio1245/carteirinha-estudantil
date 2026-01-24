@@ -1068,7 +1068,7 @@ const alunos = [
 
   {
     hash: "eb195d9335c7d448ebe58d1941ef07539877c07aad8b6585815edc5d64873b84",
-    nome: "ISABELLA",
+    nome: "ISABELLA CONCEIÇÃO DE OLIVEIRA",
     instituicao: "UNINASSAU ",
     curso: "FONOAUDIOLOGIA ",
     matricula: "0098",
@@ -1671,3 +1671,4 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
