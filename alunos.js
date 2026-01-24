@@ -88,7 +88,7 @@ const alunos = [
   },
 
   {
-    hash: "e882483d0cb55ddff8459ef1437dca6bb5c2199d2f10c996a34b193e333c6ba9",
+    hash: " ",
     nome: "SAMUEL BELARMINO SANTOS",
     instituicao: "IFAL",
     curso: "INFORMÁTICA",
@@ -1825,4 +1825,5 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
