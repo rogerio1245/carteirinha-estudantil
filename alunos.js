@@ -1669,6 +1669,159 @@ const alunos = [
     cidade: "MACEIÓ",
     turno: "NOTURNO",
     validade: "31/12/2026"
+  },
+
+  {
+    hash: "4a5c7e822a6fa1952266a0b840caef1d6dd8e2a8a36c98d02f59377072f43a51",
+    nome: "ERIKA SAMARA LOPES SILVA ",
+    instituicao: "IFAL",
+    curso: "EDIFICAÇÕES ",
+    matricula: "0153",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "51b70c64c5986a5e01b2eac90cea0e568e7154dfc87ed715dadaf8e6fdccbdbe",
+    nome: "PIEDADE LAYARA ARAÚJO VIEIRA DOS SANTOS ",
+    instituicao: "ANHANGUERA ",
+    curso: "PEDAGOGIA ",
+    matricula: "0154",
+    cidade: "ARAPIRACA",
+    turno: "NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "14f88ce603809c2ff7a77fc45cac336b7825135e0d3e9c5e480cf3f94d838f19",
+    nome: "LUIZ FELYPE DOS SANTOS VIEIRA ",
+    instituicao: "IFAL ",
+    curso: "EDIFICAÇÕES ",
+    matricula: "0155",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "3d7bb7d82e3fac039150e8e2c3e4aecda7a142cc8b83102ba5225907bddd4a2b",
+    nome: "JESSICA MAYARA ",
+    instituicao: "UNIP",
+    curso: "ENFERMAGEM ",
+    matricula: "0156",
+    cidade: "ARAPIRACA",
+    turno: "NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "3b5babf553ae8b63fffadb38aa032f56c3dd8d1cfa618f8dd434751e5b45bfbe",
+    nome: "ARTHUR GABRIEL LOPES SILVA ",
+    instituicao: "IFAL",
+    curso: "ELETRÔNICA ",
+    matricula: "0157",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "64f35c94278f58d3019fc39fed4ed81250881c7ecce873242a5da336438c41ca",
+    nome: "MARIA IOLANDA SANTOS MARIANO DE MELO ",
+    instituicao: "UNOPAR ",
+    curso: "ENFERMAGEM ",
+    matricula: "0158",
+    cidade: "ARAPIRACA",
+    turno: "NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "88a6245deb8228406c4d79c41316bccade31f391a736eb89d1287dbc5c3580ce",
+    nome: "JOSÉ ANTONY ALAN DOS SANTOS ",
+    instituicao: "UFAL ETA - ",
+    curso: "TEC. EM ARTE DRAMÁTICA",
+    matricula: "0159",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "c3e9125d254cd004d6267a3386b5f33ccae53c6ebb5b84fc47c8f5efd4b4fe27",
+    nome: "ANA CLARA FERREIRA DE CASTRO SILVA",
+    instituicao: "UNINASSAU ",
+    curso: "FONOAUDIOLOGIA ",
+    matricula: "0160",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "eeab1d8ba4c548a4de23e332722f8f710e34601e37c0126113ed4386fb7b4824",
+    nome: "BRUNNA MARIA DE OLINDA SANTOS ",
+    instituicao: "IFAL",
+    curso: "INFORMÁTICA PARA INTERNET ",
+    matricula: "0161",
+    cidade: "SÃO MIGUEL DOS CAMPOS",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "e8af36fd965bd9dc6ea1997472474234901b76759897af8fd596d65a04a44d01",
+    nome: "ADRIELY NUNES DOS SANTOS ",
+    instituicao: "IFAL ",
+    curso: "INFORMÁTICA PARA INTERNET ",
+    matricula: "0162",
+    cidade: "SÃO MIGUEL DOS CAMPOS",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "004f0715710d33fcdb01a86ecb7a94eca50b0cafc7e56589ff098dfedc7e4eed",
+    nome: "KAIQUE FERREIRA DOS SANTOS ",
+    instituicao: "UNINASSAU ",
+    curso: "DIREITO ",
+    matricula: "0163",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "17d949b3b41a5fae91bfa41d3d31a990f4292bd0fae40b31367f09cd520ee432",
+    nome: "DÉBORA ARAUJO SILVA ",
+    instituicao: "IFAL ",
+    curso: "FISIOTERAPIA E MECÂNICA ",
+    matricula: "0164",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "12f42240c0b6e6c114acd2dba985480a0c4223bb8aca3fbbddff6f2eb0421ed4",
+    nome: "LUCAS SILVA DOS SANTOS",
+    instituicao: "CESMAC",
+    curso: "SISTEMA DE INFORMAÇÃO",
+    matricula: "0165",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "4b0be49110a3d0dcc627d4ba8758edab3efaad3086f6d12f7c9eb2f4a6ba71ea",
+    nome: "GABRIEL REYNALDO DE CERQUEIRA DAS NEVES ",
+    instituicao: "IFAL ",
+    curso: "ENG. ELÉTRICA ",
+    matricula: "0166",
+    cidade: "PALMEIRA DOS ÍNDIOS",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
   }
 ];
-
