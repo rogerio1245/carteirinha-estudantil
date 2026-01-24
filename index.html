@@ -157,6 +157,18 @@
       border-left: 4px solid #f44336;
     }
     
+    .carteirinha-container {
+      margin-bottom: 30px;
+    }
+    
+    .carteirinha-titulo {
+      font-size: 18px;
+      color: #1a237e;
+      margin-bottom: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+    
     @media (max-width: 768px) {
       .container {
         padding: 10px;
@@ -204,29 +216,20 @@
       <div class="buttons">
         <button class="btn-primary" onclick="gerarCarteirinha()">Gerar Carteirinha</button>
         <button class="btn-success" onclick="limparTudo()">Limpar</button>
-        <button class="btn-download" onclick="salvarCarteirinhaPDF()" id="btnSalvar">Salvar Carteirinha (PDF)</button>
+        <button class="btn-download" onclick="salvarCarteirinhasPDF()" id="btnSalvar">Salvar Todas as Carteirinhas (PDF)</button>
       </div>
       
-      <div class="status-box visible" id="statusBox" style="border-left-color: rgb(76, 175, 80); background: rgb(232, 245, 233);">✅ Carteirinha gerada para: Aluno Teste</div>
+      <div class="status-box visible" id="statusBox" style="border-left-color: rgb(76, 175, 80); background: rgb(232, 245, 233);">✅ Digite um CPF para gerar a(s) carteirinha(s)</div>
       
       <div class="image-info success" id="imageInfo"> 
         ✅Veja Abaixo o Resultado
-</div>
+      </div>
     </div>
     
-    <div class="card">
-      <h3></h3>
-      <div class="canvas-container">
-       <canvas id="frente" width="800" height="500"></canvas>
-      </div>
-   </div>
-    
-    <div class="card">
-      <h3></h3>
-      <div class="canvas-container">
-        <canvas id="verso" width="800" height="500"></canvas>
-      </div>
-   </div>
+    <!-- Container para múltiplas carteirinhas -->
+    <div id="carteirinhasContainer">
+      <!-- As carteirinhas serão geradas dinamicamente aqui -->
+    </div>
   </div>
 
   <!-- Importa os dados dos alunos do arquivo externo -->
@@ -245,7 +248,6 @@
     placeholders: {
       frente: "https://via.placeholder.com/800x500/4a6fa5/ffffff?text=CARTEIRINHA+ESTUDANTIL",
       verso: "https://via.placeholder.com/800x500/2c3e50/ffffff?text=VERSO+DA+CARTEIRINHA",
-      verso2: "https://via.placeholder.com/800x500/666666/ffffff?text=SEGUNDA+MATRÍCULA",
       foto: (matricula) => `https://ui-avatars.com/api/?name=Aluno&background=4a6fa5&color=fff&size=256&bold=true&length=1`
     }
   };
@@ -253,17 +255,13 @@
   // ============================================
   // VARIÁVEIS GLOBAIS
   // ============================================
-  const canvasFrente = document.getElementById('frente');
-  const ctxFrente = canvasFrente.getContext('2d');
-  const canvasVerso = document.getElementById('verso');
-  const ctxVerso = canvasVerso.getContext('2d');
   const statusBox = document.getElementById('statusBox');
   const imageInfo = document.getElementById('imageInfo');
   const btnSalvar = document.getElementById('btnSalvar');
+  const carteirinhasContainer = document.getElementById('carteirinhasContainer');
   
-  let alunoAtual = null;
-  let matriculaPrincipal = null;
-  let matriculaSecundaria = null;
+  let todasMatriculasEncontradas = [];
+  let todosCanvases = [];
 
   // ============================================
   // DIMENSÕES PARA PDF
@@ -306,11 +304,6 @@
     }
   }
 
-  function mostrarInfoImagens(mensagem, sucesso) {
-    imageInfo.textContent = mensagem;
-    imageInfo.className = sucesso ? 'image-info success' : 'image-info error';
-  }
-
   // ============================================
   // FUNÇÃO PRINCIPAL - CARREGAR IMAGEM
   // ============================================
@@ -351,7 +344,67 @@
   }
 
   // ============================================
-  // DESENHO DA FRENTE - SIMPLES
+  // CRIAR ELEMENTOS DA CARTEIRINHA DINAMICAMENTE
+  // ============================================
+  function criarElementosCarteirinha(indice) {
+    const container = document.createElement('div');
+    container.className = 'carteirinha-container';
+    container.id = `carteirinha-${indice}`;
+    
+    const titulo = document.createElement('div');
+    titulo.className = 'carteirinha-titulo';
+    titulo.id = `titulo-${indice}`;
+    
+    const card = document.createElement('div');
+    card.className = 'card';
+    
+    const tituloCanvas = document.createElement('h3');
+    tituloCanvas.textContent = '';
+    
+    const canvasContainer = document.createElement('div');
+    canvasContainer.className = 'canvas-container';
+    
+    const canvasFrente = document.createElement('canvas');
+    canvasFrente.id = `frente-${indice}`;
+    canvasFrente.width = 800;
+    canvasFrente.height = 500;
+    
+    canvasContainer.appendChild(canvasFrente);
+    card.appendChild(tituloCanvas);
+    card.appendChild(canvasContainer);
+    
+    const cardVerso = document.createElement('div');
+    cardVerso.className = 'card';
+    
+    const tituloCanvasVerso = document.createElement('h3');
+    tituloCanvasVerso.textContent = '';
+    
+    const canvasContainerVerso = document.createElement('div');
+    canvasContainerVerso.className = 'canvas-container';
+    
+    const canvasVerso = document.createElement('canvas');
+    canvasVerso.id = `verso-${indice}`;
+    canvasVerso.width = 800;
+    canvasVerso.height = 500;
+    
+    canvasContainerVerso.appendChild(canvasVerso);
+    cardVerso.appendChild(tituloCanvasVerso);
+    cardVerso.appendChild(canvasContainerVerso);
+    
+    container.appendChild(titulo);
+    container.appendChild(card);
+    container.appendChild(cardVerso);
+    
+    return {
+      container: container,
+      canvasFrente: canvasFrente,
+      canvasVerso: canvasVerso,
+      titulo: titulo
+    };
+  }
+
+  // ============================================
+  // DESENHO DA FRENTE DA CARTEIRINHA
   // ============================================
   function desenharFrenteBasica(ctx, aluno, fundo = null, foto = null) {
     const largura = ctx.canvas.width;
@@ -426,7 +479,7 @@
   }
 
   // ============================================
-  // DESENHO DO VERSO - SIMPLES
+  // DESENHO DO VERSO DA CARTEIRINHA
   // ============================================
   function desenharVersoBasico(ctx, fundo = null) {
     const largura = ctx.canvas.width;
@@ -470,16 +523,16 @@
   }
 
   // ============================================
-  // FUNÇÃO PARA SALVAR CARTEIRINHA EM PDF
+  // FUNÇÃO PARA SALVAR TODAS AS CARTEIRINHAS EM PDF
   // ============================================
-  async function salvarCarteirinhaPDF() {
-    if (!alunoAtual) {
-      mostrarStatus('Gere uma carteirinha primeiro!', 'error');
+  async function salvarCarteirinhasPDF() {
+    if (todasMatriculasEncontradas.length === 0) {
+      mostrarStatus('Gere as carteirinhas primeiro!', 'error');
       return;
     }
     
     try {
-      mostrarStatus('Gerando PDF para recorte...', 'info');
+      mostrarStatus('Gerando PDF com todas as carteirinhas...', 'info');
       
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({
@@ -494,38 +547,47 @@
       const cardHeight = DIMENSOES_CARTEIRINHA.altura;
       const espaco = DIMENSOES_CARTEIRINHA.espaco;
       
-      const xFrente = (pageWidth - (cardWidth * 2 + espaco)) / 2;
-      const xVerso = xFrente + cardWidth + espaco;
-      const yPos = (pageHeight - cardHeight) / 2;
+      let yPos = 20; // Começa mais para cima
       
-      const frenteDataURL = canvasFrente.toDataURL('image/png');
-      const versoDataURL = canvasVerso.toDataURL('image/png');
+      // Para cada carteirinha (frente + verso)
+      for (let i = 0; i < todasMatriculasEncontradas.length; i++) {
+        // Se não couber na página atual, cria nova página
+        if (yPos + cardHeight > pageHeight - 20) {
+          pdf.addPage();
+          yPos = 20;
+        }
+        
+        const frenteDataURL = todosCanvases[i].frente.toDataURL('image/png');
+        const versoDataURL = todosCanvases[i].verso.toDataURL('image/png');
+        
+        // Posições para frente e verso lado a lado
+        const xFrente = (pageWidth - (cardWidth * 2 + espaco)) / 2;
+        const xVerso = xFrente + cardWidth + espaco;
+        
+        // Adiciona frente (esquerda)
+        pdf.addImage(frenteDataURL, 'PNG', xFrente, yPos, cardWidth, cardHeight);
+        
+        // Adiciona verso (direita)
+        pdf.addImage(versoDataURL, 'PNG', xVerso, yPos, cardWidth, cardHeight);
+        
+        // Adiciona título da carteirinha acima
+        pdf.setFontSize(10);
+        pdf.setTextColor(100, 100, 100);
+        pdf.text(`Carteirinha ${i + 1}: ${todasMatriculasEncontradas[i].nome}`, 20, yPos - 5);
+        
+        yPos += cardHeight + 25; // Espaço para próxima carteirinha
+        
+        // Linha divisória
+        pdf.setDrawColor(200, 200, 200);
+        pdf.setLineWidth(0.1);
+        pdf.line(20, yPos - 15, pageWidth - 20, yPos - 15);
+      }
       
-      pdf.setTextColor(0, 0, 0);
-      
-      pdf.addImage(frenteDataURL, 'PNG', xFrente, yPos, cardWidth, cardHeight);
-      pdf.addImage(versoDataURL, 'PNG', xVerso, yPos, cardWidth, cardHeight);
-      
-      pdf.setDrawColor(200, 200, 200);
-      pdf.setLineWidth(0.1);
-      
-      pdf.line(
-        xFrente + cardWidth + (espaco/2), 
-        yPos - 2, 
-        xFrente + cardWidth + (espaco/2), 
-        yPos + cardHeight + 2
-      );
-      
-      pdf.setDrawColor(150, 150, 150);
-      pdf.setLineDashPattern([1, 1], 0);
-      pdf.rect(xFrente - 1, yPos - 1, cardWidth + 2, cardHeight + 2);
-      pdf.rect(xVerso - 1, yPos - 1, cardWidth + 2, cardHeight + 2);
-      pdf.setLineDashPattern([], 0);
-      
-      const nomeArquivo = `carteirinha_${alunoAtual.matricula}.pdf`;
+      // Salvar o PDF
+      const nomeArquivo = `carteirinhas_${todasMatriculasEncontradas[0].nome.replace(/\s+/g, '_')}.pdf`;
       pdf.save(nomeArquivo);
       
-      mostrarStatus('PDF para recorte gerado com sucesso!', 'success');
+      mostrarStatus(`PDF com ${todasMatriculasEncontradas.length} carteirinha(s) gerado com sucesso!`, 'success');
       
     } catch (error) {
       console.error('Erro ao gerar PDF:', error);
@@ -534,7 +596,7 @@
   }
 
   // ============================================
-  // FUNÇÃO PRINCIPAL - GERAR CARTEIRINHA (SIMPLIFICADA)
+  // FUNÇÃO PRINCIPAL - GERAR CARTEIRINHA(S)
   // ============================================
   async function gerarCarteirinha() {
     const cpfInput = document.getElementById('cpf');
@@ -555,63 +617,62 @@
       const hash = sha256(cpf);
       
       // Buscar TODOS os registros com este hash
-      const alunosEncontrados = alunos.filter(a => a.hash === hash);
+      todasMatriculasEncontradas = alunos.filter(a => a.hash === hash);
+      todosCanvases = [];
       
-      if (alunosEncontrados.length === 0) {
+      if (todasMatriculasEncontradas.length === 0) {
         mostrarStatus('Aluno não encontrado. Verifique o CPF.', 'error');
         return;
       }
       
-      // Resetar variáveis
-      alunoAtual = null;
-      matriculaPrincipal = null;
-      matriculaSecundaria = null;
+      // Limpa container anterior
+      carteirinhasContainer.innerHTML = '';
       
-      // Se houver apenas um registro
-      if (alunosEncontrados.length === 1) {
-        alunoAtual = alunosEncontrados[0];
-        matriculaPrincipal = alunoAtual;
-        console.log('✅ 1 matrícula encontrada para:', alunoAtual.nome);
-      }
-      // Se houver múltiplos registros (CPF duplicado)
-      else if (alunosEncontrados.length > 1) {
-        matriculaPrincipal = alunosEncontrados[0];
-        matriculaSecundaria = alunosEncontrados[1];
-        alunoAtual = matriculaPrincipal;
+      // Carrega imagens de fundo (só uma vez, são as mesmas para todos)
+      const [frenteResult, versoResult] = await Promise.all([
+        carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-frente.png', 'frente'),
+        carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso.png', 'verso')
+      ]);
+      
+      // Para cada matrícula encontrada, cria uma carteirinha
+      for (let i = 0; i < todasMatriculasEncontradas.length; i++) {
+        const aluno = todasMatriculasEncontradas[i];
         
-        console.log(`✅ ${alunosEncontrados.length} matrículas encontradas para:`, alunoAtual.nome);
-        console.log('📚 Matrícula principal:', matriculaPrincipal.matricula);
-        console.log('📚 Matrícula secundária:', matriculaSecundaria.matricula);
+        // Cria elementos HTML para esta carteirinha
+        const elementos = criarElementosCarteirinha(i);
+        carteirinhasContainer.appendChild(elementos.container);
+        
+        // Atualiza título
+        elementos.titulo.textContent = `Carteirinha ${i + 1} - ${aluno.instituicao} - ${aluno.curso}`;
+        
+        // Carrega foto específica deste aluno
+        const fotoResult = await carregarImagemComDetalhes(
+          CONFIG.caminhoFotos + aluno.matricula + '.JPG', 
+          'foto'
+        );
+        
+        // Cria contextos para os canvases
+        const ctxFrente = elementos.canvasFrente.getContext('2d');
+        const ctxVerso = elementos.canvasVerso.getContext('2d');
+        
+        // Desenha a carteirinha
+        desenharFrenteBasica(ctxFrente, aluno, frenteResult, fotoResult);
+        desenharVersoBasico(ctxVerso, versoResult);
+        
+        // Armazena os canvases para salvar em PDF depois
+        todosCanvases.push({
+          frente: elementos.canvasFrente,
+          verso: elementos.canvasVerso
+        });
       }
-      
-      mostrarStatus(`Carregando dados de: ${alunoAtual.nome}`, 'info');
-      
-      // Carregar imagens - ESCOLHE O VERSO CERTO
-      let frenteResult, versoResult, fotoResult;
-      
-      frenteResult = await carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-frente.png', 'frente');
-      fotoResult = await carregarImagemComDetalhes(CONFIG.caminhoFotos + alunoAtual.matricula + '.JPG', 'foto');
-      
-      // DECIDE QUAL VERSO USAR
-      if (alunosEncontrados.length > 1) {
-        // Usa modelo-verso2.png para CPFs com duas matrículas
-        versoResult = await carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso2.png', 'verso');
-      } else {
-        // Usa modelo-verso.png normal para CPFs com uma matrícula
-        versoResult = await carregarImagemComDetalhes(CONFIG.caminhoImagens + 'modelo-verso.png', 'verso');
-      }
-      
-      // Desenha as carteirinhas
-      desenharFrenteBasica(ctxFrente, alunoAtual, frenteResult, fotoResult);
-      desenharVersoBasico(ctxVerso, versoResult);
       
       // Mostra botão de salvar
       btnSalvar.style.display = 'inline-block';
       
-      if (alunosEncontrados.length > 1) {
-        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome} (${alunosEncontrados.length} cursos)`, 'success');
+      if (todasMatriculasEncontradas.length > 1) {
+        mostrarStatus(`✅ Geradas ${todasMatriculasEncontradas.length} carteirinhas para: ${todasMatriculasEncontradas[0].nome}`, 'success');
       } else {
-        mostrarStatus(`✅ Carteirinha gerada para: ${alunoAtual.nome}`, 'success');
+        mostrarStatus(`✅ Carteirinha gerada para: ${todasMatriculasEncontradas[0].nome}`, 'success');
       }
       
     } catch (error) {
@@ -624,15 +685,13 @@
   // FUNÇÕES ADICIONAIS
   // ============================================
   function limparTudo() {
-    ctxFrente.clearRect(0, 0, canvasFrente.width, canvasFrente.height);
-    ctxVerso.clearRect(0, 0, canvasVerso.width, canvasVerso.height);
+    carteirinhasContainer.innerHTML = '';
     statusBox.classList.remove('visible');
     imageInfo.textContent = '';
     btnSalvar.style.display = 'none';
     document.getElementById('cpf').value = '';
-    alunoAtual = null;
-    matriculaPrincipal = null;
-    matriculaSecundaria = null;
+    todasMatriculasEncontradas = [];
+    todosCanvases = [];
     mostrarStatus('Sistema limpo. Digite um CPF para começar.', 'info');
   }
 
@@ -654,7 +713,7 @@
     });
     
     setTimeout(() => {
-      mostrarStatus('Sistema pronto. Digite um CPF para gerar sua carteirinha.', 'info');
+      mostrarStatus('Sistema pronto. Digite um CPF para gerar sua(s) carteirinha(s).', 'info');
     }, 500);
   });
   </script>
