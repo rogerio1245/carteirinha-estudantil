@@ -1079,7 +1079,7 @@ const alunos = [
 
   {
     hash: "bd93135e62ac4d33ceb7e3ffcaf04b162d2feef4181647c08b5ff4623813fa42",
-    nome: "ANICELLY SABRINA SANTOS NASCIMENTO NUNES ",
+    nome: "ANICELLY SABRINA SANTOS N. NUNES ",
     instituicao: "UNOPAR",
     curso: "FARMÁCIA ",
     matricula: "0099",
@@ -1101,7 +1101,7 @@ const alunos = [
 
   {
     hash: "5d355ab662956a1006ef598307d71061ede607e188f8195629d440ccd49272c1",
-    nome: "JULHIANY SABRINE SANTOS NASCIMENTO NUNES ",
+    nome: "JULHIANY SABRINE SANTOS N. NUNES ",
     instituicao: "IFAL",
     curso: "SEGURANÇA DO TRABALHO ",
     matricula: "0101",
@@ -1222,7 +1222,7 @@ const alunos = [
 
   {
     hash: "1ca87c9aa7cb39056b351524d3430ab9cc94e27375345ecc03f5a8a2ce197f6a",
-    nome: "ANNY BEATRIZ ROSENDO DOS SANTOS RODRIGUES ",
+    nome: "ANNY BEATRIZ ROSENDO DOS S. R.",
     instituicao: "IFAL",
     curso: "MECÂNICA ",
     matricula: "0112",
@@ -1287,22 +1287,11 @@ const alunos = [
   },
 
   {
-    hash: "0c4fc24bdacb6185220c5d74ef80eb4d9188c3791bbac0c8d43f4671cad0a500",
-    nome: "KARLIANE DA SILVA BARBOSA ",
-    instituicao: "UNIMA AFYA ",
-    curso: "ADMINISTRAÇÃO ",
-    matricula: "0118",
-    cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
-    validade: "31/12/2026"
-  },
-
-  {
     hash: "6acaeb924b6975e0654f2629e9c9485c0daf8bb39a1ddc7ce0acdea8e0019486",
     nome: "DANIEL DOS SANTOS DE MESSIAS ",
     instituicao: "IFAL",
     curso: "LICENCIATURA EM FÍSICA ",
-    matricula: "0119",
+    matricula: "0118",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1313,7 +1302,7 @@ const alunos = [
     nome: "CLARA MELISSA LIMA TIGRE",
     instituicao: "IFAL",
     curso: "ESTRADAS ",
-    matricula: "0120",
+    matricula: "0119",
     cidade: "MACEIÓ",
     turno: "VESPERTINO/NOTURNO",
     validade: "31/12/2026"
@@ -1324,7 +1313,7 @@ const alunos = [
     nome: "GABRIELLE FARIAS GONÇALVES ",
     instituicao: "IFAL",
     curso: "ELETROTÉCNICA ",
-    matricula: "0121",
+    matricula: "0120",
     cidade: "MACEIÓ",
     turno: "VESPERTINO/NOTURNO",
     validade: "31/12/2026"
@@ -1335,7 +1324,7 @@ const alunos = [
     nome: "LUÍS HENRIQUE SANTOS CONCEIÇÃO ",
     instituicao: "IFAL",
     curso: "TÉC. FORMÁTICA P/ INTERNET",
-    matricula: "0122",
+    matricula: "0121",
     cidade: "SÃO MIGUEL DOS CAMPOS",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1346,7 +1335,7 @@ const alunos = [
     nome: "JOÃO CARLOS HENRIQUE LIMA DA SILVA ",
     instituicao: "UFAL",
     curso: "FÍSICA LICENCIATURA ",
-    matricula: "0123",
+    matricula: "0122",
     cidade: "MACEIÓ",
     turno: "VESPERTINO/NOTURNO",
     validade: "31/12/2026"
@@ -1357,7 +1346,7 @@ const alunos = [
     nome: "HELOÍSA SOFIA CLAUDINO BARBOSA ",
     instituicao: "IFAL",
     curso: "ELETROTÉCNICA ",
-    matricula: "0124",
+    matricula: "0123",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1368,7 +1357,7 @@ const alunos = [
     nome: "MARIANA SANTOS DE SOUZA ",
     instituicao: "ANHANGUERA ",
     curso: "PEDAGOGIA ",
-    matricula: "0125",
+    matricula: "0124",
     cidade: "ARAPIRACA",
     turno: "NOTURNO",
     validade: "31/12/2026"
@@ -1379,7 +1368,7 @@ const alunos = [
     nome: "MARIA CLARA DA SILVA SANTOS ",
     instituicao: "IFAL ",
     curso: "EDIFICAÇÕES ",
-    matricula: "0126",
+    matricula: "0125",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1390,7 +1379,7 @@ const alunos = [
     nome: "PEDRO HENRIQUE DE MENEZES SILVA ",
     instituicao: "ESTÁCIO ",
     curso: "SISTEMAS DE INFORMAÇÃO ",
-    matricula: "0127",
+    matricula: "0126",
     cidade: "MACEIÓ",
     turno: "NOTURNO",
     validade: "31/12/2026"
@@ -1401,7 +1390,7 @@ const alunos = [
     nome: "ANA GABRIELA HOLANDA SANTOS",
     instituicao: "IFAL",
     curso: "ELETRÔNICA",
-    matricula: "0128",
+    matricula: "0127",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1412,7 +1401,7 @@ const alunos = [
     nome: "ANA CECÍLIA BARROS DE ARAÚJO ",
     instituicao: "IFAL",
     curso: "ESTRADAS ",
-    matricula: "0129",
+    matricula: "0128",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1423,7 +1412,7 @@ const alunos = [
     nome: "FLAVIA SILVA DE FARIAS",
     instituicao: "UNOPAR",
     curso: "TERAPEUTA OCUPACIONAL ",
-    matricula: "0130",
+    matricula: "0129",
     cidade: "ARAPIRACA",
     turno: "NOTURNO",
     validade: "31/12/2026"
@@ -1434,7 +1423,7 @@ const alunos = [
     nome: "ARTHUR DURVAL SANTOS SILVA CAETANO",
     instituicao: "ESTÁCIO",
     curso: "SISTEMAS DE INFORMAÇÃO",
-    matricula: "0131",
+    matricula: "0130",
     cidade: "MACEIÓ",
     turno: "NOTURNO",
     validade: "31/12/2026"
@@ -1445,7 +1434,7 @@ const alunos = [
     nome: "SARAH ELLEN DE CASTRO MIRANDA PIMENTEL ",
     instituicao: "IFAL",
     curso: "MECÂNICA ",
-    matricula: "0132",
+    matricula: "0131",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1456,7 +1445,7 @@ const alunos = [
     nome: "GABRYELE NASCIMENTO SILVA",
     instituicao: "IFAL ",
     curso: "ELETROTÉCNICA",
-    matricula: "0133",
+    matricula: "0132",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1467,7 +1456,7 @@ const alunos = [
     nome: "MYLENNA EVELEN SILVA ARAÚJO ",
     instituicao: "IFAL",
     curso: "ESTRADAS",
-    matricula: "0134",
+    matricula: "0133",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1478,7 +1467,7 @@ const alunos = [
     nome: "MATHEUS EMANUEL FERREIRA SILVA ",
     instituicao: "IFAL",
     curso: "TÉC. EM ELETROTÉCNICA ",
-    matricula: "0135",
+    matricula: "0134",
     cidade: "MACEIÓ",
     turno: "VESPERTINO/NOTURNO",
     validade: "31/12/2026"
@@ -1489,7 +1478,7 @@ const alunos = [
     nome: "SILVIA LAYSA POLICARPO MELO ",
     instituicao: "IFAL",
     curso: "TÉC SEGURANÇA DO TRABALHO ",
-    matricula: "0136",
+    matricula: "0135",
     cidade: "SÃO MIGUEL DOS CAMPOS",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1500,7 +1489,7 @@ const alunos = [
     nome: "SINTHYA LAYRA POLICARPO MELO",
     instituicao: "IFAL",
     curso: "TÉC. SEGURANÇA DO TRABALHO ",
-    matricula: "0137",
+    matricula: "0136",
     cidade: "SÃO MIGUEL DOS CAMPOS",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1511,7 +1500,7 @@ const alunos = [
     nome: "OTÁVIO CORREIA DA GRAÇA NETO",
     instituicao: "UNCISAL ",
     curso: "BIOLOGIA ",
-    matricula: "0138",
+    matricula: "0137",
     cidade: "MACEIÓ",
     turno: "NOTURNO",
     validade: "31/12/2026"
@@ -1522,7 +1511,7 @@ const alunos = [
     nome: "RENATA STEFANY DE ALMEIDA GOMES",
     instituicao: "UNINASSAU",
     curso: "NUTRIÇÃO ",
-    matricula: "0139",
+    matricula: "0138",
     cidade: "MACEIÓ",
     turno: "NOTURNO",
     validade: "31/12/2026"
@@ -1533,7 +1522,7 @@ const alunos = [
     nome: "FLÁVIA DA SILVA DOS SANTOS ",
     instituicao: "UNINASSAU",
     curso: "DIREITO ",
-    matricula: "0140",
+    matricula: "0139",
     cidade: "MACEIÓ",
     turno: "NOTURNO",
     validade: "31/12/2026"
@@ -1544,7 +1533,7 @@ const alunos = [
     nome: "GUILHERME DE LIMA SILVA ",
     instituicao: "IFAL",
     curso: "TÉCNICO EM QUÍMICA",
-    matricula: "0141",
+    matricula: "0140",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1552,10 +1541,10 @@ const alunos = [
 
   {
     hash: "2f6f38515e65bcf80d80f03d876e58d9cae8c7f1c49c3d10d2208a9cfed0c49d",
-    nome: "KAROLINY MARIA TORQUATO DOS SANTOS FERREIRA ",
+    nome: "KAROLINY MARIA TORQUATO D. S. F. ",
     instituicao: "UFAL",
     curso: "DIREITO ",
-    matricula: "0142",
+    matricula: "0141",
     cidade: "MACEIÓ",
     turno: "VESPERTINO/NOTURNO",
     validade: "31/12/2026"
@@ -1566,7 +1555,7 @@ const alunos = [
     nome: "JOSÉ VINÍCIUS SANTOS SOUZA ",
     instituicao: "IFAL",
     curso: "ELETRÔNICA",
-    matricula: "0143",
+    matricula: "0142",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1577,7 +1566,7 @@ const alunos = [
     nome: "MARIA UERIKA BARROS GOMES DOS SANTOS ",
     instituicao: "IFAL",
     curso: "ELETRÔNICA ",
-    matricula: "0144",
+    matricula: "0143",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1588,7 +1577,7 @@ const alunos = [
     nome: "ERIKA OLIVEIRA DOS SANTOS ",
     instituicao: "IFAL",
     curso: "QUÍMICA ",
-    matricula: "0145",
+    matricula: "0144",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1599,7 +1588,7 @@ const alunos = [
     nome: "RITA BEATRIZ ALVES BARBOSA",
     instituicao: "UNOPAR",
     curso: "NUTRIÇÃO ",
-    matricula: "0146",
+    matricula: "0145",
     cidade: "ARAPIRACA",
     turno: "NOTURNO",
     validade: "31/12/2026"
@@ -1610,7 +1599,7 @@ const alunos = [
     nome: "EMANNUELY CHRISTINA LIMA VIEIRA BRAGA ",
     instituicao: "IFAL",
     curso: "ELETROTÉCNICA ",
-    matricula: "0147",
+    matricula: "0146",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1621,7 +1610,7 @@ const alunos = [
     nome: "AMANDA BENTO DOS SANTOS",
     instituicao: "C. P. ANNA NERY",
     curso: "TÉCNICO DE ENFERMAGEM",
-    matricula: "0148",
+    matricula: "0147",
     cidade: "SÃO MIGUEL DOS CAMPOS",
     turno: "NOTURNO",
     validade: "31/12/2026"
@@ -1629,10 +1618,10 @@ const alunos = [
 
   {
     hash: "06af18ca3b25ca6973ff504b889b1229cb5b9e090778989b717ed35dc4e80dfa",
-    nome: "CÁSSIO JOSÉ TORQUATO DOS SANTOS FERREIRA",
+    nome: "CÁSSIO JOSÉ TORQUATO DOS S. F.",
     instituicao: "IFAL",
     curso: "INFORMÁTICA PARA INTERNET",
-    matricula: "0149",
+    matricula: "0148",
     cidade: "SÃO MIGUEL DOS CAMPOS",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1643,7 +1632,7 @@ const alunos = [
     nome: "MAXSWELL CARLOS ALVES DA SILVA ",
     instituicao: "UNINASSAU",
     curso: "DIREITO",
-    matricula: "0150",
+    matricula: "0149",
     cidade: "ARAPIRACA",
     turno: "NOTURNO",
     validade: "31/12/2026"
@@ -1654,7 +1643,7 @@ const alunos = [
     nome: "KAUAN DA SILVA SANTOS",
     instituicao: "IFAL",
     curso: "ELETRÔNICA",
-    matricula: "0151",
+    matricula: "0150",
     cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
@@ -1665,7 +1654,7 @@ const alunos = [
     nome: "MARCUS LEANDRO DA SILVA ",
     instituicao: "IFAL",
     curso: "ESTRADAS ",
-    matricula: "0152",
+    matricula: "0151",
     cidade: "MACEIÓ",
     turno: "VESPERTINO/NOTURNO",
     validade: "31/12/2026"
@@ -1676,7 +1665,7 @@ const alunos = [
     nome: "JOSÉ NIVALDO DE LIMA NOGUEIRA ",
     instituicao: "FACULDADE ESTÁCIO ",
     curso: "EDUCAÇÃO FÍSICA - BACHAREL ",
-    matricula: "0153",
+    matricula: "0152",
     cidade: "MACEIÓ",
     turno: "NOTURNO",
     validade: "31/12/2026"
