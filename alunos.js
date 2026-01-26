@@ -671,7 +671,7 @@ const alunos = [
   },
 
   {
-    hash: "287b5dee657f3687afb24a9a008c3462dddd2e2c2a94b35aa4e8b44e028c141d",
+    hash: "",
     nome: "JEANE DOS SANTOS CARDOSO",
     instituicao: "ESC. E. TARCÍSIO DE JESUS",
     curso: "PROFESSORA",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
