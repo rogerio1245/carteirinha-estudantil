@@ -297,7 +297,7 @@ const alunos = [
   },
 
   {
-    hash: "0c7cfa42368e21c613aaa9889a432608685f0e2f73ef4266008295afdff481e3",
+    hash: "",
     nome: "CAMYLA KARINE SILVA DOS SANTOS",
     instituicao: "IFAL",
     curso: "INFORMÁTICA PARA INTERNET",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
