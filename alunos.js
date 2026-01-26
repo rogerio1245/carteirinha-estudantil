@@ -275,7 +275,7 @@ const alunos = [
   },
 
   {
-    hash: "2e84cc547b81884099077fee5deb243b52941665440096dd0981e6d4e02ae172",
+    hash: "",
     nome: "MIRIAN TAMIRES DA SILVA",
     instituicao: "IFAL",
     curso: "ELETRÔNICA",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
