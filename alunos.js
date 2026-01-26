@@ -440,7 +440,7 @@ const alunos = [
   },
 
   {
-    hash: "4460471e4baa6273f52bdcdfc4d6f604ca137f8aa155a3519cf5cab115a7eced",
+    hash: "",
     nome: "MARISTELA DOS SANTOS DE OLIVEIRA",
     instituicao: "(UNEAL)",
     curso: "BACHARELADO EM DIREITO",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
