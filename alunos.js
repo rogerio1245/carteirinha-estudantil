@@ -121,7 +121,7 @@ const alunos = [
   },
 
   {
-    hash: "2cec5caf79cab9df7dbd1fbe9a29cb94acd5abf429602ed1f9721fbecf740bda",
+    hash: "",
     nome: "LUANA VIEIRA DA SILVA MESSIAS",
     instituicao: "UNOPAR",
     curso: "EDUCAÇÃO FÍSICA",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
