@@ -748,7 +748,7 @@ const alunos = [
   },
 
   {
-    hash: "dd1d069ed2f2a029f7770cd878cc555eacb4698bee0ae8361b3d0c494be8e4b7",
+    hash: "",
     nome: "MARIANA DE MENEZES ROMÃO",
     instituicao: "SANTA JULIANA",
     curso: "TÉCNICO EM ENFERMAGEM",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
