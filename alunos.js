@@ -638,7 +638,7 @@ const alunos = [
   },
 
   {
-    hash: "b515bccd87ddd62dc8e4192318a0502804603ebb4b935e19c605e448aa7578d8",
+    hash: "",
     nome: "YASMIN VITÓRIA DA SILVA",
     instituicao: "UFAL",
     curso: "GEOGRAFIA",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
