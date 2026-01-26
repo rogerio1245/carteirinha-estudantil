@@ -561,7 +561,7 @@ const alunos = [
   },
 
   {
-    hash: "b7e52e1af958be7369adb64d849641a45f95c114b0a855afa5f699ae8ddf0843",
+    hash: "",
     nome: "GABRIELA DA SILVA ROCHA",
     instituicao: "ESTÁCIO",
     curso: "FARMÁCIA",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
