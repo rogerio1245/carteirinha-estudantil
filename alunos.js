@@ -880,7 +880,7 @@ const alunos = [
   },
 
   {
-    hash: "4cbfd23aebcd4b8fae8084ea4a29e8a5d902428b40e9765ea181a21a3558bf9a",
+    hash: "",
     nome: "LIVIA KAMILLY CERQUEIRA DA SILVA",
     instituicao: "UFAL",
     curso: "ENGENHARIA AMB. E SANITÁRIA",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
