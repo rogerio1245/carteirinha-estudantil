@@ -836,7 +836,7 @@ const alunos = [
   },
 
   {
-    hash: "07bc46dfee01f1d8fabdf4b05b22a0efa92c1083abed9da3052261a429f0658b",
+    hash: "",
     nome: "BEATRIZ DOS SANTOS DE OLIVEIRA",
     instituicao: "UNEAL",
     curso: "DIREITO",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
