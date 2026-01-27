@@ -957,7 +957,7 @@ const alunos = [
   },
 
   {
-    hash: "f9a81fbb3240a7c0245bb6cff39c0eaec4bdb710883e921b54794a08163c2b23",
+    hash: "",
     nome: "MARIA LUANA SILVA DE OLIVEIRA",
     instituicao: "IFAL",
     curso: "ENGENHARIA CIVIL",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
