@@ -925,7 +925,7 @@ const alunos = [
 
   {
     hash: "15b7f09f62342eaf82bebdecc52cadec26bb0d67b78e0a0ae1936f5be95f75e9",
-    nome: "JUH.SILVA.GOMES.27@GMAIL.COM",
+    nome: "JUSSARA LUIZA DA SILVA GOMES",
     instituicao: "UFAL",
     curso: "QUÍMICA T. E INDUSTRIAL",
     matricula: "0085",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
