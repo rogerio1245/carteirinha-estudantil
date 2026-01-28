@@ -1694,7 +1694,7 @@ const alunos = [
   },
 
   {
-    hash: "14f88ce603809c2ff7a77fc45cac336b7825135e0d3e9c5e480cf3f94d838f19",
+    hash: "",
     nome: "LUIZ FELYPE DOS SANTOS VIEIRA ",
     instituicao: "IFAL ",
     curso: "EDIFICAÇÕES ",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
