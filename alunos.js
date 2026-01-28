@@ -1628,7 +1628,7 @@ const alunos = [
   },
 
   {
-    hash: "fde5dc1814d5d3b10fa70a35839efac06da74ea81c4c56504f9598229064fe15",
+    hash: "",
     nome: "MAXSWELL CARLOS ALVES DA SILVA ",
     instituicao: "UNINASSAU",
     curso: "DIREITO",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
