@@ -1903,7 +1903,7 @@ const alunos = [
   },
 
   {
-    hash: "f315a677ce38d232e9e76d3d8b34d51ff103a79171b99a97f32b404d351a18c7",
+    hash: "",
     nome: "SHAMARA LOURRANY N. DA CONCEIÇÃO",
     instituicao: "UFAL",
     curso: "PESPE",
@@ -2023,6 +2023,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
