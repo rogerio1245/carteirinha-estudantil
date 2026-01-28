@@ -1716,7 +1716,7 @@ const alunos = [
   },
 
   {
-    hash: "3b5babf553ae8b63fffadb38aa032f56c3dd8d1cfa618f8dd434751e5b45bfbe",
+    hash: "",
     nome: "ARTHUR GABRIEL LOPES SILVA ",
     instituicao: "IFAL",
     curso: "ELETRÔNICA ",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
