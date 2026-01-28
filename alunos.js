@@ -1562,7 +1562,7 @@ const alunos = [
   },
 
   {
-    hash: "e60474b90adc0938163ccd5f72e535046d4f6559669e3514a08dcd564f0e8c5c",
+    hash: "",
     nome: "MARIA UERIKA BARROS GOMES DOS SANTOS ",
     instituicao: "IFAL",
     curso: "ELETRÔNICA ",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
