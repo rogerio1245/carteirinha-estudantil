@@ -1804,7 +1804,7 @@ const alunos = [
   },
 
   {
-    hash: "12f42240c0b6e6c114acd2dba985480a0c4223bb8aca3fbbddff6f2eb0421ed4",
+    hash: "",
     nome: "LUCAS SILVA DOS SANTOS",
     instituicao: "CESMAC",
     curso: "SISTEMA DE INFORMAÇÃO",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
