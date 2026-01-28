@@ -1595,7 +1595,7 @@ const alunos = [
   },
 
   {
-    hash: "f471a02145a52c089f116768197c0689d77f4684bf2717fdd993d4c7496c3cc4",
+    hash: "",
     nome: "EMANNUELY CHRISTINA LIMA VIEIRA BRAGA ",
     instituicao: "IFAL",
     curso: "ELETROTÉCNICA ",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
