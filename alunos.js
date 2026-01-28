@@ -1760,7 +1760,7 @@ const alunos = [
   },
 
   {
-    hash: "eeab1d8ba4c548a4de23e332722f8f710e34601e37c0126113ed4386fb7b4824",
+    hash: "",
     nome: "BRUNNA MARIA DE OLINDA SANTOS ",
     instituicao: "IFAL",
     curso: "INFORMÁTICA PARA INTERNET ",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
