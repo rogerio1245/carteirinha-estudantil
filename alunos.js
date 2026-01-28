@@ -1823,8 +1823,207 @@ const alunos = [
     cidade: "PALMEIRA DOS ÍNDIOS",
     turno: "VESPERTINO",
     validade: "31/12/2026"
+   }, 
+  
+  {
+    hash: "bd0403af1db48520dedb36d6813b326a560cbcecf69fbbc6dc57e7b953a78e1e",
+    nome: "THAYNÁ ALLANE DOS SANTOS SOUZA",
+    instituicao: "UNIMA AFYA",
+    curso: "CIÊNCIAS CONTÁBEIS",
+    matricula: "0167",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "2dab21ba3d09251420bf7107cfb88b272cb630b2d7619c220212163b1656df4b",
+    nome: "DARLENE DOS SANTOS SILVA",
+    instituicao: "UNINASSAU",
+    curso: "ENFERMAGEM",
+    matricula: "0168",
+    cidade: "ARAPIRACA",
+    turno: "NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "35cbe3978effb9263eea018a39954a64dc39d2ae93362960014f86ca8654ecc9",
+    nome: "JÉSSICA ARIELLE DO N. DE FRANÇA",
+    instituicao: "EDU SAMPAIO CURSOS",
+    curso: "PORTUGUÊS",
+    matricula: "0169",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "fcfb7535d193bd140600ffe0ddad1f539f891f81ca82e46ec62eb41621c21480",
+    nome: "JOSÉ ALANDEIVY DA CONCEIÇÃO DOS S.",
+    instituicao: "GRAU EDUCACIONAL",
+    curso: "ADMINISTRAÇÃO",
+    matricula: "0170",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "fd17b77b252b9815037e9cd156628ff7d10ebc136056b38aca848d39edc23bbc",
+    nome: "LAURÂNNY KAROLAINE TARGINO VANDERLEI",
+    instituicao: "IFAL",
+    curso: "ELETROTÉCNICA",
+    matricula: "0171",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "f2d5e64a24a6356194f405e70dbe17f2e8c08309bb795c868e436c7e5df02816",
+    nome: "JOSÉ LEONARDO NASCIMENTO OLIVEIRA",
+    instituicao: "UNCISAL",
+    curso: "FISIOTERAPIA",
+    matricula: "0172",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "693be74971262e46b3f140e5df31544eba18e9dd6a64c3feb6160b61716577f1",
+    nome: "JOÃO CLAUDINO DA ROCHA NETO",
+    instituicao: "IFAL",
+    curso: "MECÂNICA",
+    matricula: "0173",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "f315a677ce38d232e9e76d3d8b34d51ff103a79171b99a97f32b404d351a18c7",
+    nome: "SHAMARA LOURRANY N. DA CONCEIÇÃO",
+    instituicao: "UFAL",
+    curso: "PESPE",
+    matricula: "0174",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "dd491c7eed3fbfa33c6da20562b79aa1fd7323df9917ee6270702d8afd6ab831",
+    nome: "LARISSA DA CONCEIÇÃO SILVA",
+    instituicao: "GRAU EDUCACIONAL",
+    curso: "TÉC. EM ADMINISTRAÇÃO",
+    matricula: "0175",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "b2f507fb7db49f443b7fdd393e3bfcb57c56bd8ac74b574a0b24e778171caa11",
+    nome: "JOSÉ WELLINGTON MESSIAS",
+    instituicao: "IFA",
+    curso: "MECÂNICA",
+    matricula: "0176",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "c9ea061ad23948bead63d53357d341a3925c764bbfcb30a521c1adb3ed3ef6b8",
+    nome: "LUMMA MARINA DA COSTA TEIXEIRA",
+    instituicao: "IFAL",
+    curso: "ESTRADAS",
+    matricula: "0177",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "ff39d3571a44084a8b0091944ca67300fee750def0415d80fb22c3b8714be90d",
+    nome: "BRENO ROCHA BARROS",
+    instituicao: "IFAL",
+    curso: "ESTRADAS",
+    matricula: "0178",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "c36d2a08741fd4faee7aaf8c246e280985d5d8aa57eaa72e455439bda20d28b5",
+    nome: "EMILLAYNE KARENNINA DOS SANTOS",
+    instituicao: "UFAL",
+    curso: "GEOGRAFIA BACHARELADO",
+    matricula: "0179",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "c81624058b0b3416efdcd5b3777ff1401754726188c4ce178d22018303ba47c7",
+    nome: "GEISYELE CRYSTINE DA CONCEIÇÃO SOUZA",
+    instituicao: "IFAL",
+    curso: "INFORMÁTICA PARA INTERNET",
+    matricula: "0180",
+    cidade: "SÃO MIGUEL DOS CAMPOS",
+    turno: "VESPERTINO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "e851d5478dd99ebd184710d0c8f32b2e510a4081d04a8844cad937df9bc90469",
+    nome: "MARIA ARLETE ROMEIRO DOS SANTOS",
+    instituicao: "UFAL",
+    curso: "PEDAGOGIA",
+    matricula: "0181",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "42ebdfe5056623b118d6d8ba16e1bae585e01fdfd888e1bb90525365bbbc0ca5",
+    nome: "MARIA CRISLENE PAULINO",
+    instituicao: "SANTA JULIANA",
+    curso: "TEC: EM ENFERMAGEM",
+    matricula: "0182",
+    cidade: "SÃO MIGUEL DOS CAMPOS",
+    turno: "NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "95a21de4bfe3519356793a632d1e03ace6d989584886633d136f72a84837a3c4",
+    nome: "JESIEL DOS SANTOS FERREIRA",
+    instituicao: "CESMAC",
+    curso: "DIREITO",
+    matricula: "0183",
+    cidade: "ARAPIRACA",
+    turno: "NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "c950cb52ee89252f97c56e7dd754532a1ff1b239eedffad54f4dc42a1986891b",
+    nome: "JANAÍNA STEFFANE SANTOS ALVES",
+    instituicao: "IFAL",
+    curso: "TEC. QUÍMICA",
+    matricula: "0184",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
+    validade: "31/12/2026"
   }
 ];
+
 
 
 
