@@ -1672,7 +1672,7 @@ const alunos = [
   },
 
   {
-    hash: "4a5c7e822a6fa1952266a0b840caef1d6dd8e2a8a36c98d02f59377072f43a51",
+    hash: "",
     nome: "ERIKA SAMARA LOPES SILVA ",
     instituicao: "IFAL",
     curso: "EDIFICAÇÕES ",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
