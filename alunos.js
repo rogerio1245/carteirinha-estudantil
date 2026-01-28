@@ -1540,7 +1540,7 @@ const alunos = [
   },
 
   {
-    hash: "2f6f38515e65bcf80d80f03d876e58d9cae8c7f1c49c3d10d2208a9cfed0c49d",
+    hash: "",
     nome: "KAROLINY MARIA TORQUATO D. S. F. ",
     instituicao: "UFAL",
     curso: "DIREITO ",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
