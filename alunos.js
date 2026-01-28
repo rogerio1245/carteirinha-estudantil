@@ -1639,7 +1639,7 @@ const alunos = [
   },
 
   {
-    hash: "51202dee85efa4a0baf03f5d06a3318117fa27a521cd18336833c1efb0c4de09",
+    hash: "",
     nome: "KAUAN DA SILVA SANTOS",
     instituicao: "IFAL",
     curso: "ELETRÔNICA",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
