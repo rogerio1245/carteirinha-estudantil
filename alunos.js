@@ -1331,7 +1331,7 @@ const alunos = [
   },
 
   {
-    hash: "9069487a49719b88db46702f9f3d44f2254f893a165d878bc164cac64c15509f",
+    hash: "",
     nome: "JOÃO CARLOS HENRIQUE LIMA DA SILVA ",
     instituicao: "UFAL",
     curso: "FÍSICA LICENCIATURA ",
@@ -1825,6 +1825,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
