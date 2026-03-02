@@ -2199,13 +2199,13 @@ const alunos = [
   },
 
   {
-    hash: "79ce80101fb2cb132b653f82dbac48fbfefb72cf8cb4e0650d9391028f831bc6",
-    nome: "Fabiana da silva santos ",
+    hash: "720c608526da768d12b472ab52cbd087f463e08e1441ed2730902447f79ed40b",
+    nome: "Pedro Correia da Graça Neto ",
     instituicao: "GRAU TÉCNICO",
-    curso: "Radiologia ",
+    curso: "Teatro ",
     matricula: "0201",
-    cidade: "ARAPIRACA",
-    turno: "NOTURNO",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
     validade: "31/12/2026"
   },
 
@@ -7104,6 +7104,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
