@@ -2947,13 +2947,13 @@ const alunos = [
   },
 
   {
-    hash: "9069487a49719b88db46702f9f3d44f2254f893a165d878bc164cac64c15509f",
-    nome: "Joao Carlos Henrique Lima da Silva ",
-    instituicao: "UFAL ",
-    curso: "Fisica licenciatura ",
+    hash: "05e5319cb4ef7a3b0cb73256d27f60ea08f925d505e6f48722df704321cf3024",
+    nome: "FLAVIA DAIANE DOS SANTOS AMORIM GOMES ",
+    instituicao: "UNOPAR ",
+    curso: "PEDAGOGIA ",
     matricula: "0269",
     cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
