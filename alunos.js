@@ -2936,13 +2936,13 @@ const alunos = [
   },
 
   {
-    hash: "9069487a49719b88db46702f9f3d44f2254f893a165d878bc164cac64c15509f",
-    nome: "João Carlos Henrique Lima da Silva ",
-    instituicao: "UFAL ",
-    curso: "Física licenciatura ",
+    hash: "b90e8f8ecf1097dbbd38b8243c7e044ba7ee0d1c479e331676fadea448c1623b",
+    nome: "MAYANY CAETANO DOS SANTOS ",
+    instituicao: "UNOPAR ",
+    curso: "PEDAGOGIA ",
     matricula: "0268",
     cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
