@@ -2948,7 +2948,7 @@ const alunos = [
 
   {
     hash: "05e5319cb4ef7a3b0cb73256d27f60ea08f925d505e6f48722df704321cf3024",
-    nome: "FLAVIA DAIANE DOS SANTOS AMORIM GOMES ",
+    nome: "FLÁVIA DAYANE DOS SANTOS AMORIM NOBRE ",
     instituicao: "UNOPAR ",
     curso: "PEDAGOGIA ",
     matricula: "0269",
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
