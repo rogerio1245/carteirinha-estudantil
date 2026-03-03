@@ -2397,13 +2397,13 @@ const alunos = [
   },
 
   {
-    hash: "fa77c9abc1f3f9208a09517bbfab45e6978f2a827d4b50890be69803b01f90e3",
-    nome: "Thayná da Silva do Nascimento ",
-    instituicao: "ANHANGUERA ",
+    hash: "4d40f7bf6c66abb3e15824e5873ffeffba64c2242bb9138e708fb780ef9fa618",
+    nome: "JOSEFA JOSEANE FERREIRA DOS SANTOS ",
+    instituicao: "PEDAGOGIA ",
     curso: "FARMÁCIA ",
     matricula: "0219",
     cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
