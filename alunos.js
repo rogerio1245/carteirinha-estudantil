@@ -2991,13 +2991,13 @@ const alunos = [
   },
 
   {
-    hash: "2440b84394908bc8d7944fde5a1a25ae60e629f476bf143e527d6772431f9898",
-    nome: "Ingrid Karinne Silva dos Santos ",
-    instituicao: "UFAL ",
-    curso: "Pedagogia ",
+    hash: "ad0906c8d750310626894cb4fc5c75358485a1c65fd9f37d9fbf4ce10a51c1b0",
+    nome: "Roberto João dos Santos Silva ",
+    instituicao: "UNOPAR ",
+    curso: "TERAPIA OCUPACIONAL ",
     matricula: "0273",
     cidade: "MACEIÓ",
-    turno: "VESPERTINO",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
