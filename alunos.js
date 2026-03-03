@@ -2597,7 +2597,7 @@ const alunos = [
   {
     hash: "cf46ff85c03f7a703aa33228c20ee109bb4b0689acfe2d8b3569034bb689c17f",
     nome: "Francineide Emília dos Santos ",
-    instituicao: "Unopa ",
+    instituicao: "UNOPAR ",
     curso: "Pedagogia ",
     matricula: "0237",
     cidade: "ARAPIRACA",
@@ -2628,13 +2628,13 @@ const alunos = [
   },
 
   {
-    hash: "8a2d6c7e4da668a6b69bf71fc89f1adbe7d55272a7b933059f803a7c41599e08",
-    nome: "Maria Luiza dos santos barros ",
-    instituicao: "UFAL",
-    curso: "Matemática ",
+    hash: "36e11d48bdacf36129790d868221a415d74c69281bcf39cd2feaa42c8b66ac75",
+    nome: "VANESSA MARIA DA SILVA ",
+    instituicao: "UNOPAR",
+    curso: "PEDAGOGIA ",
     matricula: "0240",
     cidade: "MACEIÓ",
-    turno: "VESPERTINO",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
