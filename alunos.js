@@ -2386,13 +2386,13 @@ const alunos = [
   },
 
   {
-    hash: "fa77c9abc1f3f9208a09517bbfab45e6978f2a827d4b50890be69803b01f90e3",
-    nome: "Thayná da Silva do Nascimento ",
-    instituicao: "ANHANGUERA ",
-    curso: "FARMÁCIA ",
+    hash: "299b0d64c2a39d928795315f6becf2c868fd6ea5adf1fc0dfc262eec75d0cbe9",
+    nome: "Leticia da Silva Santos ",
+    instituicao: "UNOPAR ",
+    curso: "PEDAGOGIA ",
     matricula: "0218",
     cidade: "MACEIÓ",
-    turno: "VESPERTINO/NOTURNO",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
