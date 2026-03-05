@@ -3431,13 +3431,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "e55e7aa198e38f22d108ee53b58b1cf91f00feeee3a21a75eefedac4a4f09b3b",
+    nome: "MARIA SIMONE PAULINO FONSECA BARBOSA",
+    instituicao: "UNOPAR",
+    curso: "PADAGOGIA",
     matricula: "0313",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
