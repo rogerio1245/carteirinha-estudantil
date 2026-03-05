@@ -3464,7 +3464,7 @@ const alunos = [
   },
 
   {
-    hash: "a3aeecc7a0a29f6e317d5227ea26a33150d6f4d80b58891a6cf94dd16fd4417b",
+    hash: "4d568e0485f6ce669c1d902eae133a56f7f2cd4bc46fcd96bf87ae92080a6c3b",
     nome: "KHAYO FABYO DE MELO OLIVEIRA",
     instituicao: "UNINASSAU",
     curso: "MEDICINA VETERINÁRIA",
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
