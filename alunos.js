@@ -3486,13 +3486,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "2f5fd7e683e618e850c3b8b6053b920427c91792f3c0ce4b32637bf0ecaf9660",
+    nome: "GISELE MARIA DE OLIVEIRA DE FRANÇA",
+    instituicao: "UNINASSAU",
+    curso: "PSICOLOGIA",
     matricula: "0318",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
