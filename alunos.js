@@ -3475,13 +3475,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "81ab63e61b8b17da16af1b272d969a50575c3f3461a8099932c6ed3b1a82370d",
+    nome: "GABRIEL ULISSES CAVALCANTE PEREIRA SANTOS COSTA",
+    instituicao: "UNEAL",
+    curso: "CIÊNCIAS CONTÁBEIS",
     matricula: "0317",
-    cidade: "",
-    turno: "",
+    cidade: "SÃO MIGUEL DOS CAMPOS",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
