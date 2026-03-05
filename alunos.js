@@ -3442,24 +3442,24 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "d6fbb55f56250f2518cbb747b84e178e4066a88b3335c336bac08c555388eb78",
+    nome: "FELIPE JOSÉ DE OLIVEIRA DA SILVA",
+    instituicao: "UFAL",
+    curso: "VETERINÁRIO",
     matricula: "0314",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTRUNO",
     validade: "31/12/2026"
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "f5d609db187f71081606de80b783eb0ff30b921d319fcd1e13af5bb442ff5452",
+    nome: "FRANCIELE DE OLIVEIRA DA SILVA",
+    instituicao: "UFAL",
+    curso: "ENFERMAGEM",
     matricula: "0315",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
