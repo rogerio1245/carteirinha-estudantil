@@ -3464,13 +3464,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "a3aeecc7a0a29f6e317d5227ea26a33150d6f4d80b58891a6cf94dd16fd4417b",
+    nome: "KHAYO FABYO DE MELO OLIVEIRA",
+    instituicao: "UNINASSAU",
+    curso: "MEDICINA VETERINÁRIA",
     matricula: "0316",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
