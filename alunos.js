@@ -2620,10 +2620,10 @@ const alunos = [
     hash: "8a2d6c7e4da668a6b69bf71fc89f1adbe7d55272a7b933059f803a7c41599e08",
     nome: "Maria Luiza dos Santos Barros ",
     instituicao: "UFAL",
-    curso: "Matemática ",
+    curso: "MATEMÁTICA ",
     matricula: "0239",
     cidade: "MACEIÓ",
-    turno: "VESPERTINO",
+    turno: "VESPERTINO/NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
