@@ -3607,13 +3607,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "9cede4a15fb5b0c63dcb7b08ab7221a00b1c9d61238c5359b3e4161a1b1cddcf",
+    nome: "ANA KARYNNE SANTOS VASCO DA ROCHA",
+    instituicao: "FACIMA",
+    curso: "NUTRIÇÃO",
     matricula: "0329",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
