@@ -3563,35 +3563,35 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "dee2fb383f9af7de8370223b4ad09a1639a7254bfcf0c3611ec330b94924d91b",
+    nome: "LUIZ EDUARDO SANTOS SILVA",
+    instituicao: "UFAL",
+    curso: "MATEMÁTICA",
     matricula: "0325",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO/NOTURNO",
     validade: "31/12/2026"
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "a612d873f21ebac3bd180e693e0447c0bdd8aa82c263ed72f1447ee937902e8c",
+    nome: "KAILANE DE MELO CORREIA",
+    instituicao: "UNINASSAU",
+    curso: "FISIOTERAPIA",
     matricula: "0326",
-    cidade: "",
-    turno: "",
+    cidade: "ARAPIRACA",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "0e04091fd01a488fce481f9da6fc151d400503a95de4863355cf588bdd2e3dba",
+    nome: "MARIA ROSANGELA VIEIRA DOS SANTOS",
+    instituicao: "UNINASSAU",
+    curso: "ENFERMAGEM",
     matricula: "0327",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
