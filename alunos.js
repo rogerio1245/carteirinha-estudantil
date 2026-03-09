@@ -3596,13 +3596,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "18a9a4ce97d7a190c93f5c742ba420ba74bc54de68811e034715bd69b952e3da",
+    nome: "ALKELLY VICTÓRIA PEPESE DOS SANTOS",
+    instituicao: "IFAL",
+    curso: "QUÍMICA",
     matricula: "0328",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
