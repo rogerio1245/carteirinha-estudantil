@@ -3618,46 +3618,46 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "26d93e79d95b53ab0b8271178540d9fc4ec4acbf05b15a8ca755b9e531368a51",
+    nome: "JOSÉ WILAMES DOS SANTOS DA SILVA",
+    instituicao: "UNINASSAU",
+    curso: "DIREITO",
     matricula: "0330",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "dfa14b9e508010d500229bf84e8790b28e910870bc9a831b0fd7ed7aa2da68fb",
+    nome: "JOSE TEIXEIRA JUNIOR",
+    instituicao: "UNINASSAU",
+    curso: "ESTÉTICA",
     matricula: "0331",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "37e411dd570d53a2ac366dc0092abe5e1179fc6ba1c51811a0b1895204c3ba87",
+    nome: "MANUELLA NUNES COSTA",
+    instituicao: "UNINASSAU",
+    curso: "PSICOLOGIA",
     matricula: "0332",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "eb8de750503ddda14bbaaa1f58ba7eaba78f9bec9b781dc471f7c1eeefea3441",
+    nome: "RUANNY VITÓRIA GAMA BARBOSA",
+    instituicao: "CESMAC",
+    curso: "DIREITO",
     matricula: "0333",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
