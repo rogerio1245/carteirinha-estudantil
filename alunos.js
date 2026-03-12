@@ -3667,7 +3667,7 @@ const alunos = [
     instituicao: "UNOPAR",
     curso: "ADMINISTRAÇÃO",
     matricula: "0334",
-    cidade: "MACEIÓ",
+    cidade: "ARAPIRACA",
     turno: "NOTURNO",
     validade: "31/12/2026"
   },
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
