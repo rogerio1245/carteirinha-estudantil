@@ -3662,13 +3662,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "ac6f1fdec3fcbc7937a7258c6805de1d9cabf4f7e1264bbaa6428ff2843b432a",
+    nome: "CAIO VINICIUS ROCHA SOUZA",
+    instituicao: "UNOPAR",
+    curso: "ADMINISTRAÇÃO",
     matricula: "0334",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -11086,6 +11086,7 @@ const alunos = [
     validade: "31/12/2026"
   }
 ];
+
 
 
 
