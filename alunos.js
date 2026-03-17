@@ -3678,19 +3678,19 @@ const alunos = [
     instituicao: "UNINASSAU",
     curso: "NUTRIÇÃO",
     matricula: "0335",
-    cidade: "MACEIO",
+    cidade: "MACEIÓ",
     turno: "VESPERTINO",
     validade: "31/12/2026"
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "30aa45e7b5597905a8faa2c94c5907794c336ac24f57f990b38f0225211101f7",
+    nome: "LUIZ DAVY CANDIDO ARAUJO",
+    instituicao: "UNEAL",
+    curso: "CIÊNCIAS CONTÁBEIS",
     matricula: "0336",
-    cidade: "",
-    turno: "",
+    cidade: "SÃO MIGUEL DOS CAMPOS",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
