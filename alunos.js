@@ -3695,13 +3695,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "17cf5fcb92dd6e9cb0661440807bd1d53967edd764e728a2e01d5940f98d4933",
+    nome: "PEDRO GABRIEL FARIAS DE OLINDA",
+    instituicao: "UNEAL",
+    curso: "CIÊNCIAS CONTÁBEIS",
     matricula: "0337",
-    cidade: "",
-    turno: "",
+    cidade: "SÃO MIGUEL DOS CAMPOS",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
