@@ -3706,13 +3706,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "2e406291616c21440c1870b9576279c1dac408a76acc21002d8865099de2bbf4",
+    nome: "NICOLAS YAN SAMPAIO DA SILVA",
+    instituicao: "UNINASSAU",
+    curso: "DIREITO",
     matricula: "0338",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
