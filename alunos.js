@@ -3717,13 +3717,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "e0ce0d8d6db53f0703714bd45c9df4d6ccd49749171dd322172fa93d0126d6d5",
+    nome: "ANDRESSA DE OLIVEIRA DOS SANTOS",
+    instituicao: "UNINASSAU",
+    curso: "TERAPIA OCUPACIONAL",
     matricula: "0339",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
