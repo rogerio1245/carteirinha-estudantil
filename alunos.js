@@ -3750,13 +3750,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "2ebc811dbc3f3e84fa26d9873e3051d0c1fc6eb87130ea3075d0715c7dc76399",
+    nome: "ALAN VICTOR DOS SANTOS DA COSTA",
+    instituicao: "UNCISAL",
+    curso: "CURSO PREPARATÓRIO PARA ENEM",
     matricula: "0342",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
