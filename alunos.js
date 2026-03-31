@@ -2144,8 +2144,8 @@ const alunos = [
   },
 
   {
-    hash: "d2b3fdcaa3856906d48f5a39c0588ccaa9e239111d50c7fbd3fc6c6bfdad06c2",
-    nome: "Luiz Fernando De Souza Silva ",
+    hash: "d4ac6b89411f917941853055b50d423256f3bad122efb94b37d3f390f5dc9af4",
+    nome: "LUIZ FERNANDO DE SOUZA SILVA ",
     instituicao: "ESTACIO ",
     curso: "Educação Física ",
     matricula: "0196",
@@ -3728,13 +3728,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "d2b3fdcaa3856906d48f5a39c0588ccaa9e239111d50c7fbd3fc6c6bfdad06c2",
+    nome: "NATANAEL FERNANDES DOS SANTOS",
+    instituicao: "UNEAL",
+    curso: "LETRAS PORTUGUES/ESPANHOL",
     matricula: "0340",
-    cidade: "",
-    turno: "",
+    cidade: "SÃO MIGUEL DOS CAMPOS",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
