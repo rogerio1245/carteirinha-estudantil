@@ -3761,13 +3761,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "d6f3ea2c819e14462370918ce1cf5410cb5907f17c2d2b45a0101614432fab9c",
+    nome: "THIAGO GONÇALVES DA SILVA",
+    instituicao: "UNOPAR",
+    curso: "EDUCAÇÃO FÍSICA",
     matricula: "0343",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
