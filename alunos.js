@@ -3805,13 +3805,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "068efc321e15b7c7c694ad5476d59ae4b901cde2d7a085864203cef0bd50a5ed",
+    nome: "FABIANA DOS SANTOS DO NASCIMENTO",
+    instituicao: "GRAU",
+    curso: "CORTE E COSTURA",
     matricula: "0347",
-    cidade: "",
-    turno: "",
+    cidade: "ARAPIRACA",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
