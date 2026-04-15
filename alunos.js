@@ -3816,13 +3816,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "6cca99580816ec352fe5e93f8580b3b005018f97c40e1a6f1662e2c378114433",
+    nome: "FLÁVIO LUCIANO SANTOS DA SILVA",
+    instituicao: "UNOPAR",
+    curso: "EDUCAÇÃO FÍSICA",
     matricula: "0348",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
