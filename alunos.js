@@ -3849,13 +3849,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "05ca13c4262c1ddc1d25b05395c131e41b468615481e8ac671ffa3315d2dc30e",
+    nome: "ADEILSON MASCARENHAS DE OLIVEIRA",
+    instituicao: "E.E. PROF. ADEILZA Mª OLIVEIRA",
+    curso: "PROFESSOR MONITOR",
     matricula: "0351",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
