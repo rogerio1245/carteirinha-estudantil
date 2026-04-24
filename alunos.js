@@ -3904,13 +3904,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "5a2fa9e72241a69eeceb690f3963e79745fd964b2fdd77668e0d5008f1b90525",
+    nome: "YURI LEOCADIO SALGUEIRO",
+    instituicao: "CESMAC",
+    curso: "DIREITO",
     matricula: "0356",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
