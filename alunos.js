@@ -3915,13 +3915,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "7338d9d74234c0546e3a69d49cd2d873b04252390e92642bc58c93406fded5d5",
+    nome: "DIEGO PIO DE ALBUQUERQUE OLIVEIRA",
+    instituicao: "UNEAL",
+    curso: "LETRAS PORTUGUES",
     matricula: "0357",
-    cidade: "",
-    turno: "",
+    cidade: "SÃO MIGUEL DOS CAMPOS",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
