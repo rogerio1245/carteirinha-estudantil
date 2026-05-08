@@ -3981,13 +3981,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "c5603f7e0927c74da5584321c6c87a45fa67bcc13682534ba56027351ec7c70d",
+    nome: "VALDEMIR ALVES DA SILVA",
+    instituicao: "UNEAL",
+    curso: "DIREITO",
     matricula: "0363",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
