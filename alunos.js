@@ -4091,13 +4091,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "354c1104966a3c908b82717959269877cf1471ea320608e240b54e3c0fc10597",
+    nome: "JOSEFA EDNA SILVA DE SOUZA",
+    instituicao: "GRAU PROFISSIONALIZANTE",
+    curso: "CORTE E COSTURA",
     matricula: "0373",
-    cidade: "",
-    turno: "",
+    cidade: "ARAPIRACA",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
