@@ -4124,13 +4124,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "8b9e869ee857baddc567382e4dff7a97c0543503767c360dc694a5838ce6e823",
+    nome: "ROSEANE DOS SANTOS",
+    instituicao: "GRAU TÉCNICO",
+    curso: "TÉCNICO EM ADMINISTRAÇÃO",
     matricula: "0376",
-    cidade: "",
-    turno: "",
+    cidade: "ARAPIRACA",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
