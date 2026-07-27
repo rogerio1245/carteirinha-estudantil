@@ -4168,13 +4168,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "814d7fd334563f76a8a38466211a1f5fa9ec00f0bb488accc8d66d2b1dc93d20",
+    nome: "JÚLIO GABRIEL PEREIRA DE OLIVEIRA DOS SANTOS",
+    instituicao: "IFAL",
+    curso: "TÉC. SEGURANÇA DO TRABALHO",
     matricula: "0380",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
     validade: "31/12/2026"
   },
 
