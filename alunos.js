@@ -4190,13 +4190,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "520c97fc1117802dcbda22ca064ac1dedc3b6bdab8b6e70978ceb496581026b4",
+    nome: "DEMETRIOS JOSE DE ALBUQUERQUE OLIVEIRA",
+    instituicao: "UFAL",
+    curso: "PROFESSOR",
     matricula: "0382",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
     validade: "31/12/2026"
   },
 
