@@ -4234,24 +4234,24 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
-    matricula: "0386",
-    cidade: "",
-    turno: "",
-    validade: "31/12/2026"
-  },
-
-  {
     hash: "afee8d32c7774f652c9dd5531d0aa44478f33ae936a5a1128dc4ef5f612ca9c9",
     nome: "DIEGO LUIZ DUARTE DOS SANTOS",
     instituicao: "UNINASSAU",
     curso: "ENGENHARIA CIVIL",
-    matricula: "0387",
+    matricula: "0386",
     cidade: "MACEIÓ",
     turno: "NOTURNO",
+    validade: "31/12/2026"
+  },
+
+  {
+    hash: "",
+    nome: "",
+    instituicao: "",
+    curso: "",
+    matricula: "0387",
+    cidade: "",
+    turno: "",
     validade: "31/12/2026"
   },
 
