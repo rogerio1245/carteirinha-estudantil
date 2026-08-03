@@ -4223,13 +4223,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "e60474b90adc0938163ccd5f72e535046d4f6559669e3514a08dcd564f0e8c5c",
+    nome: "MARIA UERIKA BARROS GOMES DOS SANTOS",
+    instituicao: "UNINASSAU",
+    curso: "BIOMEDICINA",
     matricula: "0385",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
@@ -4245,13 +4245,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "afee8d32c7774f652c9dd5531d0aa44478f33ae936a5a1128dc4ef5f612ca9c9",
+    nome: "DIEGO LUIZ DUARTE DOS SANTOS",
+    instituicao: "UNINASSAU",
+    curso: "ENGENHARIA CIVIL",
     matricula: "0387",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
