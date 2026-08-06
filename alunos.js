@@ -4234,10 +4234,10 @@ const alunos = [
   },
 
   {
-    hash: "afee8d32c7774f652c9dd5531d0aa44478f33ae936a5a1128dc4ef5f612ca9c9",
-    nome: "DIEGO LUIZ DUARTE DOS SANTOS",
-    instituicao: "UNINASSAU",
-    curso: "ENGENHARIA CIVIL",
+    hash: "ad0b4c893ee36847225562677ebb0b4d5048a9ae7e042980bbdddbf100be9a01",
+    nome: "PAULO HENRIQUE DOS SANTOS DE CASTRO",
+    instituicao: "IFAL",
+    curso: "EMATEMÁTICA",
     matricula: "0386",
     cidade: "MACEIÓ",
     turno: "NOTURNO",
