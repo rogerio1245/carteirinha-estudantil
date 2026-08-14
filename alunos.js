@@ -4234,10 +4234,10 @@ const alunos = [
   },
 
   {
-    hash: "ad0b4c893ee36847225562677ebb0b4d5048a9ae7e042980bbdddbf100be9a01",
-    nome: "PAULO HENRIQUE DOS SANTOS DE CASTRO",
-    instituicao: "IFAL",
-    curso: "EMATEMÁTICA",
+    hash: "afee8d32c7774f652c9dd5531d0aa44478f33ae936a5a1128dc4ef5f612ca9c9",
+    nome: "DIEGO LUIZ DUARTE DOS SANTOS",
+    instituicao: "UNINASSAU",
+    curso: "ENGENHARIA CIVIL",
     matricula: "0386",
     cidade: "MACEIÓ",
     turno: "NOTURNO",
@@ -4245,10 +4245,10 @@ const alunos = [
   },
 
   {
-    hash: "afee8d32c7774f652c9dd5531d0aa44478f33ae936a5a1128dc4ef5f612ca9c9",
-    nome: "DIEGO LUIZ DUARTE DOS SANTOS",
-    instituicao: "UNINASSAU",
-    curso: "ENGENHARIA CIVIL",
+    hash: "ad0b4c893ee36847225562677ebb0b4d5048a9ae7e042980bbdddbf100be9a01",
+    nome: "PAULO HENRIQUE DOS SANTOS DE CASTRO",
+    instituicao: "IFAL",
+    curso: "MATEMÁTICA",
     matricula: "0387",
     cidade: "MACEIÓ",
     turno: "NOTURNO",
@@ -4267,13 +4267,13 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "f4ab33b6f863f4b751e0ca3a17d759c5624887f672efbb2a2d6265d74987bf1d",
+    nome: "JOÃO ALBERTO CASTRO ROCHA",
+    instituicao: "UNOPAR",
+    curso: "EDUCAÇÃO FÍSICA",
     matricula: "0389",
-    cidade: "",
-    turno: "",
+    cidade: "ARAPIRACA",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
