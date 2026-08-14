@@ -4256,12 +4256,12 @@ const alunos = [
   },
 
   {
-    hash: "ad0b4c893ee36847225562677ebb0b4d5048a9ae7e042980bbdddbf100be9a01",
-    nome: "PAULO HENRIQUE DOS SANTOS DE CASTRO",
-    instituicao: "IFAL",
-    curso: "MATEMÁTICA",
+    hash: "a0a25f23dbc5a74877a86233c628bafdb6ecf35b0d099eb318912c46a67a49f9",
+    nome: "THAMARA FARLENE ROCHA DE LIMA",
+    instituicao: "CESMAC",
+    curso: "DIREITO",
     matricula: "0388",
-    cidade: "MACEIÓ",
+    cidade: "ARAPIRACA",
     turno: "NOTURNO",
     validade: "31/12/2026"
   },
