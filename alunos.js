@@ -4289,24 +4289,24 @@ const alunos = [
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "5c12dc56bbf182326b4cea93504316b8742d586e0a6d195fcbc9e60f2b9869d3",
+    nome: "JOSE NAEL DOS SANTOS NASCIMENTO",
+    instituicao: "UFAL",
+    curso: "QUÍMICA",
     matricula: "0391",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
   {
-    hash: "",
-    nome: "",
-    instituicao: "",
-    curso: "",
+    hash: "fac634eafcda3d6c61ffead50ed68c035a62f042e2529da0bb9ce6c04633370d",
+    nome: "PAULO JOSÉ CARDOSO DOS SANTOS",
+    instituicao: "UNCISAL",
+    curso: "MATEMÁTICA",
     matricula: "0392",
-    cidade: "",
-    turno: "",
+    cidade: "MACEIÓ",
+    turno: "VESPERTINO",
     validade: "31/12/2026"
   },
 
