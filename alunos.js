@@ -4390,10 +4390,10 @@ const alunos = [
   {
     hash: "dcb4ceb38b7c2921fa243613d6f710ffd488ace55b24b766cf4dbe70ac0540d4",
     nome: "MARIA JULIA SOUZA RODRIGUES DA SILVA",
-    instituicao: "UNOPAR",
+    instituicao: "ANHANGUERA",
     curso: "TERAPIA OCUPACIONAL",
     matricula: "0400",
-    cidade: "MACEIÓ",
+    cidade: "ARAPIRACA",
     turno: "NOTURNO",
     validade: "31/12/2026"
   },
