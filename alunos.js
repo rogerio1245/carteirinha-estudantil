@@ -4405,7 +4405,7 @@ const alunos = [
     curso: "SAÚDE BUCAL",
     matricula: "0401",
     cidade: "MACEIÓ",
-    turno: "VESPERTINO",
+    turno: "NOTURNO",
     validade: "31/12/2026"
   },
 
