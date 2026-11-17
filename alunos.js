@@ -10081,7 +10081,7 @@ const alunos = [
     "validade": "31/12/2026"
   },
   {
-    "hash": "",
+    "hash": "07a2d889b4b58a0c06e9fef4f007ef9062a47be1519fe695f654bffa930b6647",
     "nome": "Rogério de Cerqueira Santos",
     "instituicao": "Maceió",
     "curso": "Agricultor",
