@@ -10079,5 +10079,16 @@ const alunos = [
     "cidade": "",
     "turno": "",
     "validade": "31/12/2026"
+  },
+  {
+    "hash": "",
+    "nome": "Rogério de Cerqueira Santos",
+    "instituicao": "Maceió",
+    "curso": "Agricultor",
+    "matricula": "0647",
+    "cidade": "ANADIA",
+    "turno": "NOITE",
+    "validade": "31/12/2026",
+    "status": "APTO"
   }
 ];
