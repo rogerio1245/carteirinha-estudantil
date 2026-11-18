@@ -523,6 +523,41 @@
   }
 
   // ============================================
+  // VALIDADE E SITUAÇÃO ADMINISTRATIVA
+  // ============================================
+  function verificarCarteirinha(aluno) {
+    const situacao = String(aluno.status || 'APTO').trim().toUpperCase().replace(/\s+/g, '_');
+    // Registros antigos sem status são tratados como aptos para compatibilidade.
+    if (situacao !== 'APTO') {
+      return { permitida: false, motivo: 'Carteirinha bloqueada: situação administrativa não apta.' };
+    }
+
+    const data = String(aluno.validade || '').trim();
+    const partes = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(data);
+    if (!partes) {
+      return { permitida: false, motivo: 'Carteirinha bloqueada: validade ausente ou inválida.' };
+    }
+    const dia = Number(partes[1]);
+    const mes = Number(partes[2]);
+    const ano = Number(partes[3]);
+    const vencimento = new Date(ano, mes - 1, dia, 23, 59, 59, 999);
+    if (vencimento.getFullYear() !== ano || vencimento.getMonth() !== mes - 1 || vencimento.getDate() !== dia) {
+      return { permitida: false, motivo: 'Carteirinha bloqueada: data de validade inválida.' };
+    }
+    if (new Date() > vencimento) {
+      return { permitida: false, motivo: `Carteirinha vencida em ${data}. Solicite a renovação.` };
+    }
+    return { permitida: true, motivo: '' };
+  }
+
+  function limparCarteirinhasGeradas() {
+    todasMatriculasEncontradas = [];
+    todosCanvases = [];
+    carteirinhasContainer.innerHTML = '';
+    btnSalvar.style.display = 'none';
+  }
+
+  // ============================================
   // FUNÇÃO PARA SALVAR TODAS AS CARTEIRINHAS EM PDF
   // ============================================
   async function salvarCarteirinhasPDF() {
@@ -531,6 +566,15 @@
       return;
     }
     
+    // Revalida antes do download, inclusive se a página ficou aberta na virada do ano.
+    const bloqueada = todasMatriculasEncontradas.find(a => !verificarCarteirinha(a).permitida);
+    if (bloqueada) {
+      const motivo = verificarCarteirinha(bloqueada).motivo;
+      limparCarteirinhasGeradas();
+      mostrarStatus(motivo, 'error');
+      return;
+    }
+
     try {
       mostrarStatus('Gerando PDF com todas as carteirinhas...', 'info');
       
@@ -601,6 +645,8 @@
   async function gerarCarteirinha() {
     const cpfInput = document.getElementById('cpf');
     let cpf = cpfInput.value.replace(/\D/g, '');
+    // Remove qualquer carteirinha anterior antes de uma nova consulta.
+    limparCarteirinhasGeradas();
     
     if (cpf.length !== 11) {
       mostrarStatus('Por favor, digite um CPF válido (11 números)', 'error');
@@ -616,17 +662,22 @@
       
       const hash = sha256(cpf);
       
-      // Buscar TODOS os registros com este hash
-      todasMatriculasEncontradas = alunos.filter(a => a.hash === hash);
-      todosCanvases = [];
-      
-      if (todasMatriculasEncontradas.length === 0) {
+      // Buscar todos os registros com este hash, sem alterar os dados originais.
+      const encontrados = alunos.filter(a => a.hash === hash);
+      if (encontrados.length === 0) {
         mostrarStatus('Aluno não encontrado. Verifique o CPF.', 'error');
         return;
       }
-      
-      // Limpa container anterior
-      carteirinhasContainer.innerHTML = '';
+
+      // Nunca desenhar nem disponibilizar PDF de carteirinhas bloqueadas.
+      const permitidos = encontrados.filter(a => verificarCarteirinha(a).permitida);
+      const bloqueados = encontrados.filter(a => !verificarCarteirinha(a).permitida);
+      if (permitidos.length === 0) {
+        const motivos = [...new Set(bloqueados.map(a => verificarCarteirinha(a).motivo))];
+        mostrarStatus(motivos.join(' '), 'error');
+        return;
+      }
+      todasMatriculasEncontradas = permitidos;
       
       // Carrega imagens de fundo (só uma vez, são as mesmas para todos)
       const [frenteResult, versoResult] = await Promise.all([
@@ -669,7 +720,9 @@
       // Mostra botão de salvar
       btnSalvar.style.display = 'inline-block';
       
-      if (todasMatriculasEncontradas.length > 1) {
+      if (bloqueados.length > 0) {
+        mostrarStatus(`Geradas ${permitidos.length} carteirinha(s). ${bloqueados.length} registro(s) bloqueado(s) por validade ou situação administrativa.`, 'info');
+      } else if (todasMatriculasEncontradas.length > 1) {
         mostrarStatus(`✅ Geradas ${todasMatriculasEncontradas.length} carteirinhas para: ${todasMatriculasEncontradas[0].nome}`, 'success');
       } else {
         mostrarStatus(`✅ Carteirinha gerada para: ${todasMatriculasEncontradas[0].nome}`, 'success');
@@ -677,6 +730,7 @@
       
     } catch (error) {
       console.error('Erro crítico:', error);
+      limparCarteirinhasGeradas();
       mostrarStatus('Erro ao processar. Tente novamente.', 'error');
     }
   }
