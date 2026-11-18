@@ -4022,16 +4022,5 @@ const alunos = [
     "turno": "NOITE",
     "validade": "31/12/2026",
     "status": "APTO"
-  },
-  {
-    "hash": "44ed3f4f31927bdb106c3caf6adea669f3c1a54560104672a0e2ce6b4746fd66",
-    "nome": "Aluno teste dos Santos",
-    "instituicao": "IFAL",
-    "curso": "ENCANADOR",
-    "matricula": "0648",
-    "cidade": "ARAPIRACA",
-    "turno": "NOITE",
-    "validade": "31/12/2026",
-    "status": "APTO"
   }
 ];
