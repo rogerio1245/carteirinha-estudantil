@@ -28,7 +28,8 @@ const alunos = [
     "matricula": "0003",
     "cidade": "MACEIÓ",
     "turno": "VESPERTINO/NOTURNO",
-    "validade": "31/12/2026"
+    "validade": "31/12/2026",
+    "status": "APTO"
   },
   {
     "hash": "e40ab4727ec76ddde2dbb45ec40d15e8786a5319460fb47c5433f0a2929b68da",
@@ -4020,7 +4021,7 @@ const alunos = [
     "matricula": "0647",
     "cidade": "ANADIA",
     "turno": "NOITE",
-    "validade": "31/12/2026",
+    "validade": "31/12/2025",
     "status": "APTO"
   }
 ];
