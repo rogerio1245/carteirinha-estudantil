@@ -4021,7 +4021,7 @@ const alunos = [
     "matricula": "0647",
     "cidade": "ANADIA",
     "turno": "NOITE",
-    "validade": "31/12/2024",
+    "validade": "31/12/2026",
     "status": "APTO"
   }
 ];
