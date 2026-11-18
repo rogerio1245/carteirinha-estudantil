@@ -58,7 +58,8 @@ const alunos = [
     "matricula": "0006",
     "cidade": "MACEIÓ",
     "turno": "VESPERTINO/NOTURNO",
-    "validade": "31/12/2026"
+    "validade": "31/12/2026",
+    "status": "APTO"
   },
   {
     "hash": "bbac7924366a6b843c3bd1b4149b0134455108785bef0398d934845933b111f2",
@@ -2498,7 +2499,8 @@ const alunos = [
     "matricula": "0250",
     "cidade": "MACEIÓ",
     "turno": "VESPERTINO/NOTURNO",
-    "validade": "31/12/2026"
+    "validade": "31/12/2026",
+    "status": "APTO"
   },
   {
     "hash": "6436c7d845da91664cd6ccfb034e1a400fb693c8dd31d6f05daf0c6d9e283920",
@@ -4017,6 +4019,17 @@ const alunos = [
     "curso": "Agricultor",
     "matricula": "0647",
     "cidade": "ANADIA",
+    "turno": "NOITE",
+    "validade": "31/12/2026",
+    "status": "APTO"
+  },
+  {
+    "hash": "44ed3f4f31927bdb106c3caf6adea669f3c1a54560104672a0e2ce6b4746fd66",
+    "nome": "Aluno teste dos Santos",
+    "instituicao": "IFAL",
+    "curso": "ENCANADOR",
+    "matricula": "0648",
+    "cidade": "ARAPIRACA",
     "turno": "NOITE",
     "validade": "31/12/2026",
     "status": "APTO"
