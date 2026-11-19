@@ -3406,7 +3406,7 @@ const alunos = [
     "cidade": "SÃO MIGUEL DOS CAMPOS",
     "turno": "NOTURNO",
     "validade": "31/12/2026",
-    "status": "NAO_APTO"
+    "status": "APTO"
   },
   {
     "hash": "fe1951bd8d6fd33e5f93f645760b50379b66cc8b4a3d35d6d7ed7b5c7cfe88ae",
