@@ -2420,7 +2420,8 @@ const alunos = [
     "matricula": "0242",
     "cidade": "SÃO MIGUEL DOS CAMPOS",
     "turno": "NOTURNO",
-    "validade": "31/12/2026"
+    "validade": "31/12/2026",
+    "status": "APTO"
   },
   {
     "hash": "4d3f42a19d7cdf614e88becc7f031918940850b676bc5c8f96289f4f88aef213",
@@ -2430,7 +2431,8 @@ const alunos = [
     "matricula": "0243",
     "cidade": "MACEIÓ",
     "turno": "NOTURNO",
-    "validade": "31/12/2026"
+    "validade": "31/12/2026",
+    "status": "APTO"
   },
   {
     "hash": "fc7f16618b12c5c4c23d85a32d7c17af55b2487d7c80e7845f226a85b62c83b3",
@@ -2440,7 +2442,8 @@ const alunos = [
     "matricula": "0244",
     "cidade": "MACEIÓ",
     "turno": "VESPERTINO/NOTURNO",
-    "validade": "31/12/2026"
+    "validade": "31/12/2026",
+    "status": "APTO"
   },
   {
     "hash": "864a60c157f37964b2ce652e0f68abb18574306800fc5a0314171d96901187ee",
@@ -2470,7 +2473,8 @@ const alunos = [
     "matricula": "0247",
     "cidade": "SÃO MIGUEL DOS CAMPOS",
     "turno": "NOTURNO",
-    "validade": "31/12/2026"
+    "validade": "31/12/2026",
+    "status": "APTO"
   },
   {
     "hash": "1caa601fd77924567a264653a3aa09b679b6e2dcd0c19d291547801ff1d11505",
@@ -3401,7 +3405,8 @@ const alunos = [
     "matricula": "0340",
     "cidade": "SÃO MIGUEL DOS CAMPOS",
     "turno": "NOTURNO",
-    "validade": "31/12/2026"
+    "validade": "31/12/2026",
+    "status": "NAO_APTO"
   },
   {
     "hash": "fe1951bd8d6fd33e5f93f645760b50379b66cc8b4a3d35d6d7ed7b5c7cfe88ae",
